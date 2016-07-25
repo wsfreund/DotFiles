@@ -1,0 +1,397 @@
+" TODO List 
+"  - Change insert color to green (as paste) and paste to
+" insert.
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Vundle and plugins
+set nocompatible                          " be iMproved, required
+filetype off                              " required
+                                          " set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+" Plugin 'Valloric/YouCompleteMe'         " Autocompletion vim
+Plugin 'mbadran/headlights'               " Adds menu to vim
+Plugin 'wsfreund/vim-airline'             " Improves lower and upper vim bar visualization (+ info, as git branch, etc.)
+Plugin 'vim-airline/vim-airline-themes'   " Airline themes
+Plugin 'ryanoasis/vim-devicons'           " Adds many icons to vim
+Plugin 'Shougo/neocomplete.vim'           " Adds autocomplete
+Plugin 'lrvick/Conque-Shell'              " Shell inside vim
+Plugin 'scrooloose/nerdtree'              " The NERDTREE!
+Plugin 'Xuyuanp/nerdtree-git-plugin'      " Git information on nerdtree
+Plugin 'jistr/vim-nerdtree-tabs'          " Set nerdtree compatible with tabs
+Plugin 'altercation/vim-colors-solarized' " Nice color package
+Plugin 'flazz/vim-colorschemes'           " Adds more colorschemes
+Plugin 'scrooloose/syntastic'             " Really nice pre-compile error check
+Plugin 'majutsushi/tagbar'                " Nice class navigatation
+Plugin 'gilsondev/searchtasks.vim'        " Use to search TODO, FIXME, XXX on project (SearchTasksGrep **/*.m)
+Plugin 'mbbill/undotree'                  " Add visualization and interaction with undotree
+Plugin 'tpope/vim-fugitive'               " Git integration to vim
+" Plugin 'tpope/vim-pathogen'             " Although this is not been used, it deserves to stay here.
+Plugin 'vim-scripts/YankRing.vim'         " A really good extra yanking tool.
+Plugin 'pthrasher/conqueterm-vim'         " Run terminal in vim
+Plugin 'yegappan/grep'                    " Grep useful commands
+Plugin 'junegunn/vim-easy-align'          " Alignment tool
+Plugin 'tpope/vim-abolish'                " Easy multiple substitutions and coersion
+Plugin 'chrisbra/csv.vim'                 " Improve csv manipulation and reading
+Plugin 'jmcantrell/vim-virtualenv'        " Add vim integration to pyenv
+Plugin 'edkolev/promptline.vim'           " Adds command line on vim!
+Plugin 'mhinz/vim-signify'                " Add vcs signs on gutter.
+Plugin 'airblade/vim-gitgutter'           " Add vcs info only for git
+Plugin 'matze/vim-tex-fold'               " Improve tex experience with folding
+Plugin 'nelstrom/vim-markdown-folding'    " Adds markdown folding
+Plugin 'tmhedberg/SimpylFold'             " Add folding syntax to python
+Plugin 'haya14busa/incsearch.vim'         " Improve vim searching
+Plugin 'octol/vim-cpp-enhanced-highlight' " Recognizes C++11/14 features and
+                                          " adds highlighting for methods/classes
+Plugin 'tpope/vim-surround'               " Surround text with set of chars
+Plugin 'Konfekt/FastFold'                 " Improve folding speed
+Plugin 'Konfekt/FoldText'                 " Set special text for the folds with percentage
+" Plugin 'LaTeX-Box-Team/LaTeX-Box'       " Adds better interation with latex
+call vundle#end()                         " required
+filetype plugin indent on                 " required
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Functions taken from the internet + custom made
+fun LastMod()
+  exe "g/% - Last Modified: /s/% - Last Modified: .*/% - Last Modified: " .
+  \ strftime("%a, %d %b %Y")
+endfun
+function! StartDate()
+  exe "g/% - Creation Date: /s/% - Creation Date: .*/% - Creation Date: " .
+  \ strftime("%a, %d %b %Y")
+endfunction
+function! NewMatlabFile()
+  exe "1g/function /s/function .*/function ".
+  \ expand("%:t:r") . "()"
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! ChangeHtmlCodesToCharacters()
+  exe "%s/%8B/'/g"
+  exe "%s/%2C/,/g"
+  exe "%s/lt;/</g"
+  exe "%s/&amp;/\&/g"
+  exe "%s/%0B/ /g"
+  exe "%s/%3B/\r/g"
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! GetBufferList()
+  redir =>buflist
+  silent! ls
+  redir END
+  return buflist
+endfunction
+function! ToggleList(bufname, pfx)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      exec(a:pfx.'close')
+      return
+    endif
+  endfor
+  if a:pfx == 'l' && len(getloclist(0)) == 0
+      echohl ErrorMsg
+      echo "Location List is Empty."
+      return
+  endif
+  let winnr = winnr()
+  exec(a:pfx.'open')
+  if winnr() != winnr
+    wincmd p
+  endif
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! s:CombineSelection(line1, line2, cp)
+  execute 'let char = "\u'.a:cp.'"'
+  execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function HighlightNonAsciiOff()
+  echom "Setting non-ascii highlight off"
+  highlight nonascii none
+  let g:is_non_ascii_on=0
+endfunction
+function HighlightNonAsciiOn()
+  au BufReadPost * syntax match nonascii "[^\x00-\x7F]" containedin=cComment,vimLineComment,pythonComment
+  echom "Setting non-ascii highlight on"
+  highlight nonascii cterm=underline ctermfg=red ctermbg=none term=underline
+  let g:is_non_ascii_on=1
+endfunction
+function ToggleHighlightNonascii()
+  if g:is_non_ascii_on == 1
+    call HighlightNonAsciiOff()
+  else
+    call HighlightNonAsciiOn()
+  endif
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function ToggleHLSearch()
+  if &hls
+    set nohls
+  else
+    set hls
+  endif
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function TogglePaste()
+  if !exists("g:is_paste_on")
+    let g:is_paste_on = 0
+  endif
+  if g:is_paste_on == 1
+    echom "Setting paste mode off"
+    let g:is_paste_on = 0
+    set nopaste
+  else
+    echom "Setting paste mode on"
+    let g:is_paste_on = 1
+    set paste
+  endif
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function ToggleListChar()
+  if !exists("b:is_list_on")
+    let b:is_list_on = 0
+  endif
+  if b:is_list_on == 1
+    echom "Setting list mode off"
+    let b:is_list_on = 0
+    set nolist
+  else
+    echom "Setting list mode on"
+    let b:is_list_on = 1
+    set list
+  endif
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! Stab()
+  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+  if l:tabstop > 0
+    let &l:sts = l:tabstop
+    let &l:ts = l:tabstop
+    let &l:sw = l:tabstop
+  endif
+  call SummarizeTabs()
+endfunction
+command! -nargs=* Stab call Stab()
+function! SummarizeTabs()
+  try
+    echohl ModeMsg
+    echon 'tabstop='.&l:ts
+    echon ' shiftwidth='.&l:sw
+    echon ' softtabstop='.&l:sts
+    if &l:et
+      echon ' expandtab'
+    else
+      echon ' noexpandtab'
+    endif
+  finally
+    echohl None
+  endtry
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function ToggleNumberFoldColum()
+  if !exists("b:is_number_on")
+    let b:is_number_on = 1
+  endif
+  if b:is_number_on == 1
+    echom "Setting number and fold column off"
+    let b:is_number_on = 0
+    set nonumber
+    set norelativenumber
+    set foldcolumn=0
+  else
+    echom "Setting number and fold column on"
+    let b:is_number_on = 1
+    set number
+    set relativenumber
+    set foldcolumn=2
+  endif
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function ToggleRemap()
+  setl wrapmargin=70
+  im :<CR> :<CR>
+endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Autoclose scratch window:
+if v:version >= 740
+  autocmd CompleteDone * pclose
+else
+  autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+  autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+endif
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Standard vim sets and lets
+set hlsearch
+set backspace=indent,eol,start
+if v:version >= 703
+  set undofile               " use undo file to keep all changes always available
+  set undodir=~/.vim/undo/   " where to save the undo files
+  " set undolevels=1000
+  " set undoreload=10000
+endif
+set history=700              " number of history commands
+set t_Co=256                 " terminal colors:
+set showcmd                  " Show (partial) command in status line.
+set showmatch                " Show matching brackets.
+set smartcase                " Do smart case matching
+set hidden                   " Hide buffers when they are abandoned
+set mouse=a                  " Enable mouse usage (all modes) in terminals
+set mousehide                " hide the mouse when typing
+set ruler                    " add cursor postion number
+set foldcolumn=2             " Show folds
+set noswapfile               " dont use swap file
+set softtabstop=2            " expand ^T to 2 spaces
+set shiftwidth=2             " ?
+set tabstop=2                " where to stop tabs
+set expandtab                " insert spaces instead of tabs
+set autoindent   
+set tabpagemax=200
+set laststatus=2             " status line
+set guitablabel=%t
+set number
+set relativenumber
+set switchbuf+=usetab,newtab " Make quickfix respect tab, otherwise open it in a new tab:
+set fileencoding=utf-8
+set encoding=utf-8
+set cursorline
+set lazyredraw
+set scrolloff=5
+set sidescrolloff=5
+set langmenu=en_GB
+let $LANG='en_GB'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let maplocalleader = '!'
+let mapleader = "!"
+let g:Tex_DefaultTargetFormat='pdf'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+filetype indent on
+filetype plugin on
+syntax on
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" autocomands
+au BufNewFile  *.m 0r ~/.vim/skeletons/matlab | call StartDate() | call NewMatlabFile()
+au BufWritePre,FileWritePre *.m ks|call LastMod()|'s
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au BufRead,BufNewFile *.tex setl filetype=tex | setl tw=70 | setl colorcolumn=71
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au BufRead,BufNewFile *.m setl tw=70 | setl colorcolumn=71
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au BufRead,BufNewFile *.C setl cindent
+au BufRead,BufNewFile *.cxx setl cindent
+au BufRead,BufNewFile *.cpp setl cindent
+au BufRead,BufNewFile *.h setl cindent
+au BufRead,BufNewFile *.icc setl filetype=cpp | setl cindent
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vim jump to the last position when reopening a file
+au BufReadPost ?* if @% !~ '.git/' && line("'\"") > 0 && line("'\"") <= line("$")
+  \| exe "normal g'\"" | endif
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" maps:
+nnoremap <C-w>1 :call ToggleHighlightNonascii()<CR>
+nnoremap <C-w>2 :call TogglePaste()<CR>
+nnoremap <C-w>3 :call ToggleListChar()<CR>
+nnoremap <C-w>4 :call Stab()<CR>
+nnoremap <C-w>5 :call ToggleNumberFoldColum()<CR>
+nnoremap <C-w>6 :call SyntasticToggleMode()<CR>
+nnoremap <silent> <c-w><c-y> :YRShow<CR>
+nnoremap <c-w><c-g> :TagbarToggle<cr>
+nnoremap <c-w><c-t> :NERDTreeTabsToggle<CR>
+nnoremap <silent> <c-w><c-u> :UndotreeToggle<CR>
+nnoremap ga <Plug>(EasyAlign)
+nnoremap gu :%s/\s\+$//e<enter>
+nnoremap <F1> :scriptnames<CR>
+nnoremap <F2> :echo GetHighlighPlace() <CR>
+nnoremap <F3> :call ToggleRemap()<CR>
+nnoremap <F4> :retab<CR>
+nnoremap <F5> :w!<CR>:set textwidth=70<CR>
+nnoremap <F6> :w!<CR>:!aspell --lang=pt_BR --encoding=utf-8 check %<CR>:e! %<CR>
+nnoremap <F7> :call ToggleHLSearch()<CR>
+nnoremap <F8> :call ToggleList("Quickfix List", 'c')<CR>
+nnoremap <F9> :Bgrep<CR>
+nnoremap <silent> <F10> :redraw!<CR>
+nnoremap <silent> <F11> :Errors<CR>
+nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Make undo and redo loop over all last changes:
+nnoremap u g-
+nnoremap <C-r> g+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+vmap <Enter> <Plug>(EasyAlign)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" More configuration
+" Changes highlights
+highlight SpellBad   term=undercurl cterm=undercurl ctermfg=Red
+highlight SpellCap   term=undercurl cterm=undercurl ctermfg=27
+highlight SpellRare  term=undercurl cterm=undercurl ctermfg=Magenta
+highlight SpellLocal term=undercurl cterm=undercurl ctermfg=Cyan
+highlight link TagbarSignature Title
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Folding configuration:
+let javaScript_fold=1         " JavaScript
+let perl_fold=1               " Perl
+let php_folding=1             " PHP
+let r_syntax_folding=1        " R
+let ruby_fold=1               " Ruby
+let sh_fold_enabled=1         " sh
+let vimsyn_folding='af'       " Vim script
+let xml_syntax_folding=1      " XML
+let g:tex_fold_enabled=1
+let g:tex_fold_additional_envs = ['enumarate','itemize']
+set foldmethod=indent
+set foldlevel=20
+set foldlevelstart=20
+autocmd FileType c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
+autocmd FileType python setlocal foldmethod=expr
+autocmd FileType c,cpp,vim,xml,html,xhtml,perl,python setl foldlevel=20
+autocmd FileType tex setlocal foldlevel=0 
+autocmd FileType tex,text setl spell spelllang=en
+autocmd FileType help setl nospell
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Others
+silent! call HighlightNonAsciiOn()
+command! -range -nargs=0 Overline        call s:CombineSelection(<line1>, <line2>, '0305')
+command! -range -nargs=0 Underline       call s:CombineSelection(<line1>, <line2>, '0332')
+command! -range -nargs=0 DoubleUnderline call s:CombineSelection(<line1>, <line2>, '0333')
+command! -range -nargs=0 Strikethrough   call s:CombineSelection(<line1>, <line2>, '0336')
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins configuration
+so $HOME/.vim/config/plugins-list.vim
+so $VIMRUNTIME/delmenu.vim
+so $VIMRUNTIME/menu.vim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Changes window frontiers
+highlight VertSplit ctermfg=59 ctermbg=none guibg=none
+highlight CursorLine ctermbg=232
+"highlight VertSplit ctermfg=black ctermbg=black guifg=none guibg=none " This
+set fillchars=vert:\|,fold:\ 
+"set fillchars=vert:\ ,fold:\ ,diff:- " use to deactivate division
+"set fillchars=vert:,fold:-,diff:- " use to deactivate division
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
