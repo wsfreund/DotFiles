@@ -211,7 +211,6 @@ if test "$HAS_POWERLINE" -eq "1"; then
 else
   test -e "$HOME/.shell_prompt_no_pl.sh" && source "$HOME/.shell_prompt_no_pl.sh"
 fi
-setvar ZLE_RPROMPT_INDENT 0
 
 # Change ls colors
 test -e "$HOME/.dircolors.256dark" && eval `dircolors "$HOME/.dircolors.256dark"`
