@@ -90,7 +90,7 @@ contains_path() {
 # Appends values to string with : if they weren't added before
 addtovar(){
   autoload -Uz regexp-replace
-  setopt re_match_pcre
+  #setopt re_match_pcre
   var=$1; shift; oldVar=var
   foreach addPath in $@
   do
