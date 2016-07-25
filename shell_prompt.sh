@@ -338,8 +338,15 @@ function __promptline {
   local z_bg="${wrap}48;5;192${end_wrap}"
   local z_sep_fg="${wrap}38;5;192${end_wrap}"
   if [[ -n ${ZSH_VERSION-} ]]; then
-    PROMPT="$(__promptline_left_prompt)"
-    RPROMPT="$(__promptline_right_prompt)"
+    if [[ -z ${AtlasVersion} ]]; then
+      PROMPT="$(__promptline_left_prompt)"
+      RPROMPT="$(__promptline_right_prompt)"
+    else
+      PROMPT="$(__promptline_ps1)"
+      RPROMPT=""
+      #PROMPT="$(__promptline_left_prompt)"
+      #RPROMPT="$(__promptline_right_prompt)"
+    fi
   elif [[ -n ${FISH_VERSION-} ]]; then
     if [[ -n "$1" ]]; then
       [[ "$1" = "left" ]] && __promptline_left_prompt || __promptline_right_prompt
