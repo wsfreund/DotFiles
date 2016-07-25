@@ -10,7 +10,7 @@ if test $(basename $SHELL) != "zsh"; then
 fi
 
 if ! test -e $HOME/.oh-my-zsh; then
-  git clone git@github.com:wsfreund/oh-my-zsh.git $HOME/.oh-my-zsh
+  git clone https://github.com/wsfreund/oh-my-zsh.git $HOME/.oh-my-zsh
 fi
 
 if test -e $HOME/.zshrc -a \! -e $HOME/.zshrc_bkg; then
@@ -25,10 +25,6 @@ if test -e $HOME/.shell_prompt.sh -a \! -e $HOME/.shell_prompt_bkg.sh; then
   mv $HOME/.shell_prompt.sh $HOME/.shell_prompt_bkg.sh || return $mvzshrcerrno;
 fi
 
-if test -e $HOME/.shell_prompt_no_pl.sh -a \! -e $HOME/.shell_prompt_no_pl_bkg.sh; then
-  mv $HOME/.shell_prompt.sh $HOME/.shell_prompt_bkg.sh || return $mvzshrcerrno;
-fi
-
 if test -e $HOME/.vimrc -a \! -e $HOME/.vimrc_bkg; then
   mv $HOME/.vimrc $HOME/.vimrc_bkg || return $mvvimrcerno;
 fi
@@ -37,6 +33,7 @@ if test -e $HOME/.vim -a \! -e $HOME/.vim_bkg; then
   mv $HOME/.vim $HOME/.vim_bkg || return $mvvimerno;
 fi
 
+ln -s $HOME/DotFiles/zshrc $HOME/.zshrc
 ln -s $HOME/DotFiles/dircolors.256dark $HOME/.dircolors.256dark
 ln -s $HOME/DotFiles/shell_prompt.sh $HOME/.shell_prompt.sh
 ln -s $HOME/DotFiles/shell_prompt_no_pl.sh $HOME/.shell_prompt_no_pl.sh
