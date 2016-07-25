@@ -21,6 +21,10 @@ if test -e $HOME/.shell_prompt.sh -a \! -e $HOME/.shell_prompt_bkg.sh; then
   mv $HOME/.shell_prompt.sh $HOME/.shell_prompt_bkg.sh || return $mvzshrcerrno;
 fi
 
+if test -e $HOME/.shell_prompt_no_pl.sh -a \! -e $HOME/.shell_prompt_no_pl_bkg.sh; then
+  mv $HOME/.shell_prompt.sh $HOME/.shell_prompt_bkg.sh || return $mvzshrcerrno;
+fi
+
 #if test -e $HOME/.vimrc -a \! -e $HOME/.vimrc_bkg; then
 #  mv $HOME/.vimrc $HOME/.vimrc_bkg || return $mvvimrcerno;
 #fi
@@ -32,6 +36,7 @@ fi
 ln -s $HOME/DotFiles/zshrc $HOME/.zshrc
 ln -s $HOME/DotFiles/dircolors.256dark $HOME/.dircolors.256dark
 ln -s $HOME/DotFiles/shell_prompt.sh $HOME/.shell_prompt.sh
+ln -s $HOME/DotFiles/shell_prompt_no_pl.sh $HOME/.shell_prompt_no_pl.sh
 
 #ln -s $HOME/DotFiles/vimrc $HOME/.vimrc
 
