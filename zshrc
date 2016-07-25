@@ -136,11 +136,12 @@ makeAliases(){
 ssh-powerline(){
   local HAS_POWERLINE=${HAS_POWERLINE:=0}
   if [[ $1 =~ "(.*):(.*)" ]]; then
-    host=${match[-2]}
-    path=${match[-1]}
-    /usr/bin/ssh -t $@ "cd ${path} && export HAS_POWERLINE=${(q)HAS_POWERLINE} && exec $(basename $SHELL)"
+    local host=${match[-2]}
+    local path=${match[-1]}
+    local shell_base=$(basename $SHELL)
+    /usr/bin/ssh -t $@ "cd ${path} && export HAS_POWERLINE=${(q)HAS_POWERLINE} && which ${shell_base} && exec $(basename $SHELL) || exec bash"
   else
-    /usr/bin/ssh -t $@ "export HAS_POWERLINE=${(q)HAS_POWERLINE} && exec $(basename $SHELL)"
+    /usr/bin/ssh -t $@ "export HAS_POWERLINE=${(q)HAS_POWERLINE} && which ${shell_base} && exec $(basename $SHELL) || exec bash"
   fi
 }
 
