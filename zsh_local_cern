@@ -1,0 +1,131 @@
+# ##########################################################################
+# ##########################################################################
+# ## More helper functions
+packageVersion(){
+  find `echo $CMTPATH | tr ':' ' '` -type d -name "$1" -exec cat '{}'/cmt/version.cmt \;
+}
+# ##########################################################################
+
+# ##########################################################################
+# ##########################################################################
+# ## shell variables
+# User configuration
+setvar GIT_INSTALL_PATH "$HOME/custom_installed/git/install/bin"
+setvar SCONS_PATH "/afs/cern.ch/user/w/$(whoami)/scons"
+setvar STAGE_SVCCLASS "atlcal"
+setvar WORK "/afs/cern.ch/work/w/$(whoami)"
+setvar DEFAULT_ASETUP "asetup AtlasProduction,20.1.4.7,here,setup"
+setvar OMP_NUM_THREADS $((`cat "/proc/cpuinfo" | grep "processor" | tail -n 1 | cut -f2 -d ' '`+1))
+# ##########################################################################
+
+# ##########################################################################
+# ##########################################################################
+addtovar PATH \
+  "$HOME/bin" \
+  "/usr/local/bin" \
+  "$HOME/custom_installed/git/install/bin" \
+  "$HOME/custom_installed/htop" \
+  "$HOME/custom_installed/panda-server/pandaserver/test" \
+  "$SCONS_PATH/bin" \
+  "$HOME/custom_installed/bin" \
+  "$HOME/vim/bin" \
+  "$HOME/custom_installed/lua/bin" \
+
+addtovar PYTHONPATH \
+  "$HOME/custom_installed/panda-server/pandaserver" \
+
+addtovar LD_LIBRARY_PATH \
+  "$HOME/custom_installed/git/install/lib64" \
+  "/usr/local/lib" \
+  "$HOME/custom_installed/lib" \
+  "$HOME/custom_installed/lua/lib" \
+
+# ##########################################################################
+
+# ##########################################################################
+# ##########################################################################
+# ## Some helper functions
+# Method for setting athena on an easier fasion
+setAthena(){
+  lsetup asetup
+  if test -z "$1";
+  then
+    eval $DEFAULT_ASETUP;
+  else
+    eval $1
+  fi
+}
+# ##########################################################################
+
+# ##########################################################################
+# ##########################################################################
+# ## setupATLAS
+export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+export ALRB_localConfigDir=$HOME/localConfig
+setupATLAS
+# ##########################################################################
+
+# ##########################################################################
+# ##########################################################################
+# ## Use modern completion system
+alias matlab-term='matlab -nosplash -nojvm'
+alias matlab-disp='matlab -nosplash -nodisplay'
+alias matlab-desk='matlab -nosplash -nodesktop'
+alias mkdir='mkdir -p'
+alias purge='sync && echo 3 > /proc/sys/vm/drop_caches'
+alias vim='vim -X'
+alias vimdiff='vimdiff -X'
+alias jupyter-tuningtools='JUPYTER_CONFIG_DIR=~/.jupyter_tuningtools jupyter notebook'
+# ##########################################################################
+
+
+# ##########################################################################
+# ##########################################################################
+# ## Misc configuration
+echo "The term is $TERM"
+makeAliases $HOME/scripts
+
+# If we are not on screen, add screen workplaces on afs to tmp
+if ! beginswith "$TERM" "screen" ]]; then
+  mkdir -p /tmp/$(whoami)
+
+  if [ -e /tmp/$(whoami)/workplaces ]; then
+    rm /tmp/$(whoami)/workplaces/*
+  fi
+
+  cp -r ~/workplaces /tmp/$(whoami)/
+  chmod 640 /tmp/$(whoami)/workplaces/*
+fi
+# ##########################################################################
+
+# ##########################################################################
+# ##########################################################################
+# ## Some code I want to keep for future reference 
+# code on setAthena
+  # This is to fix the prompt, as unfortunately the special prompt doesn't work
+  #precmd_functions=("${(@)precmd_functions:#__promptline}")
+  #export precmd_functions
+  #export RPROMPT=''
+  #autoload -Uz promptinit
+  #promptinit
+  #prompt elite2 green yellow
+# Keep kinit on for 30 days:
+#if [ -e /bin/ps ] && [ -e /bin/grep ]
+#then
+#  kproc=`/bin/ps x -u ${USER} | /bin/grep krenew | /bin/grep ${KRB5CCNAME}`
+#  echo $kproc
+#  if [ "${kproc}" = "" ] && [ -e /usr/bin/krenew ]
+#  then
+#    /usr/bin/krenew -K 60 -t -k ${KRB5CCNAME} &
+#  fi
+#fi
+
+#if ! which pbcopy >/dev/null && which xsel >/dev/null; then
+#  alias pbcopy='xsel --clipboard --input'
+#  alias pbpaste='xsel --clipboard --output'
+#fi
+
+#export JUPYTER_CONFIG_DIR=$HOME/.jupyter
+#export JUPYTER_DATA_DIR=$HOME/.jupyter/data
+# ##########################################################################
