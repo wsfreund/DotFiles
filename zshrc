@@ -139,9 +139,9 @@ ssh-powerline(){
     local host=${match[-2]}
     local path=${match[-1]}
     local shell_base=$(basename $SHELL)
-    /usr/bin/ssh -t $@ "cd ${path} && export HAS_POWERLINE=${(q)HAS_POWERLINE} && which ${shell_base} && exec $(basename $SHELL) || exec bash"
+    /usr/bin/ssh -t $@ "cd ${path} && export PATH=\"\${HOME}/DotFiles/bin:\$PATH\" && export HAS_POWERLINE=${(q)HAS_POWERLINE} && which ${shell_base} && exec $(basename $SHELL)  || exec \$HOME/DotFiles/bin/zsh || exec bash"
   else
-    /usr/bin/ssh -t $@ "export HAS_POWERLINE=${(q)HAS_POWERLINE} && which ${shell_base} && exec $(basename $SHELL) || exec bash"
+    /usr/bin/ssh -t $@ "export HAS_POWERLINE=${(q)HAS_POWERLINE} && which ${shell_base} && exec $(basename $SHELL) || exec \$HOME/DotFiles/bin/zsh || exec bash"
   fi
 }
 
