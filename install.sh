@@ -1,5 +1,4 @@
 
-## error codes
 
 if test $(hostname -d) = ".lps.ufrj.br"; then
   if ! type zsh &>! /dev/null; then
@@ -41,6 +40,10 @@ if test -e $HOME/.ssh/config; then
   mv $HOME/.ssh/config $HOME/.ssh/config_bkg || return 1;
 fi
 
+if test -e $HOME/.screenrc; then
+  mv $HOME/.screenrc $HOME/.screenrc_bkg || return 1;
+fi
+
 if test -e $HOME/.zshrc -a \! -e $HOME/.zshrc_bkg; then
   mv $HOME/.zshrc $HOME/.zshrc_bkg || return 1;
 fi
@@ -73,6 +76,7 @@ if test $(hostname -d) = "lps.ufrj.br"; then
 fi
 
 ln -s $HOME/DotFiles/config $HOME/.ssh/config
+ln -s $HOME/DotFiles/screenrc $HOME/.screenrc
 ln -s $HOME/DotFiles/zshrc $HOME/.zshrc
 ln -s $HOME/DotFiles/dircolors.256dark $HOME/.dircolors.256dark
 ln -s $HOME/DotFiles/shell_prompt.sh $HOME/.shell_prompt.sh
