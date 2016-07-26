@@ -134,15 +134,21 @@ makeAliases(){
 
 # Substitute for standard ssh exporting if original connection has powerline
 ssh-powerline(){
+  local shell_base=$(basename $SHELL)
+  local __cmd="which ${shell_base} && exec $(basename $SHELL) -l || exec \$HOME/DotFiles/bin/zsh -l || exec bash -l"
+  ssh-powerline-wcmd $1 $@ $__cmd
+}
+
+ssh-powerline-wcmd(){
   local HAS_POWERLINE=${HAS_POWERLINE:=0}
-  if [[ $1 =~ "(.*):(.*)" ]]; then
-    local host=${match[-2]}
-    local path=${match[-1]}
-    local shell_base=$(basename $SHELL)
-    /usr/bin/ssh -t $@ "cd ${path} && export HAS_POWERLINE=${(q)HAS_POWERLINE} && export HAS_ITERM2=${(q)HAS_ITERM2} && which ${shell_base} && exec $(basename $SHELL) -l || exec \$HOME/DotFiles/bin/zsh -l || exec bash -l"
-  else
-    /usr/bin/ssh -t $@ "export HAS_POWERLINE=${(q)HAS_POWERLINE} && export HAS_ITERM2=${(q)HAS_ITERM2} && which ${shell_base} && exec $(basename $SHELL) -l || exec \$HOME/DotFiles/bin/zsh -l || exec bash -l"
-  fi
+  local HAS_ITERM2=${HAS_ITERM2:=0}
+  local __cmd=${@[-1]}
+  length=$((${#@}-1))
+  set -A array
+  for i in $(seq $(($length))); do
+    array+=${@[$i]}
+  done
+  /usr/bin/ssh -t $array "export HAS_POWERLINE=${(q)HAS_POWERLINE} && export HAS_ITERM2=${(q)HAS_ITERM2} && $__cmd"
 }
 
 # cd and ls
