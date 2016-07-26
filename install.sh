@@ -1,6 +1,6 @@
 
 
-if test $(hostname -d) = ".lps.ufrj.br"; then
+if test $(hostname -d) = "lps.ufrj.br"; then
   if ! type zsh &>! /dev/null; then
     # Zsh
     zsh_tgz_file=$HOME/DotFiles/zsh.tgz
@@ -20,7 +20,6 @@ if test $(hostname -d) = ".lps.ufrj.br"; then
       fi
       pushd $zsh_folder
       ./configure --prefix=$HOME/DotFiles
-      ./bootstrap --prefix=$zsh_install_path --parallel=$ROOTCORE_NCPUS > /dev/null || { echo "Couldn't bootstrap zsh." && return 1;}
       make install > /dev/null || { echo "Couldn't make zsh." && return 1; }
       popd - > /dev/null
     else
