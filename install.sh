@@ -43,5 +43,5 @@ ln -s $HOME/DotFiles/vimrc $HOME/.vimrc
 
 ln -s $HOME/DotFiles/vim $HOME/.vim
 git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim
-vim \+BundleInstall\! \+BundleClean \+qall
+vim \+VundleInstall\! \+qall
 
