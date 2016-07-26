@@ -1,0 +1,23 @@
+Host *
+  IdentityFile ~/.ssh/id_rsa
+  ServerAliveInterval 120
+  ServerAliveCountMax 3 
+  Protocol 2
+
+Host lxplus*
+  Protocol 2 
+  GSSAPIAuthentication yes 
+  GSSAPIDelegateCredentials yes 
+  GSSAPITrustDns yes 
+  PubkeyAuthentication no 
+  #PasswordAuthentication yes
+  ForwardX11 yes
+
+Host svn.cern.ch svn 
+  GSSAPIAuthentication yes 
+  GSSAPIDelegateCredentials yes 
+  GSSAPITrustDns yes
+  #PasswordAuthentication no
+  Protocol 2 
+  ForwardX11 no
+
