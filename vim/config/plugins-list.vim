@@ -12,5 +12,6 @@ so $HOME/.vim/config/nerdtree.vim
 so $HOME/.vim/config/promptline.vim
 so $HOME/.vim/config/syntastic.vim
 so $HOME/.vim/config/vimsolarized.vim
+so $HOME/.vim/config/signify.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

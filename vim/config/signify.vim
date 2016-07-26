@@ -4,8 +4,7 @@
 let g:signify_vcs_list = [ 'svn', 'hg' ]
 let g:signify_update_on_focusgained = 1
 let g:signify_update_on_bufenter = 1
-if 
-if exists($HAS_POWERLINE) && $HAS_POWERLINE == '1'
+if $HAS_POWERLINE == '1'
   let g:signify_sign_add = ''
   let g:signify_sign_delete = ''
   let g:signify_sign_change = ''

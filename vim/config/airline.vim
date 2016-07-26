@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Airline configuration
-if exists($HAS_POWERLINE) && $HAS_POWERLINE == '1'
+if $HAS_POWERLINE == "1"
   let g:airline_powerline_fonts = 1
 else
   let g:airline_powerline_fonts = 0
@@ -13,9 +13,9 @@ if g:airline_powerline_fonts != 1
   let g:airline_left_sep = '▶'
   let g:airline_right_sep = '◀'
   " let g:airline_left_alt_sep = '>'
-  "let g:airline_left_sep = '»'
+  " let g:airline_left_sep = '»'
   " let g:airline_right_alt_sep = '<'
-  "let g:airline_right_sep = '«'
+  " let g:airline_right_sep = '«'
   let g:airline_symbols.crypt = '🔒'
   "let g:airline_symbols.linenr = '␊'
   "let g:airline_symbols.linenr = '␤'

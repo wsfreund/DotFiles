@@ -47,14 +47,14 @@ function zsh_py_env_str {
 function __promptline_git_status {
   [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]] || return 1
 
-  local added_symbol="●"
-  local unmerged_symbol="✗"
+  local added_symbol="a"
+  local unmerged_symbol="x"
   local modified_symbol="+"
-  local clean_symbol="✔"
-  local has_untracked_files_symbol="…"
+  local clean_symbol="c"
+  local has_untracked_files_symbol="u"
 
-  local ahead_symbol="↑"
-  local behind_symbol="↓"
+  local ahead_symbol=">"
+  local behind_symbol="<"
 
 
   local unmerged_count=0 modified_count=0 has_untracked_files=0 added_count=0 is_clean=""
@@ -158,7 +158,7 @@ function __promptline_ps1 {
 }
 function __promptline_cwd {
   local dir_limit="3"
-  local truncation="…"
+  local truncation="..."
   #local truncation="⋯"
   local first_char
   local part_count=0
@@ -315,8 +315,8 @@ function __promptline {
   local space=" "
   local sep="▶"
   local rsep="◀"
-  local alt_sep=""
-  local alt_rsep=""
+  local alt_sep="»"
+  local alt_rsep="«"
   local reset="${wrap}0${end_wrap}"
   local reset_bg="${wrap}49${end_wrap}"
   local a_fg="${wrap}38;5;232${end_wrap}"

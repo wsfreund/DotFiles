@@ -38,7 +38,7 @@ let g:syntastic_aggregate_errors = 1
 ""  let g:syntastic_warning_symbol = "â
 "  let g:syntastic_style_warning_symbol = ">"
 "else
-if exists($HAS_POWERLINE) && $HAS_POWERLINE == '1'
+if $HAS_POWERLINE == "1"
   let g:syntastic_error_symbol = ""
   let g:syntastic_style_error_symbol = ""
   let g:syntastic_warning_symbol = ""
