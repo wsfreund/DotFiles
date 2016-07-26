@@ -15,7 +15,9 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'mbadran/headlights'               " Adds menu to vim
 Plugin 'wsfreund/vim-airline'             " Improves lower and upper vim bar visualization (+ info, as git branch, etc.)
 Plugin 'vim-airline/vim-airline-themes'   " Airline themes
-Plugin 'ryanoasis/vim-devicons'           " Adds many icons to vim
+if $HAS_POWERLINE == "1"
+  Plugin 'ryanoasis/vim-devicons'         " Adds many icons to vim
+endif
 Plugin 'Shougo/neocomplete.vim'           " Adds autocomplete
 Plugin 'lrvick/Conque-Shell'              " Shell inside vim
 Plugin 'scrooloose/nerdtree'              " The NERDTREE!
