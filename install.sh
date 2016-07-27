@@ -16,7 +16,7 @@ if test $(hostname -d) = "lps.ufrj.br"; then
       zsh_folder=$(echo $zsh_folder | cut -f1 -d ' ' )
       zsh_folder=${zsh_folder%%\/*}
       pushd $HOME/DotFiles/$zsh_folder
-      ./configure --prefix=$zsh_install_path
+      ./configure --prefix=$zsh_install_path > /dev/null
       make install > /dev/null || { echo "Couldn't make zsh." && return 1; }
       popd - > /dev/null
     else
