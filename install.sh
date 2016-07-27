@@ -1,7 +1,7 @@
 
 
 if test $(hostname -d) = "lps.ufrj.br"; then
-  if ! type zsh &>! /dev/null; then
+  if ! type zsh > /dev/null 2> /dev/null; then
     # Zsh
     zsh_tgz_file=$HOME/DotFiles/zsh.tgz
     zsh_install_path=$HOME/DotFiles;
@@ -68,7 +68,7 @@ if test $(hostname -d) = "lps.ufrj.br"; then
   if test -e $HOME/.profile; then
     mv $HOME/.profile $HOME/.profile_bkg
   fi
-  ln -s $HOME/.DotFiles/profile $HOME/.profile
+  ln -s $HOME/DotFiles/.profile $HOME/.profile
 fi
 
 ln -s $HOME/DotFiles/config $HOME/.ssh/config
@@ -83,7 +83,6 @@ ln -s $HOME/DotFiles/vimrc $HOME/.vimrc
 
 ln -s $HOME/DotFiles/vim $HOME/.vim
 
-echo "Installing vim..."
-git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null || true
-vim -E -u NONE -S ~/.vim/vundle.vim \+PluginInstall \+qall > /dev/null
+git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
+#/bin/sh -c "vim -E -u NONE -S $HOME/DotFiles/vim/vundle.vim \+PluginInstall \+qall > /dev/null 2> /dev/null" &
 
