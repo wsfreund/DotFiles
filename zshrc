@@ -135,7 +135,7 @@ makeAliases(){
 # Substitute for standard ssh exporting if original connection has powerline
 ssh-powerline(){
   local shell_base=$(basename $SHELL)
-  local __cmd="which ${shell_base} && exec $(basename $SHELL) -l || exec \$HOME/DotFiles/bin/zsh -l || exec bash -l"
+  local __cmd="which ${shell_base} && exec $(basename $SHELL) -l || test -e \$HOME/DotFiles/bin/zsh && exec \$HOME/DotFiles/bin/zsh -l || exec bash -l"
   ssh-powerline-wcmd $1 $@ $__cmd
 }
 

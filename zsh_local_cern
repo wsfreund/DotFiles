@@ -14,7 +14,6 @@ setvar GIT_INSTALL_PATH "$HOME/custom_installed/git/install/bin"
 setvar SCONS_PATH "/afs/cern.ch/user/w/$(whoami)/scons"
 setvar STAGE_SVCCLASS "atlcal"
 setvar WORK "/afs/cern.ch/work/w/$(whoami)"
-setvar DEFAULT_ASETUP "asetup AtlasProduction,20.1.4.7,here,setup"
 setvar OMP_NUM_THREADS $((`cat "/proc/cpuinfo" | grep "processor" | tail -n 1 | cut -f2 -d ' '`+1))
 # ##########################################################################
 
@@ -46,6 +45,7 @@ addtovar LD_LIBRARY_PATH \
 # ##########################################################################
 # ## Some helper functions
 # Method for setting athena on an easier fasion
+setvar DEFAULT_ASETUP "asetup AtlasProduction,20.1.4.7,here,setup"
 setAthena(){
   lsetup asetup
   if test -z "$1";
