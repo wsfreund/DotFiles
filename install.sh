@@ -84,6 +84,6 @@ ln -s $HOME/DotFiles/vimrc $HOME/.vimrc
 ln -s $HOME/DotFiles/vim $HOME/.vim
 
 echo "Installing vim..."
-git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null
-vim \+VundleInstall\! \+qall > /dev/null 2> /dev/null &
+git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null || true
+vim -E -u NONE -S ~/.vim/vundle.vim \+PluginInstall \+qall > /dev/null
 
