@@ -14,8 +14,8 @@ if test $(hostname -d) = "lps.ufrj.br"; then
       zsh_folder=$(tar xfzv $zsh_tgz_file --skip-old-files -C $HOME/DotFiles 2> /dev/null)
       test -z "$zsh_folder" && { echo "Couldn't extract zsh!" && return 1;}
       zsh_folder=$(echo $zsh_folder | cut -f1 -d ' ' )
-      zsh_folder=$DEP_AREA/${zsh_folder%%\/*}
-      pushd $zsh_folder
+      zsh_folder=${zsh_folder%%\/*}
+      pushd $HOME/DotFiles/$zsh_folder
       ./configure --prefix=$zsh_install_path
       make install > /dev/null || { echo "Couldn't make zsh." && return 1; }
       popd - > /dev/null
