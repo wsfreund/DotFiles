@@ -82,6 +82,8 @@ ln -s $HOME/DotFiles/shell_prompt_no_pl.sh $HOME/.shell_prompt_no_pl.sh
 ln -s $HOME/DotFiles/vimrc $HOME/.vimrc
 
 ln -s $HOME/DotFiles/vim $HOME/.vim
-git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim
-vim \+VundleInstall\! \+qall &
+
+echo "Installing vim..."
+git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null
+vim \+VundleInstall\! \+qall > /dev/null 2> /dev/null &
 
