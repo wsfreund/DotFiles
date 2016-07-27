@@ -18,7 +18,7 @@ if test $(hostname -d) = "lps.ufrj.br"; then
       pushd $HOME/DotFiles/$zsh_folder
       ./configure --prefix=$zsh_install_path > /dev/null
       make install > /dev/null || { echo "Couldn't make zsh." && return 1; }
-      popd - > /dev/null
+      popd > /dev/null
     else
       echo "No need to install zsh."
     fi
