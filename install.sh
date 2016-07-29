@@ -11,7 +11,7 @@ if test $(hostname -d) = "lps.ufrj.br"; then
         curl -s -o $zsh_tgz_file -L http://www.zsh.org/pub/zsh.tar.gz
       fi
       echo "Installing zsh..."
-      zsh_folder=$(tar xfzv $zsh_tgz_file --skip-old-files -C $HOME/DotFiles 2> /dev/null)
+      zsh_folder=$(tar xfzv $zsh_tgz_file -C $HOME/DotFiles 2> /dev/null)
       test -z "$zsh_folder" && { echo "Couldn't extract zsh!" && return 1;}
       zsh_folder=$(echo $zsh_folder | cut -f1 -d ' ' )
       zsh_folder=${zsh_folder%%\/*}
