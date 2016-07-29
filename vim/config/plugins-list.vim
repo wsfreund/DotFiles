@@ -10,8 +10,9 @@ so $HOME/.vim/config/incremental.vim
 so $HOME/.vim/config/neocomplete.vim
 so $HOME/.vim/config/nerdtree.vim
 so $HOME/.vim/config/promptline.vim
-so $HOME/.vim/config/syntastic.vim
-so $HOME/.vim/config/vimsolarized.vim
 so $HOME/.vim/config/signify.vim
+so $HOME/.vim/config/syntastic.vim
+so $HOME/.vim/config/undotree.vim
+so $HOME/.vim/config/vimsolarized.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
