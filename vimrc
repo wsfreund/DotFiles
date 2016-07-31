@@ -235,15 +235,15 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Standard vim sets and lets
-set hlsearch
-set backspace=indent,eol,start
 if v:version >= 703
   set undofile               " use undo file to keep all changes always available
   set undodir=~/.vim/undo/   " where to save the undo files
   " set undolevels=1000
   " set undoreload=10000
 endif
-set history=700              " number of history commands
+set hlsearch
+set backspace=indent,eol,start
+set history=10000            " number of history commands
 set t_Co=256                 " terminal colors:
 set showcmd                  " Show (partial) command in status line.
 set showmatch                " Show matching brackets.
@@ -272,6 +272,7 @@ set lazyredraw
 set scrolloff=5
 set sidescrolloff=5
 set langmenu=en_GB
+set noshowmode               " do not display insert and so on at the command line
 let $LANG='en_GB'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let maplocalleader = '!'
@@ -335,8 +336,8 @@ nnoremap <silent> <F11> :Errors<CR>
 nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Make undo and redo loop over all last changes:
-nnoremap u g-
-nnoremap <C-r> g+
+"nnoremap u g-
+"nnoremap <C-r> g+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 vmap <Enter> <Plug>(EasyAlign)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -361,7 +362,7 @@ let ruby_fold=1               " Ruby
 let sh_fold_enabled=1         " sh
 let vimsyn_folding='af'       " Vim script
 let xml_syntax_folding=1      " XML
-let g:tex_fold_enabled=1
+let g:tex_fold_enabled=1      " tex (plugin)
 let g:tex_fold_additional_envs = ['enumarate','itemize']
 set foldmethod=indent
 set foldlevel=20

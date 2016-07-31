@@ -65,10 +65,10 @@ if test -e $HOME/.vim -a \! -e $HOME/.vim_bkg; then
 fi
 
 if test $(hostname -d) = "lps.ufrj.br"; then
-  if test -e $HOME/.profile; then
-    mv $HOME/.profile $HOME/.profile_bkg
+  if test -e $HOME/.; then
+    mv $HOME/.bashrc $HOME/.bashrc_bkg
   fi
-  ln -s $HOME/DotFiles/.profile $HOME/.profile
+  ln -s $HOME/DotFiles/bashrc_lps $HOME/.bashrc
 fi
 
 ln -s $HOME/DotFiles/config $HOME/.ssh/config

@@ -231,6 +231,10 @@ force_color_prompt=yes
 # Add iterm 2 integration
 test "$HAS_ITERM2" -eq "1" -a -e "${HOME}/.iterm2_shell_integration.zsh" \
   && source "${HOME}/.iterm2_shell_integration.zsh"
+# Add root if compiled at home
+if test -e "$HOME/root/bin/thisroot.sh"; then
+  pushd $HOME/root/bin/ &>! /dev/null && source thisroot.sh && popd &>! /dev/null
+fi
 # ##########################################################################
 
 # ##########################################################################
