@@ -151,6 +151,23 @@ ssh-powerline-wcmd(){
   /usr/bin/ssh -t $array "export HAS_POWERLINE=${(q)HAS_POWERLINE} && export HAS_ITERM2=${(q)HAS_ITERM2} && $__cmd"
 }
 
+ssh-powerline-tunel(){
+  if test "$#" -le 4; then
+    local account=$1; local open_node=$2; local extra_setup=$3; local internal_account=$account; local internal_node=$4;
+  else
+    local account=$1; local open_node=$2; local extra_setup=$3; local internal_account=$4; local internal_node=$5;
+  fi
+  if test "$4" = "1" -o "$5" = "1"; then
+    ignore_asetup='IGNORE_ASETUP=1'
+  fi
+  test -n $extra_setup && link="&&"
+  echo "ssh-powerline-wcmd" \
+         "-A -t -Y " \
+         "-l $account $open_node " \
+         "\"$extra_setup $link source \\\$HOME/.zshrc &>! /dev/null &&" \
+           "ssh-powerline -A -t -Y -l $internal_account $internal_node\""
+}
+
 # cd and ls
 cl()
 {
