@@ -18,6 +18,8 @@ Plugin 'vim-airline/vim-airline-themes'   " Airline themes
 if $HAS_POWERLINE == "1"
   Plugin 'ryanoasis/vim-devicons'         " Adds many icons to vim
 endif
+Plugin 'Konfekt/FastFold'                 " Improve folding speed
+Plugin 'tmhedberg/SimpylFold'             " Add folding syntax to python
 Plugin 'Shougo/neocomplete.vim'           " Adds autocomplete
 Plugin 'lrvick/Conque-Shell'              " Shell inside vim
 Plugin 'scrooloose/nerdtree'              " The NERDTREE!
@@ -43,12 +45,10 @@ Plugin 'mhinz/vim-signify'                " Add vcs signs on gutter.
 Plugin 'airblade/vim-gitgutter'           " Add vcs info only for git
 Plugin 'matze/vim-tex-fold'               " Improve tex experience with folding
 Plugin 'nelstrom/vim-markdown-folding'    " Adds markdown folding
-Plugin 'tmhedberg/SimpylFold'             " Add folding syntax to python
 Plugin 'haya14busa/incsearch.vim'         " Improve vim searching
 Plugin 'octol/vim-cpp-enhanced-highlight' " Recognizes C++11/14 features and
                                           " adds highlighting for methods/classes
 Plugin 'tpope/vim-surround'               " Surround text with set of chars
-Plugin 'Konfekt/FastFold'                 " Improve folding speed
 Plugin 'Konfekt/FoldText'                 " Set special text for the folds with percentage
 " Plugin 'LaTeX-Box-Team/LaTeX-Box'       " Adds better interation with latex
 call vundle#end()                         " required
@@ -293,13 +293,16 @@ au BufWritePre,FileWritePre *.m ks|call LastMod()|'s
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au BufRead,BufNewFile *.tex setl filetype=tex | setl tw=70 | setl colorcolumn=71
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au BufRead,BufNewFile *.m setl tw=70 | setl colorcolumn=71
+au BufRead,BufNewFile *.m  setl tw=70 | setl colorcolumn=71
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au BufRead,BufNewFile *.C setl cindent
+au BufRead,BufNewFile *.C   setl cindent
 au BufRead,BufNewFile *.cxx setl cindent
 au BufRead,BufNewFile *.cpp setl cindent
-au BufRead,BufNewFile *.h setl cindent
+au BufRead,BufNewFile *.h   setl cindent
 au BufRead,BufNewFile *.icc setl filetype=cpp | setl cindent
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au FileType tex,text setl spell spelllang=en
+au FileType help setl nospell
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim jump to the last position when reopening a file
 au BufReadPost ?* if @% !~ '.git/' && line("'\"") > 0 && line("'\"") <= line("$")
@@ -368,11 +371,10 @@ set foldmethod=indent
 set foldlevel=20
 set foldlevelstart=20
 autocmd FileType c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
-"autocmd FileType python setlocal foldmethod=expr
+autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 autocmd FileType c,cpp,vim,xml,html,xhtml,perl,python setl foldlevel=20
 autocmd FileType tex setlocal foldlevel=0 
-autocmd FileType tex,text setl spell spelllang=en
-autocmd FileType help setl nospell
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Others
 silent! call HighlightNonAsciiOn()
