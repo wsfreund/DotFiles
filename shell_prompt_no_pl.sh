@@ -165,17 +165,21 @@ function __promptline_cwd {
   local first_char
   local part_count=0
   local formatted_cwd=""
+  local first_char_formatted_cwd=""
   #local dir_sep=" ▶ "
   local dir_sep="/"
   local tilde="~"
+  local tilde_work="§"
 
   local cwd="${PWD/#$HOME/$tilde}"
+  [[ -n ${WORK} ]] && cwd="${cwd/#${WORK}/"$tilde_work"}"
 
   # get first char of the path, i.e. tilde or slash
   [[ -n ${ZSH_VERSION-} ]] && first_char=$cwd[1,1] || first_char=${cwd::1}
 
-  # remove leading tilde
-  cwd="${cwd#\~}"
+  # remove leading tildes
+  cwd="${cwd#$tilde}"
+  cwd="${cwd#$tilde_work}"
 
   while [[ "$cwd" == */* && "$cwd" != "/" ]]; do
     # pop off last part of cwd
@@ -184,9 +188,10 @@ function __promptline_cwd {
 
     formatted_cwd="$dir_sep$part$formatted_cwd"
     part_count=$((part_count+1))
-
-    [[ $part_count -eq $dir_limit ]] && first_char="$truncation" && break
+    [[ $part_count -eq $dir_limit ]] && { [ -n "$cwd" ] && first_char="$truncation" || true; } && break
   done
+  [[ -n ${ZSH_VERSION-} ]] && first_char_formatted_cwd=$formatted_cwd[1,1] || first_char_formatted_cwd=${formatted_cwd::1}
+  [ "$first_char" = "$first_char_formatted_cwd" ] && formatted_cwd=$formatted_cwd[2,-1]
 
   printf "%s" "$first_char$formatted_cwd"
 }
