@@ -13,16 +13,14 @@ packageVersion(){
 setvar GIT_INSTALL_PATH "$HOME/custom_installed/git/install/bin"
 setvar SCONS_PATH "/afs/cern.ch/user/w/$(whoami)/scons"
 setvar STAGE_SVCCLASS "atlcal"
-setvar WORK "/afs/cern.ch/work/w/$(whoami)"
+setvar WORK "/afs/cern.ch/work/$USER[1]/$USER"
 setvar OMP_NUM_THREADS $((`cat "/proc/cpuinfo" | grep "processor" | tail -n 1 | cut -f2 -d ' '`+1))
 # ##########################################################################
 
 # ##########################################################################
 # ##########################################################################
 addtovar PATH "/usr/local/bin"
-
 addtovar LD_LIBRARY_PATH "/usr/local/lib"
-
 # ##########################################################################
 
 # ##########################################################################
@@ -59,7 +57,7 @@ alias mkdir='mkdir -p'
 alias purge='sync && echo 3 > /proc/sys/vm/drop_caches'
 alias vim='vim -X'
 alias vimdiff='vimdiff -X'
-if ! which pbcopy >/dev/null && which xsel >/dev/null; then
+if ! which pbcopy &>! /dev/null && which xsel &>! /dev/null; then
   alias pbcopy='xsel --clipboard --input'
   alias pbpaste='xsel --clipboard --output'
 fi
@@ -82,21 +80,4 @@ if ! beginswith "$TERM" "screen" ]]; then
   cp -r ~/workplaces /tmp/$(whoami)/
   chmod 640 /tmp/$(whoami)/workplaces/*
 fi
-# ##########################################################################
-
-# ##########################################################################
-# ##########################################################################
-# ## Some code I want to keep for future reference 
-#if [ -e /bin/ps ] && [ -e /bin/grep ]
-#then
-#  kproc=`/bin/ps x -u ${USER} | /bin/grep krenew | /bin/grep ${KRB5CCNAME}`
-#  echo $kproc
-#  if [ "${kproc}" = "" ] && [ -e /usr/bin/krenew ]
-#  then
-#    /usr/bin/krenew -K 60 -t -k ${KRB5CCNAME} &
-#  fi
-#fi
-
-#export JUPYTER_CONFIG_DIR=$HOME/.jupyter
-#export JUPYTER_DATA_DIR=$HOME/.jupyter/data
 # ##########################################################################
