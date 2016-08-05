@@ -52,18 +52,43 @@ let zsh_get_rootcore_version_str = {
         \'  printf "%s" "$version"',
         \'}']}
 
+let zsh_get_panda_version_str = {
+      \'function_name': 'zsh_get_panda_version_str',
+      \'function_body': [
+        \'function zsh_get_panda_version_str {',
+        \'  local rdir; local version;',
+        \'  rdir=$(echo $ATLAS_LOCAL_PANDACLI_VERSION)',
+        \'  test -n "$rdir" || return 1',
+        \'  version=$(basename $(dirname "$rdir"))',
+        \'  printf "-%s" "%version"',
+        \'}']}
+
+let zsh_get_rucio_version_str = {
+      \'function_name': 'zsh_get_rucio_version_str',
+      \'function_body': [
+        \'function zsh_get_rucio_version_str {',
+        \'  local rdir; local version;',
+        \'  rdir=$(echo $ATLAS_LOCAL_RUCIOCLIENTS_VERSION)',
+        \'  test -n "$rdir" || return 1',
+        \'  version=$(basename $(dirname "$rdir"))',
+        \'  printf "-%s" "%version"',
+        \'}']}
+
 let g:promptline_preset = {
         \'a' : [ promptline#slices#host({'only_if_ssh':1}), promptline#slices#user() ],
         \'b' : [ '%*' ],
         \'c' : [ promptline#slices#cwd({'dir_limit':3}) ],
         \'x' : [ promptline#slices#jobs(), promptline#slices#vcs_branch({'svn':1}) ],
-        \'y' : [ zsh_get_athena_project_str, zsh_get_athena_version_str, zsh_get_rootcore_release_str, zsh_get_rootcore_version_str, zsh_py_env_str ],
+        \'y' : [ zsh_get_athena_project_str, zsh_get_athena_version_str, 
+                 \zsh_get_rootcore_release_str, zsh_get_rootcore_version_str, 
+                 \zsh_get_panda_version_str, zsh_get_rucio_version_str,
+                 \zsh_py_env_str ],
         \'z' : [ '$(git rev-parse --short HEAD 2>/dev/null)', promptline#slices#git_status() ],
         \'warn' : [ promptline#slices#last_exit_code() ],
         \'options' : {
           \'left_sections' : [ 'a', 'b','c' ],
           \'right_sections' : [ 'warn', 'x', 'y','z' ],
           \'left_only_sections' : ['y', 'x', 'z', 'a', 'b', 'c', 'warn' ]}}
-"let airline#extensions#promptline#color_template='replace'
+let airline#extensions#promptline#color_template='insert'
 "let g:airline#extensions#promptline#enabled = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
