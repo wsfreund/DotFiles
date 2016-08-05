@@ -60,7 +60,7 @@ let zsh_get_panda_version_str = {
         \'  rdir=$(echo $ATLAS_LOCAL_PANDACLI_VERSION)',
         \'  test -n "$rdir" || return 1',
         \'  version=$(basename $(dirname "$rdir"))',
-        \'  printf "-%s" "%version"',
+        \'  printf "-%s" "$version"',
         \'}']}
 
 let zsh_get_rucio_version_str = {
@@ -71,7 +71,7 @@ let zsh_get_rucio_version_str = {
         \'  rdir=$(echo $ATLAS_LOCAL_RUCIOCLIENTS_VERSION)',
         \'  test -n "$rdir" || return 1',
         \'  version=$(basename $(dirname "$rdir"))',
-        \'  printf "-%s" "%version"',
+        \'  printf "-%s" "$version"',
         \'}']}
 
 let g:promptline_preset = {
