@@ -228,7 +228,7 @@ fi
 # ##########################################################################
 # ## Change shell behavior
 # Add cern local configuration:
-test "$(hostname -d)" = "cern.ch" -a -e "${HOME}/DotFiles/zsh_local_cern" && source "$HOME/DotFiles/zsh_local_cern"
+test "$(hostname -d &>! /dev/null)" = "cern.ch" -a -e "${HOME}/DotFiles/zsh_local_cern" && source "$HOME/DotFiles/zsh_local_cern"
 # Add user local configuration:
 test -e "${HOME}/DotFiles/zsh_local" && source "$HOME/DotFiles/zsh_local"
 
