@@ -51,7 +51,7 @@ function __promptline_git_status {
   local unmerged_symbol="x"
   local modified_symbol="+"
   local clean_symbol="c"
-  local has_untracked_files_symbol="u"
+  local has_untracked_files_symbol="untrk"
 
   local ahead_symbol=">"
   local behind_symbol="<"
@@ -104,6 +104,32 @@ function __promptline_last_exit_code {
 function __promptline_ps1 {
   local slice_prefix slice_empty_prefix slice_joiner slice_suffix is_prompt_empty=1
 
+  # section "y" header
+  slice_prefix="${y_bg}${sep}${y_fg}${y_bg}${space}" slice_suffix="$space${y_sep_fg}" slice_joiner="${y_fg}${y_bg}${alt_sep}${space}" slice_empty_prefix="${y_fg}${y_bg}${space}"
+  [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
+  # section "y" slices
+  __promptline_wrapper "$(zsh_get_athena_project_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(zsh_get_athena_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(zsh_get_rootcore_release_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(zsh_get_rootcore_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(zsh_get_panda_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(zsh_get_rucio_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(zsh_py_env_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+
+  # section "x" header
+  slice_prefix="${x_bg}${sep}${x_fg}${x_bg}${space}" slice_suffix="$space${x_sep_fg}" slice_joiner="${x_fg}${x_bg}${alt_sep}${space}" slice_empty_prefix="${x_fg}${x_bg}${space}"
+  [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
+  # section "x" slices
+  __promptline_wrapper "$(__promptline_jobs)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(__promptline_vcs_branch)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+
+  # section "z" header
+  slice_prefix="${z_bg}${sep}${z_fg}${z_bg}${space}" slice_suffix="$space${z_sep_fg}" slice_joiner="${z_fg}${z_bg}${alt_sep}${space}" slice_empty_prefix="${z_fg}${z_bg}${space}"
+  [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
+  # section "z" slices
+  __promptline_wrapper "$(git rev-parse --short HEAD 2>/dev/null)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(__promptline_git_status)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+
   # section "a" header
   slice_prefix="${a_bg}${sep}${a_fg}${a_bg}${space}" slice_suffix="$space${a_sep_fg}" slice_joiner="${a_fg}${a_bg}${alt_sep}${space}" slice_empty_prefix="${a_fg}${a_bg}${space}"
   [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
@@ -122,30 +148,6 @@ function __promptline_ps1 {
   [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
   # section "c" slices
   __promptline_wrapper "$(__promptline_cwd)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-
-  # section "x" header
-  slice_prefix="${x_bg}${sep}${x_fg}${x_bg}${space}" slice_suffix="$space${x_sep_fg}" slice_joiner="${x_fg}${x_bg}${alt_sep}${space}" slice_empty_prefix="${x_fg}${x_bg}${space}"
-  [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
-  # section "x" slices
-  __promptline_wrapper "$(__promptline_jobs)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-  __promptline_wrapper "$(__promptline_vcs_branch)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-
-  # section "y" header
-  slice_prefix="${y_bg}${sep}${y_fg}${y_bg}${space}" slice_suffix="$space${y_sep_fg}" slice_joiner="${y_fg}${y_bg}${alt_sep}${space}" slice_empty_prefix="${y_fg}${y_bg}${space}"
-  [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
-  # section "y" slices
-  __promptline_wrapper "$(zsh_get_athena_project_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-  __promptline_wrapper "$(zsh_get_athena_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-  __promptline_wrapper "$(zsh_get_rootcore_release_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-  __promptline_wrapper "$(zsh_get_rootcore_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-  __promptline_wrapper "$(zsh_py_env_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-
-  # section "z" header
-  slice_prefix="${z_bg}${sep}${z_fg}${z_bg}${space}" slice_suffix="$space${z_sep_fg}" slice_joiner="${z_fg}${z_bg}${alt_sep}${space}" slice_empty_prefix="${z_fg}${z_bg}${space}"
-  [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
-  # section "z" slices
-  __promptline_wrapper "$(git rev-parse --short HEAD 2>/dev/null)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-  __promptline_wrapper "$(__promptline_git_status)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
 
   # section "warn" header
   slice_prefix="${warn_bg}${sep}${warn_fg}${warn_bg}${space}" slice_suffix="$space${warn_sep_fg}" slice_joiner="${warn_fg}${warn_bg}${alt_sep}${space}" slice_empty_prefix="${warn_fg}${warn_bg}${space}"
@@ -217,37 +219,11 @@ function __promptline_wrapper {
   [[ -n "$1" ]] || return 1
   printf "%s" "${2}${1}${3}"
 }
-function __promptline_right_prompt {
-  local slice_prefix slice_empty_prefix slice_joiner slice_suffix
-
-  # section "warn" header
-  slice_prefix="${warn_sep_fg}${rsep}${warn_fg}${warn_bg}${space}" slice_suffix="$space${warn_sep_fg}" slice_joiner="${warn_fg}${warn_bg}${alt_rsep}${space}" slice_empty_prefix=""
-  # section "warn" slices
-  __promptline_wrapper "$(__promptline_last_exit_code)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
-
-  # section "x" header
-  slice_prefix="${x_sep_fg}${rsep}${x_fg}${x_bg}${space}" slice_suffix="$space${x_sep_fg}" slice_joiner="${x_fg}${x_bg}${alt_rsep}${space}" slice_empty_prefix=""
-  # section "x" slices
-  __promptline_wrapper "$(__promptline_jobs)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
-  __promptline_wrapper "$(__promptline_vcs_branch)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
-
-  # section "y" header
-  slice_prefix="${y_sep_fg}${rsep}${y_fg}${y_bg}${space}" slice_suffix="$space${y_sep_fg}" slice_joiner="${y_fg}${y_bg}${alt_rsep}${space}" slice_empty_prefix=""
-  # section "y" slices
-  __promptline_wrapper "$(zsh_get_athena_project_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
-  __promptline_wrapper "$(zsh_get_athena_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
-  __promptline_wrapper "$(zsh_get_rootcore_release_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
-  __promptline_wrapper "$(zsh_get_rootcore_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
-  __promptline_wrapper "$(zsh_py_env_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
-
-  # section "z" header
-  slice_prefix="${z_sep_fg}${rsep}${z_fg}${z_bg}${space}" slice_suffix="$space${z_sep_fg}" slice_joiner="${z_fg}${z_bg}${alt_rsep}${space}" slice_empty_prefix=""
-  # section "z" slices
-  __promptline_wrapper "$(git rev-parse --short HEAD 2>/dev/null)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
-  __promptline_wrapper "$(__promptline_git_status)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
-
-  # close sections
-  printf "%s" "$reset"
+function zsh_get_rucio_version_str {
+  local version;
+  version=$(echo $ATLAS_LOCAL_RUCIOCLIENTS_VERSION)
+  test -n "$version" || return 1
+  printf "rucio-%s" "$version"
 }
 function __promptline_host {
   local only_if_ssh="1"
@@ -255,6 +231,12 @@ function __promptline_host {
   if [ ! $only_if_ssh -o -n "${SSH_CLIENT}" ]; then
     if [[ -n ${ZSH_VERSION-} ]]; then print %m; elif [[ -n ${FISH_VERSION-} ]]; then hostname -s; else printf "%s" \\h; fi
   fi
+}
+function zsh_get_panda_version_str {
+  local version;
+  version=$(echo $ATLAS_LOCAL_PANDACLI_VERSION)
+  test -n "$version" || return 1
+  printf "panda-%s" "$version"
 }
 
 function __promptline_jobs {
@@ -296,6 +278,40 @@ function __promptline_left_prompt {
   # close sections
   printf "%s" "${reset_bg}${sep}$reset$space"
 }
+function __promptline_right_prompt {
+  local slice_prefix slice_empty_prefix slice_joiner slice_suffix
+
+  # section "warn" header
+  slice_prefix="${warn_sep_fg}${rsep}${warn_fg}${warn_bg}${space}" slice_suffix="$space${warn_sep_fg}" slice_joiner="${warn_fg}${warn_bg}${alt_rsep}${space}" slice_empty_prefix=""
+  # section "warn" slices
+  __promptline_wrapper "$(__promptline_last_exit_code)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+
+  # section "x" header
+  slice_prefix="${x_sep_fg}${rsep}${x_fg}${x_bg}${space}" slice_suffix="$space${x_sep_fg}" slice_joiner="${x_fg}${x_bg}${alt_rsep}${space}" slice_empty_prefix=""
+  # section "x" slices
+  __promptline_wrapper "$(__promptline_jobs)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+  __promptline_wrapper "$(__promptline_vcs_branch)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+
+  # section "y" header
+  slice_prefix="${y_sep_fg}${rsep}${y_fg}${y_bg}${space}" slice_suffix="$space${y_sep_fg}" slice_joiner="${y_fg}${y_bg}${alt_rsep}${space}" slice_empty_prefix=""
+  # section "y" slices
+  __promptline_wrapper "$(zsh_get_athena_project_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+  __promptline_wrapper "$(zsh_get_athena_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+  __promptline_wrapper "$(zsh_get_rootcore_release_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+  __promptline_wrapper "$(zsh_get_rootcore_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+  __promptline_wrapper "$(zsh_get_panda_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+  __promptline_wrapper "$(zsh_get_rucio_version_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+  __promptline_wrapper "$(zsh_py_env_str)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+
+  # section "z" header
+  slice_prefix="${z_sep_fg}${rsep}${z_fg}${z_bg}${space}" slice_suffix="$space${z_sep_fg}" slice_joiner="${z_fg}${z_bg}${alt_rsep}${space}" slice_empty_prefix=""
+  # section "z" slices
+  __promptline_wrapper "$(git rev-parse --short HEAD 2>/dev/null)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+  __promptline_wrapper "$(__promptline_git_status)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; }
+
+  # close sections
+  printf "%s" "$reset"
+}
 function zsh_get_athena_project_str {
   test -n "$AtlasProject" || return 1
   echo "ath-$AtlasProject"
@@ -323,20 +339,20 @@ function __promptline {
   local a_bg="${wrap}48;5;192${end_wrap}"
   local a_sep_fg="${wrap}38;5;192${end_wrap}"
   local b_fg="${wrap}38;5;192${end_wrap}"
-  local b_bg="${wrap}48;5;236${end_wrap}"
-  local b_sep_fg="${wrap}38;5;236${end_wrap}"
+  local b_bg="${wrap}48;5;238${end_wrap}"
+  local b_sep_fg="${wrap}38;5;238${end_wrap}"
   local c_fg="${wrap}38;5;192${end_wrap}"
-  local c_bg="${wrap}48;5;234${end_wrap}"
-  local c_sep_fg="${wrap}38;5;234${end_wrap}"
+  local c_bg="${wrap}48;5;235${end_wrap}"
+  local c_sep_fg="${wrap}38;5;235${end_wrap}"
   local warn_fg="${wrap}38;5;232${end_wrap}"
   local warn_bg="${wrap}48;5;166${end_wrap}"
   local warn_sep_fg="${wrap}38;5;166${end_wrap}"
   local x_fg="${wrap}38;5;192${end_wrap}"
-  local x_bg="${wrap}48;5;234${end_wrap}"
-  local x_sep_fg="${wrap}38;5;234${end_wrap}"
+  local x_bg="${wrap}48;5;235${end_wrap}"
+  local x_sep_fg="${wrap}38;5;235${end_wrap}"
   local y_fg="${wrap}38;5;192${end_wrap}"
-  local y_bg="${wrap}48;5;236${end_wrap}"
-  local y_sep_fg="${wrap}38;5;236${end_wrap}"
+  local y_bg="${wrap}48;5;238${end_wrap}"
+  local y_sep_fg="${wrap}38;5;238${end_wrap}"
   local z_fg="${wrap}38;5;232${end_wrap}"
   local z_bg="${wrap}48;5;192${end_wrap}"
   local z_sep_fg="${wrap}38;5;192${end_wrap}"
