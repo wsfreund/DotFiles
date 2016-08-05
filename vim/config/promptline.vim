@@ -56,10 +56,9 @@ let zsh_get_panda_version_str = {
       \'function_name': 'zsh_get_panda_version_str',
       \'function_body': [
         \'function zsh_get_panda_version_str {',
-        \'  local rdir; local version;',
-        \'  rdir=$(echo $ATLAS_LOCAL_PANDACLI_VERSION)',
-        \'  test -n "$rdir" || return 1',
-        \'  version=$(basename $(dirname "$rdir"))',
+        \'  local version;',
+        \'  version=$(echo $ATLAS_LOCAL_PANDACLI_VERSION)',
+        \'  test -n "$version" || return 1',
         \'  printf "-%s" "$version"',
         \'}']}
 
@@ -67,10 +66,9 @@ let zsh_get_rucio_version_str = {
       \'function_name': 'zsh_get_rucio_version_str',
       \'function_body': [
         \'function zsh_get_rucio_version_str {',
-        \'  local rdir; local version;',
-        \'  rdir=$(echo $ATLAS_LOCAL_RUCIOCLIENTS_VERSION)',
-        \'  test -n "$rdir" || return 1',
-        \'  version=$(basename $(dirname "$rdir"))',
+        \'  local version;',
+        \'  version=$(echo $ATLAS_LOCAL_RUCIOCLIENTS_VERSION)',
+        \'  test -n "$version" || return 1',
         \'  printf "-%s" "$version"',
         \'}']}
 

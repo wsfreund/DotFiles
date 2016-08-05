@@ -217,10 +217,9 @@ function __promptline_wrapper {
   printf "%s" "${2}${1}${3}"
 }
 function zsh_get_rucio_version_str {
-  local rdir; local version;
-  rdir=$(echo $ATLAS_LOCAL_RUCIOCLIENTS_VERSION)
-  test -n "$rdir" || return 1
-  version=$(basename $(dirname "$rdir"))
+  local version;
+  version=$(echo $ATLAS_LOCAL_RUCIOCLIENTS_VERSION)
+  test -n "$version" || return 1
   printf "-%s" "$version"
 }
 function __promptline_host {
@@ -231,10 +230,9 @@ function __promptline_host {
   fi
 }
 function zsh_get_panda_version_str {
-  local rdir; local version;
-  rdir=$(echo $ATLAS_LOCAL_PANDACLI_VERSION)
-  test -n "$rdir" || return 1
-  version=$(basename $(dirname "$rdir"))
+  local version;
+  version=$(echo $ATLAS_LOCAL_PANDACLI_VERSION)
+  test -n "$version" || return 1
   printf "-%s" "$version"
 }
 
