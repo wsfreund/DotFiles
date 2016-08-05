@@ -135,7 +135,7 @@ makeAliases(){
 # Substitute for standard ssh exporting if original connection has powerline
 ssh-powerline(){
   local shell_base=$(basename $SHELL)
-  local __cmd="which ${shell_base} > /dev/null && exec $(basename $SHELL) -l || test -e \$HOME/DotFiles/bin/zsh && exec \$HOME/DotFiles/bin/zsh -l || exec bash -l"
+  local __cmd="which ${shell_base} > /dev/null && exec $(basename $SHELL) -il || test -e \$HOME/DotFiles/bin/zsh && exec \$HOME/DotFiles/bin/zsh -il || exec bash -il"
   ssh-powerline-wcmd $1 $@ $__cmd
 }
 
@@ -209,8 +209,10 @@ fi
 # ##########################################################################
 # ##########################################################################
 # ## Change shell behavior
+# Add cern local configuration:
+test "$(hostname -d)" = "cern.ch" -a -e "${HOME}/DotFiles/zsh_local_cern" && source "$HOME/DotFiles/zsh_local_cern"
 # Add user local configuration:
-test -e "${HOME}/.zsh_local" && source "${HOME}/.zsh_local"
+test -e "${HOME}/DotFiles/zsh_local" && source "$HOME/DotFiles/zsh_local"
 
 # Change SHELL PROMPT
 if test "$HAS_POWERLINE" -eq "1"; then

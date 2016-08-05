@@ -19,25 +19,9 @@ setvar OMP_NUM_THREADS $((`cat "/proc/cpuinfo" | grep "processor" | tail -n 1 | 
 
 # ##########################################################################
 # ##########################################################################
-addtovar PATH \
-  "$HOME/bin" \
-  "/usr/local/bin" \
-  "$HOME/custom_installed/git/install/bin" \
-  "$HOME/custom_installed/htop" \
-  "$HOME/custom_installed/panda-server/pandaserver/test" \
-  "$SCONS_PATH/bin" \
-  "$HOME/custom_installed/bin" \
-  "$HOME/vim/bin" \
-  "$HOME/custom_installed/lua/bin" \
+addtovar PATH "/usr/local/bin"
 
-addtovar PYTHONPATH \
-  "$HOME/custom_installed/panda-server/pandaserver" \
-
-addtovar LD_LIBRARY_PATH \
-  "$HOME/custom_installed/git/install/lib64" \
-  "/usr/local/lib" \
-  "$HOME/custom_installed/lib" \
-  "$HOME/custom_installed/lua/lib" \
+addtovar LD_LIBRARY_PATH "/usr/local/lib"
 
 # ##########################################################################
 
@@ -71,22 +55,20 @@ fi
 
 # ##########################################################################
 # ##########################################################################
-# ## Use modern completion system
-alias matlab-term='matlab -nosplash -nojvm'
-alias matlab-disp='matlab -nosplash -nodisplay'
-alias matlab-desk='matlab -nosplash -nodesktop'
 alias mkdir='mkdir -p'
 alias purge='sync && echo 3 > /proc/sys/vm/drop_caches'
 alias vim='vim -X'
 alias vimdiff='vimdiff -X'
-alias jupyter-tuningtools='JUPYTER_CONFIG_DIR=~/.jupyter_tuningtools jupyter notebook'
+if ! which pbcopy >/dev/null && which xsel >/dev/null; then
+  alias pbcopy='xsel --clipboard --input'
+  alias pbpaste='xsel --clipboard --output'
+fi
 # ##########################################################################
 
 
 # ##########################################################################
 # ##########################################################################
 # ## Misc configuration
-echo "The term is $TERM"
 makeAliases $HOME/scripts
 
 # If we are not on screen, add screen workplaces on afs to tmp
@@ -105,15 +87,6 @@ fi
 # ##########################################################################
 # ##########################################################################
 # ## Some code I want to keep for future reference 
-# code on setAthena
-  # This is to fix the prompt, as unfortunately the special prompt doesn't work
-  #precmd_functions=("${(@)precmd_functions:#__promptline}")
-  #export precmd_functions
-  #export RPROMPT=''
-  #autoload -Uz promptinit
-  #promptinit
-  #prompt elite2 green yellow
-# Keep kinit on for 30 days:
 #if [ -e /bin/ps ] && [ -e /bin/grep ]
 #then
 #  kproc=`/bin/ps x -u ${USER} | /bin/grep krenew | /bin/grep ${KRB5CCNAME}`
@@ -122,11 +95,6 @@ fi
 #  then
 #    /usr/bin/krenew -K 60 -t -k ${KRB5CCNAME} &
 #  fi
-#fi
-
-#if ! which pbcopy >/dev/null && which xsel >/dev/null; then
-#  alias pbcopy='xsel --clipboard --input'
-#  alias pbpaste='xsel --clipboard --output'
 #fi
 
 #export JUPYTER_CONFIG_DIR=$HOME/.jupyter
