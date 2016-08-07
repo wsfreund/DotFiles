@@ -162,7 +162,7 @@ function __promptline_cwd {
   local dir_limit="3"
   local truncation="..."
   #local truncation="⋯"
-  local first_char
+  local first_field
   local part_count=0
   local formatted_cwd=""
   local first_char_formatted_cwd=""
@@ -171,15 +171,39 @@ function __promptline_cwd {
   local tilde="~"
   local tilde_work="§"
 
-  local cwd="${PWD/#$HOME/$tilde}"
-  [[ -n ${WORK} ]] && cwd="${cwd/#${WORK}/"$tilde_work"}"
+  dir_home=$(dirname "$HOME")
 
+  local cwd="${PWD/#"$dir_home\/"}"
+  if [ "$cwd" != "$PWD" ]; then
+    local basename_home="$(basename "${cwd%%/*}")"
+    if [ -n "$basename_home" ]; then
+      first_field=$tilde
+      if [ "$basename_home" != "$USER" ]; then
+        first_field="$first_field$basename_home"
+      fi
+      cwd="${cwd/#\/$basename_home/}"
+    else
+      cwd=$PWD
+    fi
+  elif [[ -n ${WORK} ]]; then 
+    dir_work=$(dirname "$WORK")
+    local cwd="${PWD/#"$dir_work\/"}"
+    if [ "$cwd" != "$PWD" ]; then
+      local basename_work="$(basename "${cwd%%/*}")"
+      if [ -n "$basename_work" ]; then
+        first_field=$tilde_work
+        if [ "$basename_work" != "$USER" ]; then
+          first_field="$first_field$basename_work"
+        fi
+        cwd="${cwd/#\/$basename_work)/}"
+      fi
+    else
+      cwd=$PWD
+    fi
+  else
+    [[ -n ${ZSH_VERSION-} ]] && first_field=$cwd[1,1] || first_field=${cwd::1}
+  fi
   # get first char of the path, i.e. tilde or slash
-  [[ -n ${ZSH_VERSION-} ]] && first_char=$cwd[1,1] || first_char=${cwd::1}
-
-  # remove leading tildes
-  cwd="${cwd#$tilde}"
-  cwd="${cwd#$tilde_work}"
 
   while [[ "$cwd" == */* && "$cwd" != "/" ]]; do
     # pop off last part of cwd
@@ -188,12 +212,12 @@ function __promptline_cwd {
 
     formatted_cwd="$dir_sep$part$formatted_cwd"
     part_count=$((part_count+1))
-    [[ $part_count -eq $dir_limit ]] && { [ -n "$cwd" ] && first_char="$truncation" || true; } && break
+    [[ $part_count -eq $dir_limit ]] && { [ -n "$cwd" ] && first_field="$truncation" || true; } && break
   done
   [[ -n ${ZSH_VERSION-} ]] && first_char_formatted_cwd=$formatted_cwd[1,1] || first_char_formatted_cwd=${formatted_cwd::1}
-  [ "$first_char" = "$first_char_formatted_cwd" ] && formatted_cwd=$formatted_cwd[2,-1]
+  [ "$first_field" = "$first_char_formatted_cwd" ] && formatted_cwd=$formatted_cwd[2,-1]
 
-  printf "%s" "$first_char$formatted_cwd"
+  printf "%s" "$first_field$formatted_cwd"
 }
 function zsh_get_rootcore_release_str {
   local rdir; local project;
