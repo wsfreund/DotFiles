@@ -170,32 +170,35 @@ function __promptline_cwd {
   local dir_sep="/"
   local tilde="~"
   local tilde_work="§"
+  local cern=false
 
-  dir_home=$(dirname "$HOME")
+  [ "${PWD##/afs/cern.ch/user}" != "$HOME" ] && local cern=true 
+  $cern && dir_home="/afs/cern.ch/user" || dir_home=$(dirname "$HOME")
 
   local cwd="${PWD/#"$dir_home\/"}"
   if [ "$cwd" != "$PWD" ]; then
-    local basename_home="$(basename "${cwd%%/*}")"
+    $cern && local basename_home="$(basename "${${cwd#*/}%%/*}")"  || local basename_home="$(basename "${cwd%%/*}")"
     if [ -n "$basename_home" ]; then
       first_field=$tilde
       if [ "$basename_home" != "$USER" ]; then
-        first_field="$first_field$basename_home"
+          first_field="$first_field$basename_home"
       fi
-      cwd="${cwd/#\/$basename_home/}"
+      $cern && cwd="/${${cwd#*/}#*/}" && [ "$cwd" = "/" ] && cwd="" || cwd="${cwd/#\/$basename_home/}"
     else
       cwd=$PWD
     fi
   elif [[ -n ${WORK} ]]; then 
-    dir_work=$(dirname "$WORK")
+    [ "${PWD##/afs/cern.ch/work}" != "$WORK" ] && local cern=true 
+    $cern && dir_work="/afs/cern.ch/work" || dir_work=$(dirname "$WORK")
     local cwd="${PWD/#"$dir_work\/"}"
     if [ "$cwd" != "$PWD" ]; then
-      local basename_work="$(basename "${cwd%%/*}")"
+      $cern && local basename_work="$(basename "${${cwd#*/}%%/*}")"  || local basename_work="$(basename "${cwd%%/*}")"
       if [ -n "$basename_work" ]; then
         first_field=$tilde_work
         if [ "$basename_work" != "$USER" ]; then
           first_field="$first_field$basename_work"
         fi
-        cwd="${cwd/#\/$basename_work)/}"
+        $cern && cwd="/${${cwd#*/}#*/}" && [ "$cwd" = "/" ] && cwd="" || cwd="${cwd/#\/$basename_work/}"
       fi
     else
       cwd=$PWD
@@ -203,7 +206,6 @@ function __promptline_cwd {
   else
     [[ -n ${ZSH_VERSION-} ]] && first_field=$cwd[1,1] || first_field=${cwd::1}
   fi
-  # get first char of the path, i.e. tilde or slash
 
   while [[ "$cwd" == */* && "$cwd" != "/" ]]; do
     # pop off last part of cwd
