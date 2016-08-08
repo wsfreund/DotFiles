@@ -107,6 +107,8 @@ if ! test -e $HOME/.oh-my-zsh; then
   git clone https://github.com/wsfreund/oh-my-zsh.git $HOME/.oh-my-zsh
 fi
 
+# TODO Install vim if on cern.
+
 echo "Installing Vimhalla..."
 git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
 vim -E -c VundleInstall -c qa

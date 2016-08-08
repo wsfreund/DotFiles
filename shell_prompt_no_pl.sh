@@ -172,7 +172,7 @@ function __promptline_cwd {
   local tilde_work="§"
   local cern=false
 
-  [ "${PWD##/afs/cern.ch/user}" != "$HOME" ] && local cern=true 
+  [ "${HOME##/afs/cern.ch/user}" != "$HOME" ] && local cern=true 
   $cern && dir_home="/afs/cern.ch/user" || dir_home=$(dirname "$HOME")
 
   local cwd="${PWD/#"$dir_home\/"}"

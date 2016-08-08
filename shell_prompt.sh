@@ -168,7 +168,7 @@ function __promptline_cwd {
   local tilde_work=""
   local cern=false
 
-  [ "${PWD##/afs/cern.ch/user}" != "$HOME" ] && local cern=true 
+  [ "${HOME##/afs/cern.ch/user}" != "$HOME" ] && local cern=true || local cern=false
   $cern && dir_home="/afs/cern.ch/user" || dir_home=$(dirname "$HOME")
 
   local cwd="${PWD/#"$dir_home\/"}"
@@ -202,6 +202,7 @@ function __promptline_cwd {
   else
     [[ -n ${ZSH_VERSION-} ]] && first_field=$cwd[1,1] || first_field=${cwd::1}
   fi
+  set +x
 
   # remove leading tilde
   cwd="${cwd#$tilde}"
