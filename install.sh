@@ -29,20 +29,31 @@ get_dotfile(){
 
 backup(){
   base_1=`basename $1`
-  [ -n "$2" ] && $2=`get_dotfile "$1"`
-  if [ -e "$1" ]; then
+  dest="$2" && [ -z "$dest" ] && dest="`get_dotfile "$1"`"
+  if [ -e "$1" -o -L "$1" ]; then
     file=`readlink -f "$1" 2>/dev/null || readlink_f "$1"`
-    [ "$file" != "$2" ] && { [ \! -d "$bkg_folder" ] && \
-      mkdir -p "$bkg_folder" || true && mv $1 "$bkg_folder/" && \
-      echo "Created back-up of your old configuration file(s) '$1' on '$bkg_folder'."; } || \
-      echo "No need to create back-up for '$1', you are already using DotFiles configuration."
-  elif [ -L "$1" ]; then
-    echo "Removing bad link '$1'." && rm "$1"
+    if [ \! -e "$1" -a -L "$1" ]; then
+      echo "Removing bad link '$1'." && rm "$1"
+    elif [ "$file" != "$dest" ]; then
+      [ \! -d "$bkg_folder" ] && \
+        mkdir -p "$bkg_folder" || true && mv $1 "$bkg_folder/" && \
+        echo "Created back-up of your old configuration file(s) '$1' at '$bkg_folder'." || \
+        echo "No need to create back-up for '$1', you are already using DotFiles configuration."
+    fi
   fi
 }
 
 link_dotfile(){
-  ln -s "$(get_dotfile $1)" "$1"
+  dest=$2 && [ -z "$dest" ] && dest="`get_dotfile "$1"`"
+  if [ -e "$1" ]; then
+    file=`readlink -f "$1" 2>/dev/null || readlink_f "$1"`
+    if [ "$file" != "$dest" ]; then
+      echo "WARN: For some reason file $1 still exists."
+    fi
+  else
+    echo "Creating link '$1' to '$dest'..."
+    ln -s "$dest" "$1"
+  fi
 }
 
 files=(\
@@ -54,8 +65,6 @@ files=(\
        "$HOME/.vimrc" \
        "$HOME/.vim" \
       )
-
-echo $files
 
 for file in ${files[@]}; do
   backup "$file" && link_dotfile "$file"
