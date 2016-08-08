@@ -29,10 +29,10 @@ get_dotfile(){
 
 backup(){
   base_1=`basename $1`
-  [ -n "$2" ] && $2="$HOME/DotFiles/$base_1"
+  [ -n "$2" ] && $2=`get_dotfile "$1"`
   if [ -e "$1" ]; then
     file=`readlink -f "$1" 2>/dev/null || readlink_f "$1"`
-    [ "$file" != "$(get_dotfile "$1")" ] && { [ \! -d "$bkg_folder" ] && \
+    [ "$file" != "$2" ] && { [ \! -d "$bkg_folder" ] && \
       mkdir -p "$bkg_folder" || true && mv $1 "$bkg_folder/" && \
       echo "Created back-up of your old configuration file(s) '$1' on '$bkg_folder'."; } || \
       echo "No need to create back-up for '$1', you are already using DotFiles configuration."
@@ -57,13 +57,14 @@ files=(\
 
 echo $files
 
-if test "$host_domain" = "lps.ufrj.br"; then
-  ${files[${#files[*]}+1]}=".bashrc"
-fi
-
 for file in ${files[@]}; do
   backup "$file" && link_dotfile "$file"
 done
+
+if test "$host_domain" = "lps.ufrj.br"; then
+  #${files[${#files[*]}+1]}=".bashrc"
+  backup ".bashrc" "$HOME/DotFiles/bashrc_lps"
+fi
 
 if test "$host_domain" = "lps.ufrj.br"; then
   if ! type zsh > /dev/null 2> /dev/null; then
@@ -97,7 +98,9 @@ if ! test -e $HOME/.oh-my-zsh; then
   git clone https://github.com/wsfreund/oh-my-zsh.git $HOME/.oh-my-zsh
 fi
 
+echo "Installing Vimhalla..."
 git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
 vim -E -c VundleInstall -c qa
-#/bin/sh -c "vim -E -u NONE -S $HOME/DotFiles/vim/vundle.vim \+PluginInstall \+qall > /dev/null 2> /dev/null" &
+
+# TODO Install NERD Font and add echo message to tell user to change font!
 
