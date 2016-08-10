@@ -26,10 +26,10 @@ let g:syntastic_cpp_auto_refresh_includes = 1
 if !empty($ROOTSYS)
   let g:syntastic_cpp_compiler_options = "-std=c++11 -I$ROOTSYS/include/ "
 endif
-if !empty($CMTPATH) && setCMTInclude
-  let g:syntastic_cpp_compiler_options .= g:include_path_I
-  let g:syntastic_cpp_include_dirs = g:include_path
-endif
+"if !empty($CMTPATH) && setCMTInclude
+"  let g:syntastic_cpp_compiler_options .= g:include_path_I
+"  let g:syntastic_cpp_include_dirs = g:include_path
+"endif
 let g:syntastic_java_checkers = []
 let g:syntastic_aggregate_errors = 1
 "if has("unix")

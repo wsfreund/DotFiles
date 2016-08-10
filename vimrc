@@ -343,6 +343,11 @@ nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C
 "nnoremap <C-r> g+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 vmap <Enter> <Plug>(EasyAlign)
+if has("mac")
+  " Add ctrl-c to copy to mac 
+  vmap <C-c> y:call system("pbcopy", getreg("\""))<CR>
+  vmap <C-v> :call setreg("\"",system("pbpaste"))<CR>p
+endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
