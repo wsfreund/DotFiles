@@ -291,9 +291,9 @@ syntax on
 au BufNewFile  *.m 0r ~/.vim/skeletons/matlab | call StartDate() | call NewMatlabFile()
 au BufWritePre,FileWritePre *.m ks|call LastMod()|'s
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au BufRead,BufNewFile *.tex setl filetype=tex | setl tw=70 | setl colorcolumn=71
+au BufRead,BufNewFile *.tex setl filetype=tex | setl tw=80 | setl colorcolumn=81
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au BufRead,BufNewFile *.m  setl tw=70 | setl colorcolumn=71
+" au BufRead,BufNewFile *.m  setl tw=80 | setl colorcolumn=81
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au BufRead,BufNewFile *.C   setl cindent
 au BufRead,BufNewFile *.cxx setl cindent
@@ -354,13 +354,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" More configuration
-" Changes highlights
-highlight SpellBad   term=undercurl cterm=undercurl ctermfg=Red
-highlight SpellCap   term=undercurl cterm=undercurl ctermfg=27
-highlight SpellRare  term=undercurl cterm=undercurl ctermfg=Magenta
-highlight SpellLocal term=undercurl cterm=undercurl ctermfg=Cyan
-highlight link TagbarSignature Title
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding configuration:
 let javaScript_fold=1         " JavaScript
 let perl_fold=1               " Perl
@@ -404,4 +397,11 @@ highlight CursorLine ctermbg=232
 set fillchars=vert:\|,fold:\ 
 "set fillchars=vert:\ ,fold:\ ,diff:- " use to deactivate division
 "set fillchars=vert:,fold:-,diff:- " use to deactivate division
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Changes highlights
+highlight SpellBad   term=undercurl cterm=undercurl ctermfg=Red
+highlight SpellCap   term=undercurl cterm=undercurl ctermfg=27
+highlight SpellRare  term=undercurl cterm=undercurl ctermfg=Magenta
+highlight SpellLocal term=undercurl cterm=undercurl ctermfg=Cyan
+highlight link TagbarSignature Title
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
