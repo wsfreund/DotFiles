@@ -41,7 +41,7 @@ DotFiles and move the backups to their original system places.
 
 # License and warranty
 
-Copyright © 2000 Werner Spolidoro Freund \<wsfreund__at__that_g_started_company_email_domain\>
+Copyright © 2000 Werner Spolidoro Freund `wsfreund__at__that_g_started_company_email_domain`
 
 This work is free. You can redistribute it and/or modify it under the
 terms of the Do What The Fuck You Want To Public License, Version 2,
