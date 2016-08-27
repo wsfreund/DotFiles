@@ -4,7 +4,7 @@ The default configurations are always conservative and disables many tools
 which can improve produtivity. On this package, many configurations that were
 found to be useful through these years are shared and enabled by default so
 that new comers can improve their learning curve to the command line.  Everyone
-is invited to help in this task so that users can take the most of the dark
+is invited to help in this task so that users can make the most of the dark
 terminal (yes, b/c dark terminals rulez!) world.
 
 Mainly, three major command line commands will be changed: the shell
@@ -41,7 +41,7 @@ DotFiles and move the backups to their original system places.
 
 # License and warranty
 
-Copyright © 2000 Werner Spolidoro Freund <wsfreund__at__that_g_started_company_email_domain>
+Copyright © 2000 Werner Spolidoro Freund \<wsfreund__at__that_g_started_company_email_domain\>
 
 This work is free. You can redistribute it and/or modify it under the
 terms of the Do What The Fuck You Want To Public License, Version 2,
