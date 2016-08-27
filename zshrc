@@ -220,6 +220,7 @@ alias ....="cd ../../.."
 alias ...="cd ../.."
 alias ..="cd .."
 alias cd..="cd .."
+alias clc="clear"
 alias mkdir='command mkdir -p'
 # ##########################################################################
 
