@@ -1,13 +1,13 @@
 # DotFiles
 
 The default configurations are always conservative and disables many tools
-which can improve produtivity. On this package, many configurations that were
+which can improve produtivity. In this package, many configurations that were
 found to be useful through these years are shared and enabled by default so
 that new comers can improve their learning curve to the command line.  Everyone
 is invited to help in this task so that users can make the most of the dark
 terminal (yes, b/c dark terminals rulez!) world.
 
-Mainly, three major command line commands will be changed: the shell
+Mainly, three major command line behaviors will be changed: the shell
 interpreter itself will be set to the Z shell, whereas most of the systems use
 bash as default shell; the command line editor 'vim' will be installed with lua
 support and many plugins will be enabled by default; and add some better
