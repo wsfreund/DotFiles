@@ -135,7 +135,7 @@ makeAliases(){
 # Substitute for standard ssh exporting if original connection has powerline
 ssh-powerline(){
   local shell_base=$(basename $SHELL)
-  local __cmd="which ${shell_base} > /dev/null && exec $(basename $SHELL) || SHELL=\$HOME/DotFiles/bin/zsh && test -e \$SHELL && export PATH=\"\$HOME/DotFiles/bin/:\$PATH\"&& exec \$SHELL || export SHELL=/bin/bash && exec \$SHELL"
+  local __cmd="which ${shell_base} > /dev/null 2> /dev/null && exec $(basename $SHELL) || SHELL=\$HOME/DotFiles/bin/zsh && test -e \$SHELL && export PATH=\"\$HOME/DotFiles/bin/:\$PATH\"&& exec \$SHELL || export SHELL=/bin/bash && exec \$SHELL"
   ssh-powerline-wcmd "${@[@]}" $__cmd
 }
 
@@ -194,7 +194,10 @@ ssh-powerline-tunel(){
   echo "ssh-powerline-wcmd" \
          "-A -t -Y " \
          "-l $account $open_node " \
-         "\"which ${shell_base} > /dev/null && exec $(basename $SHELL) -c \\\"source \\\$HOME/.zshrc &>! /dev/null && $internal_cmd\\\" || SHELL=\\\$HOME/DotFiles/bin/zsh && test -e \\\$SHELL && export PATH=\\\"\\\$HOME/DotFiles/bin/:\\\$PATH\\\"&& exec \\\$SHELL -c \\\"source \\\$HOME/.zshrc &>! /dev/null && $internal_cmd  \\\" || export SHELL=/bin/bash && exec \\\$SHELL -c \\\"source \\\$HOME/.bashrc &>! /dev/null $internal_cmd\\\"\"" \
+         "\"which ${shell_base} > /dev/null 2> /dev/null && exec $(basename $SHELL) -c \\\"source \\\$HOME/.zshrc &>! /dev/null " \
+           "&& $internal_cmd\\\" || SHELL=\\\$HOME/DotFiles/bin/zsh && test -e \\\$SHELL && export PATH=\\\"\\\$HOME/DotFiles/bin/:\\\$PATH\\\"" \
+           "&& exec \\\$SHELL -c \\\"source \\\$HOME/.zshrc &>! /dev/null && $internal_cmd  \\\" " \
+           "|| export SHELL=/bin/bash && exec \\\$SHELL -c \\\"source \\\$HOME/.bashrc &>! /dev/null $internal_cmd\\\"\""
 }
 
 # cd and ls

@@ -267,7 +267,9 @@ set relativenumber
 set switchbuf+=usetab,newtab " Make quickfix respect tab, otherwise open it in a new tab:
 set fileencoding=utf-8
 set encoding=utf-8
-set cursorline
+if $HAS_ITERM2 != "1"
+  set cursorline
+endif
 set lazyredraw
 set scrolloff=5
 set sidescrolloff=5
