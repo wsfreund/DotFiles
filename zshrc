@@ -135,8 +135,8 @@ makeAliases(){
 # Substitute for standard ssh exporting if original connection has powerline
 ssh-powerline(){
   local shell_base=$(basename $SHELL)
-  local __cmd="which ${shell_base} > /dev/null && exec $(basename $SHELL) -il || test -e \$HOME/DotFiles/bin/zsh && exec \$HOME/DotFiles/bin/zsh -il || exec bash -il"
-  ssh-powerline-wcmd $1 $@ $__cmd
+  local __cmd="which ${shell_base} > /dev/null 2> /dev/null && exec $(basename $SHELL) || SHELL=\$HOME/DotFiles/bin/zsh && test -e \$SHELL && export PATH=\"\$HOME/DotFiles/bin/:\$PATH\"&& exec \$SHELL || export SHELL=/bin/bash && exec \$SHELL"
+  ssh-powerline-wcmd "${@[@]}" $__cmd
 }
 
 ssh-powerline-wcmd(){
@@ -152,7 +152,35 @@ ssh-powerline-wcmd(){
 }
 
 ssh-powerline-tunel(){
-  if test "$#" -le 4; then
+# Create ssh command string for tunneling into internal server node
+#
+# Method 1:
+#
+# Input args:
+#   -> $1 (account): the log in account to use in the open node;
+#   -> $2 (open_node): the open node to log in;
+#   -> $3 (internal_node): the internal machine to log in.
+#
+# Method 2:
+#
+# Input args:
+#   -> $1 (account): the log in account to use in the open node;
+#   -> $2 (open_node): the open node to log in;
+#   -> $3 (internal_account): the log in account to use in the internal node
+#   -> $4 (internal_node): the internal machine to log in.
+#
+# Method 3:
+#
+# Input args:
+#   -> $1 (account): the log in account to use in the open node;
+#   -> $2 (open_node): the open node to log in;
+#   -> $3 (internal_account): the log in account to use in the internal node
+#   -> $4 (extra_setup): the open node commands before log in to internal machine
+#   -> $5 (internal_node): the internal machine to log in.
+#
+  if test "$#" -le 3; then
+    local account=$1; local open_node=$2; local extra_setup=""; local internal_account=$account; local internal_node=$3;
+  elif test "$#" -le 4; then
     local account=$1; local open_node=$2; local extra_setup=$3; local internal_account=$account; local internal_node=$4;
   else
     local account=$1; local open_node=$2; local extra_setup=$3; local internal_account=$4; local internal_node=$5;
@@ -160,12 +188,16 @@ ssh-powerline-tunel(){
   if test "$4" = "1" -o "$5" = "1"; then
     ignore_asetup='IGNORE_ASETUP=1'
   fi
-  test -n $extra_setup && link="&&"
+  local __cmd=""
+  test -n "$extra_setup" && link="&&"
+  internal_cmd="$extra_setup $link ssh-powerline -A -t -Y -l $internal_account $internal_node"
   echo "ssh-powerline-wcmd" \
          "-A -t -Y " \
          "-l $account $open_node " \
-         "\"$extra_setup $link source \\\$HOME/.zshrc &>! /dev/null &&" \
-           "ssh-powerline -A -t -Y -l $internal_account $internal_node\""
+         "\"which ${shell_base} > /dev/null 2> /dev/null && exec $(basename $SHELL) -c \\\"source \\\$HOME/.zshrc &>! /dev/null " \
+           "&& $internal_cmd\\\" || SHELL=\\\$HOME/DotFiles/bin/zsh && test -e \\\$SHELL && export PATH=\\\"\\\$HOME/DotFiles/bin/:\\\$PATH\\\"" \
+           "&& exec \\\$SHELL -c \\\"source \\\$HOME/.zshrc &>! /dev/null && $internal_cmd  \\\" " \
+           "|| export SHELL=/bin/bash && exec \\\$SHELL -c \\\"source \\\$HOME/.bashrc &>! /dev/null $internal_cmd\\\"\""
 }
 
 # cd and ls
@@ -191,6 +223,7 @@ alias ....="cd ../../.."
 alias ...="cd ../.."
 alias ..="cd .."
 alias cd..="cd .."
+alias clc="clear"
 alias mkdir='command mkdir -p'
 # Improves vim performance (but removes clipboard integration to x-server):
 alias vim='vim -X'
