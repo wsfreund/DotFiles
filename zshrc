@@ -192,8 +192,27 @@ alias ...="cd ../.."
 alias ..="cd .."
 alias cd..="cd .."
 alias mkdir='command mkdir -p'
+# Improves vim performance (but removes clipboard integration to x-server):
+alias vim='vim -X'
+alias vimdiff='vimdiff -X'
+alias rsync='rsync -rhvazP'
+if [ "$TERM" != "dumb" ]; then
+  alias ls="ls --color=always"
+  alias grep="grep --color=always"
+  alias egrep="egrep --color=always"
+fi
+force_color_prompt=yes
 # ##########################################################################
 
+# ##########################################################################
+# ##########################################################################
+## Declare variables
+if test  -e /proc/cpuinfo; then
+  setvar OMP_NUM_THREADS $(( $(cat "/proc/cpuinfo" | grep "processor" | tail -n 1 | cut -f2 -d ' ') + 1 ))
+elif -n "$(sysctl -a 2> /dev/null | grep machdep.cpu)"; then
+  setvar OMP_NUM_THREADS $(sysctl -a | grep machdep.cpu | grep core_count |  cut -f2 -d  ' ')
+fi
+# ##########################################################################
 
 # ##########################################################################
 # ##########################################################################
@@ -218,19 +237,42 @@ setopt histignorealldups sharehistory
 # Change default editor to vim
 export EDITOR='vim'
 
-#¬†Make erase send ^? signal
+# Make erase send ^? signal
 if ! beginswith "$TERM" "screen"; then
   stty erase '^?'
 fi
+
+# Add alias to scripts folder
+test -d "$HOME/scripts" && makeAliases "$HOME/scripts"
+
+# Change ls colors
+test -e "$HOME/.dircolors.256dark" && eval `dircolors "$HOME/.dircolors.256dark"`
+
+# Add screen workspaces to tmp
+if test -d "$HOME/workspaces"; then
+  # If we are not on screen, add screen workplaces on afs to tmp
+  if ! beginswith "$TERM" "screen" ]]; then
+    mkdir "/tmp/$USER"
+
+    if [ -e "/tmp/$USER/workplaces" ]; then
+      rm "/tmp/$USER/workplaces/"*
+    fi
+
+    cp -r "$HOME/workplaces" "/tmp/$USER/"
+    chmod 640 "/tmp/$USER/workplaces/"*
+  fi
+fi
+# ##########################################################################
 # ##########################################################################
 
 # ##########################################################################
 # ##########################################################################
 # ## Change shell behavior
 # Add cern local configuration:
-test "$(hostname -d 2> /dev/null)" = "cern.ch" -a -e "${HOME}/DotFiles/zsh_local_cern" && source "$HOME/DotFiles/zsh_local_cern"
+#test "$(hostname -d 2> /dev/null)" = "cern.ch" -a -e "${HOME}/DotFiles/zsh_local_cern" && source "$HOME/DotFiles/zsh_local_cern"
+test -d /cvmfs -a -e "${HOME}/DotFiles/zsh_local_cern" && source "${HOME}/DotFiles/zsh_local_cern"
 # Add user local configuration:
-test -e "${HOME}/DotFiles/zsh_local" && source "$HOME/DotFiles/zsh_local"
+test -e "${HOME}/DotFiles/zsh_local" && source "${HOME}/DotFiles/zsh_local"
 
 # Change SHELL PROMPT
 if test "$HAS_POWERLINE" -eq "1"; then
@@ -238,15 +280,6 @@ if test "$HAS_POWERLINE" -eq "1"; then
 else
   test -e "$HOME/.shell_prompt_no_pl.sh" && source "$HOME/.shell_prompt_no_pl.sh"
 fi
-
-# Change ls colors
-test -e "$HOME/.dircolors.256dark" && eval `dircolors "$HOME/.dircolors.256dark"`
-if [ "$TERM" != "dumb" ]; then
-  alias ls="ls --color=always"
-  alias grep="grep --color=always"
-  alias egrep="egrep --color=always"
-fi
-force_color_prompt=yes
 
 # Add iterm 2 integration
 test "$HAS_ITERM2" -eq "1" -a -e "${HOME}/.iterm2_shell_integration.zsh" \
@@ -284,3 +317,4 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 export KEYTIMEOUT=1
 # ##########################################################################
+

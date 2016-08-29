@@ -10,11 +10,7 @@ packageVersion(){
 # ##########################################################################
 # ## shell variables
 # User configuration
-setvar GIT_INSTALL_PATH "$HOME/custom_installed/git/install/bin"
-setvar SCONS_PATH "/afs/cern.ch/user/w/$(whoami)/scons"
 setvar STAGE_SVCCLASS "atlcal"
-setvar WORK "/afs/cern.ch/work/$USER[1]/$USER"
-setvar OMP_NUM_THREADS $((`cat "/proc/cpuinfo" | grep "processor" | tail -n 1 | cut -f2 -d ' '`+1))
 # ##########################################################################
 
 # ##########################################################################
@@ -53,31 +49,9 @@ fi
 
 # ##########################################################################
 # ##########################################################################
-alias mkdir='mkdir -p'
 alias purge='sync && echo 3 > /proc/sys/vm/drop_caches'
-alias vim='vim -X'
-alias vimdiff='vimdiff -X'
 if ! which pbcopy &>! /dev/null && which xsel &>! /dev/null; then
   alias pbcopy='xsel --clipboard --input'
   alias pbpaste='xsel --clipboard --output'
-fi
-# ##########################################################################
-
-
-# ##########################################################################
-# ##########################################################################
-# ## Misc configuration
-makeAliases $HOME/scripts
-
-# If we are not on screen, add screen workplaces on afs to tmp
-if ! beginswith "$TERM" "screen" ]]; then
-  mkdir -p /tmp/$(whoami)
-
-  if [ -e /tmp/$(whoami)/workplaces ]; then
-    rm /tmp/$(whoami)/workplaces/*
-  fi
-
-  cp -r ~/workplaces /tmp/$(whoami)/
-  chmod 640 /tmp/$(whoami)/workplaces/*
 fi
 # ##########################################################################
