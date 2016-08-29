@@ -319,7 +319,7 @@ fi
 test "$HAS_ITERM2" -eq "1" -a -e "${HOME}/.iterm2_shell_integration.zsh" \
   && source "${HOME}/.iterm2_shell_integration.zsh"
 # Add root if compiled at home
-if test -e "$HOME/root/bin/thisroot.sh"; then
+if test -e "$HOME/root/bin/thisroot.sh" -a $IGNORE_ROOT -ne "1"; then
   pushd $HOME/root/bin/ &>! /dev/null && source thisroot.sh && popd &>! /dev/null
 fi
 # ##########################################################################
