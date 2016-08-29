@@ -226,8 +226,9 @@ alias cd..="cd .."
 alias clc="clear"
 alias mkdir='command mkdir -p'
 # Improves vim performance (but removes clipboard integration to x-server):
-alias vim='vim -X'
-alias vimdiff='vimdiff -X'
+alias vim='command vim -X'
+alias vimdiff='command vimdiff -X'
+alias vimdir='vim -p $(find . -not -path "./cmt/*" -a \( -name "*.cxx" -or -name "*.h" -or -name "*.py" \))'
 alias rsync='rsync -rhvazP'
 if [ "$TERM" != "dumb" ]; then
   alias ls="ls --color=always"
@@ -242,7 +243,7 @@ force_color_prompt=yes
 ## Declare variables
 if test  -e /proc/cpuinfo; then
   setvar OMP_NUM_THREADS $(( $(cat "/proc/cpuinfo" | grep "processor" | tail -n 1 | cut -f2 -d ' ') + 1 ))
-elif -n "$(sysctl -a 2> /dev/null | grep machdep.cpu)"; then
+elif test -n "$(sysctl -a 2> /dev/null | grep machdep.cpu)"; then
   setvar OMP_NUM_THREADS $(sysctl -a | grep machdep.cpu | grep core_count |  cut -f2 -d  ' ')
 fi
 # ##########################################################################
@@ -301,11 +302,11 @@ fi
 # ##########################################################################
 # ##########################################################################
 # ## Change shell behavior
+# Add user local configuration:
+test -e "${HOME}/DotFiles/zsh_local" && source "${HOME}/DotFiles/zsh_local"
 # Add cern local configuration:
 #test "$(hostname -d 2> /dev/null)" = "cern.ch" -a -e "${HOME}/DotFiles/zsh_local_cern" && source "$HOME/DotFiles/zsh_local_cern"
 test -d /cvmfs -a -e "${HOME}/DotFiles/zsh_local_cern" && source "${HOME}/DotFiles/zsh_local_cern"
-# Add user local configuration:
-test -e "${HOME}/DotFiles/zsh_local" && source "${HOME}/DotFiles/zsh_local"
 
 # Change SHELL PROMPT
 if test "$HAS_POWERLINE" -eq "1"; then
