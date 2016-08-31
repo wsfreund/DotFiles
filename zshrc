@@ -135,11 +135,12 @@ makeAliases(){
 # Substitute for standard ssh exporting if original connection has powerline
 ssh-powerline(){
   local shell_base=$(basename $SHELL)
-  local __cmd="which ${shell_base} > /dev/null 2> /dev/null && exec $(basename $SHELL) || SHELL=\$HOME/DotFiles/bin/zsh && test -e \$SHELL && export PATH=\"\$HOME/DotFiles/bin/:\$PATH\"&& exec \$SHELL || export SHELL=/bin/bash && exec \$SHELL"
+  local __cmd="which ${shell_base} > /dev/null 2> /dev/null && export SHELL=\\\$(which ${shell_base}) && exec ${shell_base} || SHELL=\$HOME/DotFiles/bin/zsh && test -e \$SHELL && export PATH=\"\$HOME/DotFiles/bin/:\$PATH\"&& exec \$SHELL || export SHELL=/bin/bash && exec \$SHELL"
   ssh-powerline-wcmd "${@[@]}" $__cmd
 }
 
 ssh-powerline-wcmd(){
+  #set -x
   local HAS_POWERLINE=${HAS_POWERLINE:=0}
   local HAS_ITERM2=${HAS_ITERM2:=0}
   local __cmd=${@[-1]}
@@ -149,6 +150,7 @@ ssh-powerline-wcmd(){
     array+=${@[$i]}
   done
   /usr/bin/ssh -t $array "export HAS_POWERLINE=${(q)HAS_POWERLINE} && export HAS_ITERM2=${(q)HAS_ITERM2} && $__cmd"
+  #set +x
 }
 
 ssh-powerline-tunel(){
@@ -178,6 +180,7 @@ ssh-powerline-tunel(){
 #   -> $4 (extra_setup): the open node commands before log in to internal machine
 #   -> $5 (internal_node): the internal machine to log in.
 #
+  local shell_base=$(basename $SHELL)
   if test "$#" -le 3; then
     local account=$1; local open_node=$2; local extra_setup=""; local internal_account=$account; local internal_node=$3;
   elif test "$#" -le 4; then
@@ -194,7 +197,8 @@ ssh-powerline-tunel(){
   echo "ssh-powerline-wcmd" \
          "-A -t -Y " \
          "-l $account $open_node " \
-         "\"which ${shell_base} > /dev/null 2> /dev/null && exec $(basename $SHELL) -c \\\"source \\\$HOME/.zshrc &>! /dev/null " \
+         "\"which ${shell_base} > /dev/null 2> /dev/null && export SHELL=\\\$(which ${shell_base})" \
+           "&& exec ${shell_base} -c \\\"source \\\$HOME/.zshrc &>! /dev/null " \
            "&& $internal_cmd\\\" || export SHELL=\\\$HOME/DotFiles/bin/zsh && test -e \\\$SHELL && export PATH=\\\"\\\$HOME/DotFiles/bin/:\\\$PATH\\\"" \
            "&& exec \\\$SHELL -c \\\"source \\\$HOME/.zshrc &>! /dev/null && $internal_cmd  \\\" " \
            "|| export SHELL=/bin/bash && exec \\\$SHELL -c \\\"source \\\$HOME/.bashrc &>! /dev/null $internal_cmd\\\"\""
