@@ -271,6 +271,31 @@ setopt histignorealldups sharehistory
 
 # ##########################################################################
 # ##########################################################################
+# ## Change shell behavior
+# Add user local configuration:
+test -e "${HOME}/DotFiles/zsh_local" && source "${HOME}/DotFiles/zsh_local"
+# Add cern local configuration:
+#test "$(hostname -d 2> /dev/null)" = "cern.ch" -a -e "${HOME}/DotFiles/zsh_local_cern" && source "$HOME/DotFiles/zsh_local_cern"
+test -d /cvmfs -a -e "${HOME}/DotFiles/zsh_local_cern" && source "${HOME}/DotFiles/zsh_local_cern"
+
+# Change SHELL PROMPT
+if test "$HAS_POWERLINE" -eq "1"; then
+  test -e "$HOME/.shell_prompt.sh" && source "$HOME/.shell_prompt.sh"
+else
+  test -e "$HOME/.shell_prompt_no_pl.sh" && source "$HOME/.shell_prompt_no_pl.sh"
+fi
+
+# Add iterm 2 integration
+test "$HAS_ITERM2" -eq "1" -a -e "${HOME}/.iterm2_shell_integration.zsh" \
+  && source "${HOME}/.iterm2_shell_integration.zsh"
+# Add root if compiled at home
+if test -e "$HOME/root/bin/thisroot.sh" -a "$IGNORE_ROOT" -ne "1"; then
+  pushd $HOME/root/bin/ &>! /dev/null && source thisroot.sh && popd &>! /dev/null
+fi
+# ##########################################################################
+
+# ##########################################################################
+# ##########################################################################
 # ## Misc
 # Change default editor to vim
 export EDITOR='vim'
@@ -301,31 +326,6 @@ if test -d "$HOME/workplaces"; then
   fi
 fi
 # ##########################################################################
-# ##########################################################################
-
-# ##########################################################################
-# ##########################################################################
-# ## Change shell behavior
-# Add user local configuration:
-test -e "${HOME}/DotFiles/zsh_local" && source "${HOME}/DotFiles/zsh_local"
-# Add cern local configuration:
-#test "$(hostname -d 2> /dev/null)" = "cern.ch" -a -e "${HOME}/DotFiles/zsh_local_cern" && source "$HOME/DotFiles/zsh_local_cern"
-test -d /cvmfs -a -e "${HOME}/DotFiles/zsh_local_cern" && source "${HOME}/DotFiles/zsh_local_cern"
-
-# Change SHELL PROMPT
-if test "$HAS_POWERLINE" -eq "1"; then
-  test -e "$HOME/.shell_prompt.sh" && source "$HOME/.shell_prompt.sh"
-else
-  test -e "$HOME/.shell_prompt_no_pl.sh" && source "$HOME/.shell_prompt_no_pl.sh"
-fi
-
-# Add iterm 2 integration
-test "$HAS_ITERM2" -eq "1" -a -e "${HOME}/.iterm2_shell_integration.zsh" \
-  && source "${HOME}/.iterm2_shell_integration.zsh"
-# Add root if compiled at home
-if test -e "$HOME/root/bin/thisroot.sh" -a "$IGNORE_ROOT" -ne "1"; then
-  pushd $HOME/root/bin/ &>! /dev/null && source thisroot.sh && popd &>! /dev/null
-fi
 # ##########################################################################
 
 # ##########################################################################
