@@ -195,7 +195,7 @@ ssh-powerline-tunel(){
          "-A -t -Y " \
          "-l $account $open_node " \
          "\"which ${shell_base} > /dev/null 2> /dev/null && exec $(basename $SHELL) -c \\\"source \\\$HOME/.zshrc &>! /dev/null " \
-           "&& $internal_cmd\\\" || SHELL=\\\$HOME/DotFiles/bin/zsh && test -e \\\$SHELL && export PATH=\\\"\\\$HOME/DotFiles/bin/:\\\$PATH\\\"" \
+           "&& $internal_cmd\\\" || export SHELL=\\\$HOME/DotFiles/bin/zsh && test -e \\\$SHELL && export PATH=\\\"\\\$HOME/DotFiles/bin/:\\\$PATH\\\"" \
            "&& exec \\\$SHELL -c \\\"source \\\$HOME/.zshrc &>! /dev/null && $internal_cmd  \\\" " \
            "|| export SHELL=/bin/bash && exec \\\$SHELL -c \\\"source \\\$HOME/.bashrc &>! /dev/null $internal_cmd\\\"\""
 }
