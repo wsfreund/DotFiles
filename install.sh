@@ -3,10 +3,11 @@
 
 readlink_f(){
 # Re-implement recursive readlink in case system uses BSD readlink
+  input=$1;
   while [ -L "$1" ]; do
-    $1="`readlink "$1"`"
+    input="`readlink "$1"`"
   done
-  echo "$1"
+  echo "$input"
 }
 
 hostname_d(){
