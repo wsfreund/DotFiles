@@ -287,7 +287,7 @@ test -d "$HOME/scripts" && makeAliases "$HOME/scripts"
 test -e "$HOME/.dircolors.256dark" && eval `dircolors "$HOME/.dircolors.256dark"`
 
 # Add screen workspaces to tmp
-if test -d "$HOME/workspaces"; then
+if test -d "$HOME/workplaces"; then
   # If we are not on screen, add screen workplaces on afs to tmp
   if ! beginswith "$TERM" "screen" ]]; then
     mkdir "/tmp/$USER"
