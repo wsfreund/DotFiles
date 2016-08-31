@@ -280,9 +280,9 @@ test -d /cvmfs -a -e "${HOME}/DotFiles/zsh_local_cern" && source "${HOME}/DotFil
 
 # Change SHELL PROMPT
 if test "$HAS_POWERLINE" -eq "1"; then
-  test -e "$HOME/.shell_prompt.sh" && source "$HOME/.shell_prompt.sh"
+  test -e "$HOME/DotFiles/shell_prompt.sh" && source "$HOME/DotFiles/shell_prompt.sh"
 else
-  test -e "$HOME/.shell_prompt_no_pl.sh" && source "$HOME/.shell_prompt_no_pl.sh"
+  test -e "$HOME/DotFiles/shell_prompt_no_pl.sh" && source "$HOME/DotFiles/shell_prompt_no_pl.sh"
 fi
 
 # Add iterm 2 integration

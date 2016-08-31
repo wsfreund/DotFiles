@@ -62,7 +62,6 @@ files=(\
        "$HOME/.screenrc" \
        "$HOME/.zshrc" \
        "$HOME/.dircolors.256dark" \
-       "$HOME/.shell_prompt.sh" \
        "$HOME/.vimrc" \
        "$HOME/.vim" \
       )
