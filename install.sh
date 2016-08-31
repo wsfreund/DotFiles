@@ -4,8 +4,8 @@
 readlink_f(){
 # Re-implement recursive readlink in case system uses BSD readlink
   input=$1;
-  while [ -L "$1" ]; do
-    input="`readlink "$1"`"
+  while [ -L "$input" ]; do
+    input="`readlink "$input"`"
   done
   echo "$input"
 }
