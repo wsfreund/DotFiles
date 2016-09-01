@@ -3,10 +3,11 @@
 
 readlink_f(){
 # Re-implement recursive readlink in case system uses BSD readlink
-  while [ -L "$1" ]; do
-    $1="`readlink "$1"`"
+  input=$1;
+  while [ -L "$input" ]; do
+    input="`readlink "$input"`"
   done
-  echo "$1"
+  echo "$input"
 }
 
 hostname_d(){
@@ -61,7 +62,6 @@ files=(\
        "$HOME/.screenrc" \
        "$HOME/.zshrc" \
        "$HOME/.dircolors.256dark" \
-       "$HOME/.shell_prompt.sh" \
        "$HOME/.vimrc" \
        "$HOME/.vim" \
       )
@@ -107,7 +107,9 @@ if ! test -e $HOME/.oh-my-zsh; then
   git clone https://github.com/wsfreund/oh-my-zsh.git $HOME/.oh-my-zsh
 fi
 
-# TODO Install vim if on cern.
+# TODO Install coreutils if on mac.
+
+# TODO Install vim if no lua.
 
 echo "Installing Vimhalla..."
 git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
