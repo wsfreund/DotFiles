@@ -291,6 +291,7 @@ syntax on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " autocomands
 au BufNewFile  *.m 0r ~/.vim/skeletons/matlab | call StartDate() | call NewMatlabFile()
+au BufNewFile  *.cxx 0r ~/.vim/skeletons/cpp
 au BufWritePre,FileWritePre *.m ks|call LastMod()|'s
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au BufRead,BufNewFile *.tex setl filetype=tex | setl tw=80 | setl colorcolumn=81
