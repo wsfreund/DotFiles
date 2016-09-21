@@ -41,6 +41,7 @@ Plugin 'tpope/vim-abolish'                " Easy multiple substitutions and coer
 Plugin 'chrisbra/csv.vim'                 " Improve csv manipulation and reading
 Plugin 'jmcantrell/vim-virtualenv'        " Add vim integration to pyenv
 Plugin 'edkolev/promptline.vim'           " Adds command line on vim!
+Plugin 'edkolev/tmuxline.vim'             " Adds command
 Plugin 'mhinz/vim-signify'                " Add vcs signs on gutter.
 Plugin 'airblade/vim-gitgutter'           " Add vcs info only for git
 Plugin 'matze/vim-tex-fold'               " Improve tex experience with folding
