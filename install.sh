@@ -64,6 +64,7 @@ files=(\
        "$HOME/.dircolors.256dark" \
        "$HOME/.vimrc" \
        "$HOME/.vim" \
+       "$HOME/.tmux.conf" \
       )
 
 for file in ${files[@]}; do
