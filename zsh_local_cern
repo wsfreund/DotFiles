@@ -33,6 +33,12 @@ setAthena(){
     eval "$1 --lc_all=$LC_ALL";
   fi
 }
+add-rules(){
+  cont=$1; test -n $cont || echo "No container provided!" >&2 ; shift
+  # TODO Make and array of inputs to add the rucio rule
+  rucio add-rule --lifetime "$((120*24*3600))" $cont 1 BNL-OSG2_SCRATCHDISK
+  rucio add-rule --lifetime "$((120*24*3600))" $cont 1 CERN-PROD_SCRATCHDISK
+}
 # ##########################################################################
 
 # ##########################################################################
