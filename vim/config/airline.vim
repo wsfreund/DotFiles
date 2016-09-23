@@ -57,6 +57,8 @@ let g:airline#extensions#tagbar#flags='f'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:airline#extensions#csv#column_display = 'Name'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:airline#extensions#tmuxline#enabled = 0
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "call airline#parts#define_minwidth('hi', 50)
 "call airline#parts#define_condition('foo', 'getcwd() =~ "work_dir"')
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
