@@ -73,6 +73,13 @@ setvar(){
   IFS=$oldIFS; unset oldIFS
 }
 
+# Set variable to value if it is empty
+setdefvar(){
+  oldIFS=$IFS; IFS=":"
+  var=$1; shift; eval "test -n $var && $var=\$* && export $var"
+  IFS=$oldIFS; unset oldIFS
+}
+
 # Checks if string contains substring
 contains() {
   local string="$1"
@@ -298,7 +305,7 @@ fi
 # ##########################################################################
 # ## Misc
 # Change default editor to vim
-export EDITOR='vim'
+export EDITOR='vim -X'
 
 # Make erase send ^? signal
 if ! beginswith "$TERM" "screen"; then
@@ -355,4 +362,3 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 export KEYTIMEOUT=1
 # ##########################################################################
-
