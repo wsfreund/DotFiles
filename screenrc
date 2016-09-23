@@ -321,6 +321,7 @@
 # bind W width
 # bind X remove
 # bind Z reset
+  bind / eval "scrollback 0" "scrollback 500000"
 #
 # I suggest that you don't change the bidnings for
 # 'H' ("log") and 'M' ("monitor") as they are really
