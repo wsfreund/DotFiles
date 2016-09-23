@@ -338,8 +338,8 @@ fi
 # ## Tmux plugins
 setdefvar TMUXIFIERPATH="$HOME/.tmuxifier"
 if test -d $TMUXIFIERPATH; then 
+  addtovar PATH "$TMUXIFIERPATH/bin"
   eval "$(tmuxifier init -)"
-  addtovar PATH "$HOME/.tmuxifier/bin"
 fi
 # ##########################################################################
 # ##########################################################################
