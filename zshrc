@@ -48,7 +48,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras screen ssh-agent python)
+plugins=(git git-extras screen ssh-agent python osx)
 
 # Initialize oh-my-zsh
 source $ZSH/oh-my-zsh.sh
@@ -147,7 +147,6 @@ ssh-powerline(){
 }
 
 ssh-powerline-wcmd(){
-  #set -x
   local HAS_POWERLINE=${HAS_POWERLINE:=0}
   local HAS_ITERM2=${HAS_ITERM2:=0}
   local __cmd=${@[-1]}
@@ -157,7 +156,6 @@ ssh-powerline-wcmd(){
     array+=${@[$i]}
   done
   /usr/bin/ssh -t $array "export HAS_POWERLINE=${(q)HAS_POWERLINE} && export HAS_ITERM2=${(q)HAS_ITERM2} && $__cmd"
-  #set +x
 }
 
 ssh-powerline-tunel(){
@@ -205,10 +203,10 @@ ssh-powerline-tunel(){
          "-A -t -Y " \
          "-l $account $open_node " \
          "\"which ${shell_base} > /dev/null 2> /dev/null && export SHELL=\\\$(which ${shell_base})" \
-           "&& exec ${shell_base} -c \\\"source \\\$HOME/.zshrc &>! /dev/null " \
+           "&& exec ${shell_base} -c \\\"$extra_setup source \\\$HOME/.zshrc &>! /dev/null " \
            "&& $internal_cmd\\\" || export SHELL=\\\$HOME/DotFiles/bin/zsh && test -e \\\$SHELL && export PATH=\\\"\\\$HOME/DotFiles/bin/:\\\$PATH\\\"" \
-           "&& exec \\\$SHELL -c \\\"source \\\$HOME/.zshrc &>! /dev/null && $internal_cmd  \\\" " \
-           "|| export SHELL=/bin/bash && exec \\\$SHELL -c \\\"source \\\$HOME/.bashrc &>! /dev/null $internal_cmd\\\"\""
+           "&& exec \\\$SHELL -c \\\"$extra_setup source \\\$HOME/.zshrc &>! /dev/null && $internal_cmd  \\\" " \
+           "|| export SHELL=/bin/bash && exec \\\$SHELL -c \\\"$extra_setup source \\\$HOME/.bashrc &>! /dev/null $internal_cmd\\\"\""
 }
 
 # cd and ls
