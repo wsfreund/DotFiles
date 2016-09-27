@@ -80,16 +80,29 @@ function GetHighlighShort()
   if l:name != 'lo<>'
     return l:name
   endif
-  return "hi<->"
+  return ""
 endfunction
 function! AirlineInit()
-  let l:start = get(g:,'airline_section_b','')
-  "echoerr '"' . l:start . '"'
-  "if l:start == ''
-    let g:airline_section_b = airline#section#create_left([l:start,'%{GetHighlighShort()}'])
-  "else
-  "  let g:airline_section_b = airline#section#create(['%{GetHighlighShort()}'])
-  "endif
+  let g:airline_section_b = g:airline_section_b.'%{airline#util#append(GetHighlighShort(),0)}'
+  if g:has_powerline
+    let g:obsession_symbol_active=''
+    let g:obsession_symbol_paused=''
+    let g:obsession_symbol_unknown=''
+  else
+    let g:obsession_symbol_active='✔'
+    let g:obsession_symbol_paused='✘'
+    let g:obsession_symbol_unknown='�'
+  endif
+  let g:airline_section_x = substitute(airline#section#create_right(['tagbar',
+          \'%{ObsessionStatus('''.g:obsession_symbol_active.''','''
+            \.g:obsession_symbol_paused.''','''
+            \.g:obsession_symbol_unknown.''')}'
+            \.g:airline_symbols['space'].'Ob'
+            \.g:airline_symbols['space'].g:airline_right_alt_sep.g:airline_symbols['space'], 
+          \'filetype']),
+        \ g:airline_right_alt_sep.g:airline_symbols['space'].'\(%{ObsessionStatus\)',
+        \ '\1','')
+  "let g:airline_section_z = airline#section#create([ 'windowswap', '%3p%% ', 'linenr', ':%3v '])
 endfunction
 autocmd User AirlineAfterInit call AirlineInit()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
