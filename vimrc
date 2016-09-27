@@ -2,6 +2,11 @@
 "  - Change insert color to green (as paste) and paste to
 " insert.
 
+if $HAS_POWERLINE == "1"
+  let g:has_powerline=1
+else
+  let g:has_powerline=0
+endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Vundle and plugins
@@ -11,56 +16,59 @@ filetype off                              " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-" Plugin 'Valloric/YouCompleteMe'         " Autocompletion vim
-Plugin 'mbadran/headlights'               " Adds menu to vim
-Plugin 'wsfreund/vim-airline'             " Improves lower and upper vim bar visualization (+ info, as git branch, etc.)
-Plugin 'vim-airline/vim-airline-themes'   " Airline themes
-if $HAS_POWERLINE == "1"
-  Plugin 'ryanoasis/vim-devicons'         " Adds many icons to vim
+" Plugin 'Valloric/YouCompleteMe'           " Autocompletion vim
+Plugin 'mbadran/headlights'                 " Adds menu to vim
+Plugin 'wsfreund/vim-airline'               " Improves lower and upper vim bar visualization (+ info, as git branch, etc.)
+Plugin 'vim-airline/vim-airline-themes'     " Airline themes
+if g:has_powerline
+  Plugin 'ryanoasis/vim-devicons'           " Adds many icons to vim
 endif
-Plugin 'Konfekt/FastFold'                 " Improve folding speed
-Plugin 'tmhedberg/SimpylFold'             " Add folding syntax to python
-Plugin 'Shougo/neocomplete.vim'           " Adds autocomplete
-Plugin 'lrvick/Conque-Shell'              " Shell inside vim
-Plugin 'scrooloose/nerdtree'              " The NERDTREE!
-Plugin 'Xuyuanp/nerdtree-git-plugin'      " Git information on nerdtree
-Plugin 'jistr/vim-nerdtree-tabs'          " Set nerdtree compatible with tabs
-Plugin 'altercation/vim-colors-solarized' " Nice color package
-Plugin 'flazz/vim-colorschemes'           " Adds more colorschemes
-Plugin 'scrooloose/syntastic'             " Really nice pre-compile error check
-Plugin 'majutsushi/tagbar'                " Nice class navigatation
-Plugin 'gilsondev/searchtasks.vim'        " Use to search TODO, FIXME, XXX on project (SearchTasksGrep **/*.m)
-Plugin 'mbbill/undotree'                  " Add visualization and interaction with undotree
-Plugin 'tpope/vim-fugitive'               " Git integration to vim
-" Plugin 'tpope/vim-pathogen'             " Although this is not been used, it deserves to stay here.
-Plugin 'vim-scripts/YankRing.vim'         " A really good extra yanking tool.
-Plugin 'pthrasher/conqueterm-vim'         " Run terminal in vim
-Plugin 'yegappan/grep'                    " Grep useful commands
-Plugin 'junegunn/vim-easy-align'          " Alignment tool
-Plugin 'tpope/vim-abolish'                " Easy multiple substitutions and coersion
-Plugin 'chrisbra/csv.vim'                 " Improve csv manipulation and reading
-Plugin 'jmcantrell/vim-virtualenv'        " Add vim integration to pyenv
-Plugin 'edkolev/promptline.vim'           " Adds command line on vim!
-Plugin 'edkolev/tmuxline.vim'             " Adds command
-Plugin 'mhinz/vim-signify'                " Add vcs signs on gutter.
-Plugin 'airblade/vim-gitgutter'           " Add vcs info only for git
-Plugin 'matze/vim-tex-fold'               " Improve tex experience with folding
-Plugin 'nelstrom/vim-markdown-folding'    " Adds markdown folding
-Plugin 'haya14busa/incsearch.vim'         " Improve vim searching
-Plugin 'octol/vim-cpp-enhanced-highlight' " Recognizes C++11/14 features and
-                                          " adds highlighting for methods/classes
-Plugin 'tpope/vim-surround'               " Surround text with set of chars
-Plugin 'Konfekt/FoldText'                 " Set special text for the folds with percentage
-" Plugin 'LaTeX-Box-Team/LaTeX-Box'       " Adds better interation with latex
-call vundle#end()                         " required
-filetype plugin indent on                 " required
+Plugin 'Konfekt/FastFold'                   " Improve folding speed
+Plugin 'tmhedberg/SimpylFold'               " Add folding syntax to python
+Plugin 'Shougo/neocomplete.vim'             " Adds autocomplete
+Plugin 'lrvick/Conque-Shell'                " Shell inside vim
+Plugin 'scrooloose/nerdtree'                " The NERDTREE!
+Plugin 'Xuyuanp/nerdtree-git-plugin'        " Git information on nerdtree
+Plugin 'jistr/vim-nerdtree-tabs'            " Set nerdtree compatible with tabs
+Plugin 'altercation/vim-colors-solarized'   " Nice color package
+Plugin 'flazz/vim-colorschemes'             " Adds more colorschemes
+Plugin 'scrooloose/syntastic'               " Really nice pre-compile error check
+Plugin 'majutsushi/tagbar'                  " Nice class navigatation
+Plugin 'gilsondev/searchtasks.vim'          " Use to search TODO, FIXME, XXX on project (SearchTasksGrep **/*.m)
+Plugin 'mbbill/undotree'                    " Add visualization and interaction with undotree
+Plugin 'tpope/vim-fugitive'                 " Git integration to vim
+" Plugin 'tpope/vim-pathogen'               " Although this is not been used, it deserves to stay here.
+Plugin 'vim-scripts/YankRing.vim'           " A really good extra yanking tool.
+Plugin 'pthrasher/conqueterm-vim'           " Run terminal in vim
+Plugin 'yegappan/grep'                      " Grep useful commands
+Plugin 'junegunn/vim-easy-align'            " Alignment tool
+Plugin 'tpope/vim-abolish'                  " Easy multiple substitutions and coersion
+Plugin 'chrisbra/csv.vim'                   " Improve csv manipulation and reading
+Plugin 'jmcantrell/vim-virtualenv'          " Add vim integration to pyenv
+Plugin 'edkolev/promptline.vim'             " Adds command line on vim!
+Plugin 'edkolev/tmuxline.vim'               " Adds command
+Plugin 'mhinz/vim-signify'                  " Add vcs signs on gutter.
+Plugin 'airblade/vim-gitgutter'             " Add vcs info only for git
+Plugin 'matze/vim-tex-fold'                 " Improve tex experience with folding
+Plugin 'nelstrom/vim-markdown-folding'      " Adds markdown folding
+Plugin 'haya14busa/incsearch.vim'           " Improve vim searching
+Plugin 'octol/vim-cpp-enhanced-highlight'   " Recognizes C++11/14 features and
+                                            " adds highlighting for methods/classes
+Plugin 'tpope/vim-surround'                 " Surround text with set of chars
+Plugin 'Konfekt/FoldText'                   " Set special text for the folds with percentage
+" Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Adds better interation with latex
+Plugin 'tmux-plugins/vim-tmux'              " Adds syntax highligh for tmux.conf
+Plugin 'tmux-plugins/vim-tmux-focus-events' " Makes vim focus events work on tmux
+Plugin 'tpope/vim-obsession'                " Save current session status
+call vundle#end()                           " required
+filetype plugin indent on                   " required
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Functions taken from the internet + custom made
-fun LastMod()
+fun! LastMod()
   exe "g/% - Last Modified: /s/% - Last Modified: .*/% - Last Modified: " .
   \ strftime("%a, %d %b %Y")
 endfun
@@ -113,18 +121,18 @@ function! s:CombineSelection(line1, line2, cp)
   execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
 endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function HighlightNonAsciiOff()
+function! HighlightNonAsciiOff()
   echom "Setting non-ascii highlight off"
   highlight nonascii none
   let g:is_non_ascii_on=0
 endfunction
-function HighlightNonAsciiOn()
+function! HighlightNonAsciiOn()
   au BufReadPost * syntax match nonascii "[^\x00-\x7F]" containedin=cComment,vimLineComment,pythonComment
   echom "Setting non-ascii highlight on"
   highlight nonascii cterm=underline ctermfg=red ctermbg=none term=underline
   let g:is_non_ascii_on=1
 endfunction
-function ToggleHighlightNonascii()
+function! ToggleHighlightNonascii()
   if g:is_non_ascii_on == 1
     call HighlightNonAsciiOff()
   else
@@ -132,7 +140,7 @@ function ToggleHighlightNonascii()
   endif
 endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function ToggleHLSearch()
+function! ToggleHLSearch()
   if &hls
     set nohls
   else
@@ -140,7 +148,7 @@ function ToggleHLSearch()
   endif
 endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function TogglePaste()
+function! TogglePaste()
   if !exists("g:is_paste_on")
     let g:is_paste_on = 0
   endif
@@ -155,7 +163,7 @@ function TogglePaste()
   endif
 endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function ToggleListChar()
+function! ToggleListChar()
   if !exists("b:is_list_on")
     let b:is_list_on = 0
   endif
@@ -196,7 +204,7 @@ function! SummarizeTabs()
   endtry
 endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function ToggleNumberFoldColum()
+function! ToggleNumberFoldColum()
   if !exists("b:is_number_on")
     let b:is_number_on = 1
   endif
@@ -215,7 +223,7 @@ function ToggleNumberFoldColum()
   endif
 endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function ToggleRemap()
+function! ToggleRemap()
   setl wrapmargin=70
   im :<CR> :<CR>
 endfunction

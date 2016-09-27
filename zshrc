@@ -48,7 +48,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras screen ssh-agent python osx)
+plugins=(git git-extras screen ssh-agent python osx tmux)
 
 # Initialize oh-my-zsh
 source $ZSH/oh-my-zsh.sh
@@ -341,6 +341,35 @@ if test -d $TMUXIFIERPATH; then
   addtovar PATH "$TMUXIFIERPATH/bin"
   eval "$(tmuxifier init -)"
 fi
+# complete words from tmux pane(s) {{{1
+# Usage: Push ^X^t to search for prefix completion and ^X^X to search for matches
+# Source: https://gist.github.com/blueyed/6856354
+_tmux_pane_words() {
+  local expl
+  local -a w
+  if [[ -z "$TMUX_PANE" ]]; then
+    _message "not running inside tmux!"
+    return 1
+  fi
+  # capture current pane first
+  w=( ${(u)=$(tmux capture-pane -J -p)} )
+  for i in $(tmux list-panes -F '#P'); do
+    # skip current pane (handled above)
+    [[ "$TMUX_PANE" = "$i" ]] && continue
+    w+=( ${(u)=$(tmux capture-pane -J -p -t $i)} )
+  done
+  _wanted values expl 'words from current tmux pane' compadd -a w
+}
+zle -C tmux-pane-words-prefix   complete-word _generic
+zle -C tmux-pane-words-anywhere complete-word _generic
+bindkey '^X^t' tmux-pane-words-prefix
+bindkey '^X^T' tmux-pane-words-anywhere
+zstyle ':completion:tmux-pane-words-(prefix|anywhere):*' completer _tmux_pane_words
+zstyle ':completion:tmux-pane-words-(prefix|anywhere):*' ignore-line current
+# display the (interactive) menu on first execution of the hotkey
+zstyle ':completion:tmux-pane-words-(prefix|anywhere):*' menu yes select interactive
+zstyle ':completion:tmux-pane-words-anywhere:*' matcher-list 'b:=* m:{A-Za-z}={a-zA-Z}'
+# }}}
 # ##########################################################################
 # ##########################################################################
 
