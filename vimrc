@@ -123,13 +123,13 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! HighlightNonAsciiOff()
   echom "Setting non-ascii highlight off"
-  highlight nonascii none
+  highlight nonascii NONE
   let g:is_non_ascii_on=0
 endfunction
 function! HighlightNonAsciiOn()
   au BufReadPost * syntax match nonascii "[^\x00-\x7F]" containedin=cComment,vimLineComment,pythonComment
   echom "Setting non-ascii highlight on"
-  highlight nonascii cterm=underline ctermfg=red ctermbg=none term=underline
+  highlight nonascii cterm=underline ctermfg=red ctermbg=NONE term=underline
   let g:is_non_ascii_on=1
 endfunction
 function! ToggleHighlightNonascii()
@@ -403,9 +403,9 @@ so $VIMRUNTIME/menu.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Changes window frontiers
-highlight VertSplit ctermfg=59 ctermbg=none guibg=none
+highlight VertSplit ctermfg=59 ctermbg=NONE guibg=NONE
 highlight CursorLine ctermbg=232
-"highlight VertSplit ctermfg=black ctermbg=black guifg=none guibg=none " This
+"highlight VertSplit ctermfg=black ctermbg=black guifg=NONE guibg=NONE " This
 set fillchars=vert:\|,fold:\ 
 "set fillchars=vert:\ ,fold:\ ,diff:- " use to deactivate division
 "set fillchars=vert:,fold:-,diff:- " use to deactivate division
