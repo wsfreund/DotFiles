@@ -118,3 +118,9 @@ vim -E -c VundleInstall -c qa
 
 # TODO Install NERD Font and add echo message to tell user to change font!
 
+# TODO Install Tmux
+if ! test "$(tmux -V)" -gt "2.1"; then
+  true;
+  #git clone https://github.com/tmux/tmux.git
+  #git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
