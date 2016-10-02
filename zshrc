@@ -150,19 +150,19 @@ test -d "$HOME/scripts" && makeAliases "$HOME/scripts"
 test -e "$HOME/.dircolors.256dark" && eval `dircolors "$HOME/.dircolors.256dark"`
 
 # Add screen workspaces to tmp
-if test -d "$HOME/workplaces"; then
-  # If we are not on screen, add screen workplaces on afs to tmp
-  if ! beginswith "$TERM" "screen" ]]; then
-    mkdir "/tmp/$USER"
-
-    if [ -e "/tmp/$USER/workplaces" ]; then
-      rm "/tmp/$USER/workplaces/"*
-    fi
-
-    cp -r "$HOME/workplaces" "/tmp/$USER/"
-    chmod 640 "/tmp/$USER/workplaces/"*
-  fi
-fi
+#if test -d "$HOME/workplaces"; then
+#  # If we are not on screen, add screen workplaces on afs to tmp
+#  if ! beginswith "$TERM" "screen" ]]; then
+#    mkdir "/tmp/$USER"
+#
+#    if [ -e "/tmp/$USER/workplaces" ]; then
+#      rm "/tmp/$USER/workplaces/"*
+#    fi
+#
+#    cp -r "$HOME/workplaces" "/tmp/$USER/"
+#    chmod 640 "/tmp/$USER/workplaces/"*
+#  fi
+#fi
 # ##########################################################################
 # ##########################################################################
 
