@@ -1,8 +1,21 @@
-#!/bin/sh
+#!/bin/env zsh
 test "$HAS_POWERLINE" -eq "1" && roa='' || roa='«'
-$TMUX_PLUGIN_MANAGER_PATH/tmux-mem-cpu-load/tmux-mem-cpu-load \
+output=$($TMUX_PLUGIN_MANAGER_PATH/tmux-mem-cpu-load/tmux-mem-cpu-load \
   --graph-lines 0 \
   --cpu-mode 1 \
   --interval 1 \
-  --averages-count 1 \
-  #| sed "s/\(.*MB\)  \(.*%\) \(.*\)/MEM: \1 ${roa} CPU: \2 ${roa} load: \3/"
+  --averages-count 1)
+#echo $output
+echo $output | awk "{
+split( \$1, mem, \"/\" )
+mem[2]=strtonum(mem[2])
+if ( mem[1] >= .9 * mem[2] ) printf \"#[fg=colour160]\";
+else if ( mem[1] >= .7 * mem[2] ) printf \"#[fg=colour202]\";
+printf \"%s#[fg=colour192] \", \$1
+if ( strtonum(\$2) >= $(( 90. * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour160]\";
+else if ( strtonum(\$2) > $(( 70. * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour202]\";
+printf \"%s#[fg=colour192] \", \$2
+if ( strtonum(\$3) >= ${OMP_NUM_THREADS} ) printf \"#[fg=colour160]\";
+else if ( strtonum(\$3) > $(( .70 * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour202]\";
+printf \"%s#[fg=colour192] \", \$3
+}"

@@ -57,6 +57,10 @@ link_dotfile(){
   fi
 }
 
+if ! git config --get core.excludesfile; then
+  git config --global core.excludesfile ~/.gitignore_global
+fi
+
 files=(\
        "$HOME/.ssh/config" \
        "$HOME/.screenrc" \
@@ -65,6 +69,7 @@ files=(\
        "$HOME/.vimrc" \
        "$HOME/.vim" \
        "$HOME/.tmux.conf" \
+       "$HOME/.gitignore_global" \
       )
 
 for file in ${files[@]}; do
@@ -119,8 +124,11 @@ vim -E -c VundleInstall -c qa
 # TODO Install NERD Font and add echo message to tell user to change font!
 
 # TODO Install Tmux
-if ! test "$(tmux -V)" -gt "2.1"; then
+if ! test "$(tmux -V | sed 's/tmux //g')" -ge "2.2"; then
   true;
   #git clone https://github.com/tmux/tmux.git
-  #git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+if test \! -d ~/.tmux/plugins/tpm; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
