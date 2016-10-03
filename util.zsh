@@ -89,12 +89,12 @@ ssh-powerline(){
   while :; do
     case $1 in
       --cmd)
-        local start_command="START_COMMAND=$2 &&"
+        local start_command="export START_COMMAND=$2 &&"
         shift 2
         continue
         ;;
       --cmd=?*)
-        local start_command="START_COMMAND=${1#*=} &&"
+        local start_command="export START_COMMAND=${1#*=} &&"
         ;;
       --) # End of all options.
         shift

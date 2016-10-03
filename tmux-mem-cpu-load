@@ -19,4 +19,3 @@ if ( strtonum(\$3) >= ${OMP_NUM_THREADS} ) printf \"#[fg=colour160]\";
 else if ( strtonum(\$3) > $(( .70 * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour202]\";
 printf \"%s#[fg=colour192] \", \$3
 }"
-#echo $output | awk "if (\$1 >= $ )" if ( avg >= 90 ) grade="A";
