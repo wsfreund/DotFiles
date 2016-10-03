@@ -85,8 +85,28 @@ makeAliases(){
 
 # Substitute for standard ssh exporting if original connection has powerline
 ssh-powerline(){
+  local start_command=""
+  while :; do
+    case $1 in
+      --cmd)
+        local start_command="START_COMMAND=$2 &&"
+        shift 2
+        continue
+        ;;
+      --cmd=?*)
+        local start_command="START_COMMAND=${1#*=} &&"
+        ;;
+      --) # End of all options.
+        shift
+        break
+        ;;
+      *) # Default case: If no more options then break out of the loop.
+        break
+    esac
+    shift
+  done
   local shell_base=$(basename $SHELL)
-  local __cmd="which ${shell_base} > /dev/null 2> /dev/null && export SHELL=\$(which ${shell_base}) && exec ${shell_base} -l || SHELL=\$HOME/DotFiles/bin/zsh && test -e \$SHELL && export PATH=\"\$HOME/DotFiles/bin/:\$PATH\"&& exec \$SHELL -l || export SHELL=/bin/bash && exec \$SHELL -l"
+  local __cmd="$start_command which ${shell_base} > /dev/null 2> /dev/null && export SHELL=\$(which ${shell_base})d && exec ${shell_base} -l || SHELL=\$HOME/DotFiles/bin/zsh && test -e \$SHELL && export PATH=\"\$HOME/DotFiles/bin/:\$PATH\"&& exec \$SHELL -l || export SHELL=/bin/bash && exec \$SHELL -l"
   ssh-powerline-wcmd "${@[@]}" $__cmd
 }
 
@@ -128,6 +148,7 @@ ssh-powerline-tunel(){
 #   -> $3 (internal_account): the log in account to use in the internal node
 #   -> $4 (extra_setup): the open node commands before log in to internal machine
 #   -> $5 (internal_node): the internal machine to log in.
+#   -> $6 (internal_node command): the internal machine to log in.
 #
   local shell_base=$(basename $SHELL)
   if test "$#" -le 3; then
@@ -135,14 +156,14 @@ ssh-powerline-tunel(){
   elif test "$#" -le 4; then
     local account=$1; local open_node=$2; local extra_setup=$3; local internal_account=$account; local internal_node=$4;
   else
-    local account=$1; local open_node=$2; local extra_setup=$3; local internal_account=$4; local internal_node=$5;
+    local account=$1; local open_node=$2; local extra_setup=$3; local internal_account=$4; local internal_node=$5; local internal_node_cmd=$6;
   fi
   if test "$4" = "1" -o "$5" = "1"; then
     ignore_asetup='IGNORE_ASETUP=1'
   fi
   local __cmd=""
   test -n "$extra_setup" && link="&&"
-  internal_cmd="$extra_setup $link ssh-powerline -A -t -Y -l $internal_account $internal_node"
+  local internal_cmd="$extra_setup $link ssh-powerline --cmd=${internal_node_cmd} -A -t -Y -l $internal_account $internal_node"
   echo "ssh-powerline-wcmd" \
          "-A -t -Y " \
          "-l $account $open_node " \
