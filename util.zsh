@@ -89,12 +89,13 @@ ssh-powerline(){
   while :; do
     case $1 in
       --cmd)
-        local start_command="START_COMMAND=$2 &&"
+        local start_command="export START_COMMAND=$2 &&"
         shift 2
         continue
         ;;
       --cmd=?*)
-        local start_command="START_COMMAND=${1#*=} &&"
+        local start_command="export START_COMMAND=${1#*=} &&"
+        shift
         ;;
       --) # End of all options.
         shift
@@ -106,7 +107,7 @@ ssh-powerline(){
     shift
   done
   local shell_base=$(basename $SHELL)
-  local __cmd="$start_command which ${shell_base} > /dev/null 2> /dev/null && export SHELL=\$(which ${shell_base})d && exec ${shell_base} -l || SHELL=\$HOME/DotFiles/bin/zsh && test -e \$SHELL && export PATH=\"\$HOME/DotFiles/bin/:\$PATH\"&& exec \$SHELL -l || export SHELL=/bin/bash && exec \$SHELL -l"
+  local __cmd="$start_command which ${shell_base} > /dev/null 2> /dev/null && export SHELL=\$(which ${shell_base}) && exec ${shell_base} -l || SHELL=\$HOME/DotFiles/bin/zsh && test -e \$SHELL && export PATH=\"\$HOME/DotFiles/bin/:\$PATH\"&& exec \$SHELL -l || export SHELL=/bin/bash && exec \$SHELL -l"
   ssh-powerline-wcmd "${@[@]}" $__cmd
 }
 
@@ -117,7 +118,7 @@ ssh-powerline-wcmd(){
   length=$((${#@}-1))
   set -A array
   for i in $(seq $(($length))); do
-    array+=${@[$i]}
+    test "${@[$i]}" != "--cmd=" && array+=${@[$i]}
   done
   /usr/bin/ssh -t $array "export HAS_POWERLINE=${(q)HAS_POWERLINE} && export HAS_ITERM2=${(q)HAS_ITERM2} && $__cmd"
 }
