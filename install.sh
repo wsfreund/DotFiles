@@ -109,6 +109,10 @@ if test "$host_domain" = "lps.ufrj.br"; then
   #fi
 fi
 
+if ! git config --get core.excludesfile > /dev/null; then
+  git config --global core.excludesfile ~/.gitignore_global
+fi
+
 if ! test -e $HOME/.oh-my-zsh; then
   git clone https://github.com/wsfreund/oh-my-zsh.git $HOME/.oh-my-zsh
 fi
@@ -117,18 +121,32 @@ fi
 
 # TODO Install vim if no lua.
 
-echo "Installing Vimhalla..."
-git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
-vim -E -c VundleInstall -c qa
+#echo "Installing Vimhalla..."
+#git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
+#vim -E -c VundleInstall -c qa
 
 # TODO Install NERD Font and add echo message to tell user to change font!
 
 # TODO Install Tmux
-if ! test "$(tmux -V | sed 's/tmux //g')" -ge "2.2"; then
-  true;
-  #git clone https://github.com/tmux/tmux.git
+if test $(bc <<< "$(tmux -V | sed 's/tmux //g') < 2.2") -eq "1"; then
+  git clone https://github.com/tmux/tmux.git $HOME/DotFiles/tmux-source
+  pushd $HOME/DotFiles/tmux-source > /dev/null
+  if [ $(uname) = "Linux" ]; then
+    sh autogen.sh
+    ./configure LDFLAGS="-Wl,-L/usr/local/lib" --prefix="$HOME/DotFiles"
+    make install
+  elif [ $(uname) = "Darwin" ]; then
+    sh autogen.sh
+    ./configure LDFLAGS="-Wl,-rpath/usr/local/lib" --prefix="$HOME/DotFiles"
+    make install
+  fi
+  $HOME/DotFiles/bin/tmux source ~/.tmux.conf
+  popd > /dev/null
 fi
 
 if test \! -d ~/.tmux/plugins/tpm; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
+
+$HOME/.tmux/plugins/tpm/bin/install_plugins
+$HOME/.tmux/plugins/tpm/bin/update_plugins all
