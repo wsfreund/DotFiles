@@ -11,11 +11,14 @@ split( \$1, mem, \"/\" )
 mem[2]=strtonum(mem[2])
 if ( mem[1] >= .9 * mem[2] ) printf \"#[fg=colour160]\";
 else if ( mem[1] >= .7 * mem[2] ) printf \"#[fg=colour202]\";
+else if ( mem[1] < .1 * mem[2] ) printf \"#[fg=colour2]\";
 printf \"%s#[fg=colour192] \", \$1
 if ( strtonum(\$2) >= $(( 90. * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour160]\";
 else if ( strtonum(\$2) > $(( 70. * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour202]\";
+else if ( strtonum(\$2) < $(( 10. * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour2]\";
 printf \"%s#[fg=colour192] \", \$2
 if ( strtonum(\$3) >= ${OMP_NUM_THREADS} ) printf \"#[fg=colour160]\";
 else if ( strtonum(\$3) > $(( .70 * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour202]\";
+else if ( strtonum(\$3) < $(( .1 * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour2]\";
 printf \"%s#[fg=colour192] \", \$3
 }"
