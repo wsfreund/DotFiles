@@ -57,7 +57,7 @@ link_dotfile(){
   fi
 }
 
-if ! git config --get core.excludesfile; then
+if ! git config --get core.excludesfile > /dev/null; then
   git config --global core.excludesfile ~/.gitignore_global
 fi
 
@@ -78,12 +78,8 @@ done
 
 if test "$host_domain" = "lps.ufrj.br"; then
   #${files[${#files[*]}+1]}=".bashrc"
-  backup "$HOME/.bashrc"
-  echo "Creating link '$HOME/.bashrc' to '$HOME/DotFiles/bashrc_lps'..."
-  ln -s "$HOME/DotFiles/bashrc_lps" "$HOME/.bashrc"
-  backup "$HOME/.bash_profile"
-  echo "Creating link '$HOME/.bash_profile' to '$HOME/DotFiles/bashrc_lps'..."
-  ln -s "$HOME/DotFiles/bashrc_lps" "$HOME/.bash_profile"
+  backup "$HOME/.bashrc" "$HOME/DotFiles/bashrc_lps" && link_dotfile "$HOME/.bashrc" "$HOME/DotFiles/bashrc_lps"
+  backup "$HOME/.bash_profile" "$HOME/DotFiles/bashrc_lps" && link_dotfile "$HOME/.bash_profile" "$HOME/DotFiles/bashrc_lps" 
 fi
 
 if test "$host_domain" = "lps.ufrj.br"; then
@@ -153,8 +149,9 @@ if test \! -d ~/.tmux/plugins/tpm; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
-#if test \! -d ~/.tmuxifier; then
-#  git clone 
+if test \! -d ~/.tmuxifier; then
+  git clone https://github.com/wsfreund/tmuxifier.git ~/.tmuxifier
+fi
 
 $HOME/.tmux/plugins/tpm/bin/install_plugins
 $HOME/.tmux/plugins/tpm/bin/update_plugins all
