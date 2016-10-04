@@ -78,7 +78,12 @@ done
 
 if test "$host_domain" = "lps.ufrj.br"; then
   #${files[${#files[*]}+1]}=".bashrc"
-  backup ".bashrc" "$HOME/DotFiles/bashrc_lps"
+  backup "$HOME/.bashrc"
+  echo "Creating link '$HOME/.bashrc' to '$HOME/DotFiles/bashrc_lps'..."
+  ln -s "$HOME/DotFiles/bashrc_lps" "$HOME/.bashrc"
+  backup "$HOME/.bash_profile"
+  echo "Creating link '$HOME/.bash_profile' to '$HOME/DotFiles/bashrc_lps'..."
+  ln -s "$HOME/DotFiles/bashrc_lps" "$HOME/.bash_profile"
 fi
 
 if test "$host_domain" = "lps.ufrj.br"; then
@@ -125,20 +130,20 @@ fi
 #git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
 #vim -E -c VundleInstall -c qa
 
-# TODO Install NERD Font and add echo message to tell user to change font!
+# TODO Install NERD Font and add echo message to tell user to change terminal font!
 
-# TODO Install Tmux
+# Install Tmux
 if test $(bc <<< "$(tmux -V | sed 's/tmux //g') < 2.2") -eq "1"; then
   git clone https://github.com/tmux/tmux.git $HOME/DotFiles/tmux-source
   pushd $HOME/DotFiles/tmux-source > /dev/null
   if [ $(uname) = "Linux" ]; then
-    sh autogen.sh
-    ./configure LDFLAGS="-Wl,-L/usr/local/lib" --prefix="$HOME/DotFiles"
-    make install
+    sh autogen.sh > /dev/null
+    ./configure LDFLAGS="-Wl,-L/usr/local/lib" --prefix="$HOME/DotFiles" > /dev/null
+    make install > /dev/null
   elif [ $(uname) = "Darwin" ]; then
-    sh autogen.sh
-    ./configure LDFLAGS="-Wl,-rpath/usr/local/lib" --prefix="$HOME/DotFiles"
-    make install
+    sh autogen.sh > /dev/null
+    ./configure LDFLAGS="-Wl,-rpath/usr/local/lib" --prefix="$HOME/DotFiles" > /dev/null
+    make install > /dev/null
   fi
   $HOME/DotFiles/bin/tmux source ~/.tmux.conf
   popd > /dev/null
@@ -147,6 +152,9 @@ fi
 if test \! -d ~/.tmux/plugins/tpm; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
+
+#if test \! -d ~/.tmuxifier; then
+#  git clone 
 
 $HOME/.tmux/plugins/tpm/bin/install_plugins
 $HOME/.tmux/plugins/tpm/bin/update_plugins all

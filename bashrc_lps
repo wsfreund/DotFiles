@@ -1,5 +1,5 @@
-
-test -z "$HAS_POWERLINE" && test -e $HOME/DotFiles/bin && export PATH=$HOME/DotFiles/bin:$PATH \
-                         && export SHELL=$HOME/DotFiles/bin/zsh \
-                         && exec $SHELL -l
-
+if [[ "$-" == *i* ]]; then
+  test -e $HOME/DotFiles/bin && export PATH=$HOME/DotFiles/bin:$PATH \
+                           && export SHELL=$HOME/DotFiles/bin/zsh \
+                           && exec $SHELL -l
+fi
