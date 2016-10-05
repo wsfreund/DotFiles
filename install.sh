@@ -122,9 +122,9 @@ fi
 
 # TODO Install vim if no lua.
 
-#echo "Installing Vimhalla..."
-#git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
-#vim -E -c VundleInstall -c qa
+echo "Installing Vimhalla..."
+git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
+vim -E -c VundleInstall -c qa
 
 # TODO Install NERD Font and add echo message to tell user to change terminal font!
 
