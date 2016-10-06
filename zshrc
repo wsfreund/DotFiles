@@ -63,7 +63,7 @@ source $ZSH/oh-my-zsh.sh
 addtovar PATH "$HOME/DotFiles/bin"
 addtovar LD_LIBRARY_PATH "$HOME/DotFiles/lib"
 addtovar DYLD_LIBRARY_PATH "$HOME/DotFiles/lib"
-addtovar MANPATH "$HOME/DotFiles/share/man"
+#addtovar MANPATH "$HOME/DotFiles/share/man"
 # ##########################################################################
 
 # ##########################################################################
