@@ -188,4 +188,9 @@ cl()
     fi
   fi
 }
+
+cwd() {
+  cd "$@"
+  (unset TMUX; tmux attach -t $(tmux display-message -p '#S') -c $PWD\; detach-client) 2>&1 1>/dev/null
+}
 # ##########################################################################
