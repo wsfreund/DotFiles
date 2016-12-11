@@ -28,9 +28,9 @@ setAthena(){
   lsetup asetup
   if test -z "$1";
   then
-    eval "$DEFAULT_ASETUP --lc_all=$LC_ALL";
+    eval "asetup $DEFAULT_ASETUP --lc_all=$LC_ALL";
   else
-    eval "$1 --lc_all=$LC_ALL";
+    eval "asetup $1 --lc_all=$LC_ALL";
   fi
 }
 add-rules(){
