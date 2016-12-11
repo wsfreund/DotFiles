@@ -160,7 +160,8 @@ function __promptline_ps1 {
 function __promptline_cwd {
   local dir_limit="3"
   local truncation="⋯"
-  local first_field
+  #local first_field="/"
+  local first_field=""
   local part_count=0
   local formatted_cwd=""
   local dir_sep="  "
