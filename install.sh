@@ -70,6 +70,7 @@ files=(\
        "$HOME/.vim" \
        "$HOME/.tmux.conf" \
        "$HOME/.gitignore_global" \
+       "$HOME/.rootrc" \
       )
 
 for file in ${files[@]}; do
