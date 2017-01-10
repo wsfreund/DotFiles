@@ -87,6 +87,7 @@ if [ "$TERM" != "dumb" ]; then
   alias grep="grep --color=always"
   alias egrep="egrep --color=always"
 fi
+alias gstage="git diff-files -z --diff-filter=M --name-only | xargs -0 git add"
 force_color_prompt=yes
 # ##########################################################################
 
