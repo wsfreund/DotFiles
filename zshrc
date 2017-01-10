@@ -52,7 +52,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras screen ssh-agent python osx tmux)
+plugins=(git git-extras screen ssh-agent python osx tmux pyenv)
 
 # Initialize oh-my-zsh
 source $ZSH/oh-my-zsh.sh
@@ -61,9 +61,11 @@ source $ZSH/oh-my-zsh.sh
 # ##########################################################################
 # ##########################################################################
 addtovar PATH "$HOME/DotFiles/bin"
+addtovar PATH "$HOME/DotFiles/include"
 addtovar LD_LIBRARY_PATH "$HOME/DotFiles/lib"
 addtovar DYLD_LIBRARY_PATH "$HOME/DotFiles/lib"
 addtovar MANPATH "$HOME/DotFiles/share/man"
+addtovar PKG_CONFIG_PATH "$HOME/DotFiles/share/pkgconfig" "$HOME/DotFiles/lib/pkgconfig"
 # ##########################################################################
 
 # ##########################################################################
