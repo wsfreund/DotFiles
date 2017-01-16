@@ -2,6 +2,9 @@
 "  - Change insert color to green (as paste) and paste to
 " insert.
 
+"profile start syntastic.log
+"profile! file */syntastic/*
+
 if $HAS_POWERLINE == "1"
   let g:has_powerline=1
 else
@@ -417,3 +420,9 @@ highlight SpellRare  term=undercurl cterm=undercurl ctermfg=Magenta
 highlight SpellLocal term=undercurl cterm=undercurl ctermfg=Cyan
 highlight link TagbarSignature Title
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"function Test2()
+"  echom "Test2:" . @%
+"  echom "Test2:" . expand("<afile>",1)
+"endfunction
+"
+"autocmd! BufWritePost * nested call Test2()

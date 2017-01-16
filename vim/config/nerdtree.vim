@@ -6,6 +6,7 @@ let NERDTreeHighlightCursorline=1
 let NERDTreeMinimalUI=1
 let NERDTreeAutoDeleteBuffer=1
 let NERDTreeIgnore=['\.pyc$[[file]]','\~$','Session.vim']
+let NERDTreeMapHelp='h'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:WebDevIconsNerdTreeGitPluginForceVAlign=0
 " let g:WebDevIconsUnicodeDecorateFolderNodes = 1

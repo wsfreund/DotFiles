@@ -201,9 +201,9 @@ function __promptline_cwd {
       cwd=$PWD
     fi
   else
-    [[ -n ${ZSH_VERSION-} ]] && first_field=$cwd[1,1] || first_field=${cwd::1}
+    true
+    #[[ -n ${ZSH_VERSION-} ]] && first_field=$cwd[1,1] || first_field=${cwd::1}
   fi
-  set +x
 
   # remove leading tilde
   cwd="${cwd#$tilde}"
