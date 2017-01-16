@@ -6,7 +6,7 @@ output=$($TMUX_PLUGIN_MANAGER_PATH/tmux-mem-cpu-load/tmux-mem-cpu-load \
   --interval 1 \
   --averages-count 1)
 #echo $output
-echo $output | awk "{
+echo $output | gawk "{
 split( \$1, mem, \"/\" )
 mem[2]=strtonum(mem[2])
 if ( mem[1] >= .9 * mem[2] ) printf \"#[fg=colour160]\";
