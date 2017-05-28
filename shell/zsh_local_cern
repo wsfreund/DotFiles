@@ -49,7 +49,9 @@ if [ "$IGNORE_ASETUP" -ne "1" -a -e "/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBas
   export ALRB_localConfigDir=$HOME/localConfig
   alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
   if [ "$AUTO_ASETUP" -eq "1" ]; then
+    unsetopt extendedglob
     source "${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh"
+    set extendedglob
   fi
   #setupATLAS
 fi
