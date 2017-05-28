@@ -27,9 +27,9 @@
 	<key>Control</key>
 	<integer>1</integer>
 	<key>CopyLastNewline</key>
-	<true/>
-	<key>CopySelection</key>
 	<false/>
+	<key>CopySelection</key>
+	<true/>
 	<key>CopyWithStylesByDefault</key>
 	<true/>
 	<key>Custom Color Presets</key>
@@ -804,7 +804,7 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>410 382 620 392 0 0 1440 878 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>293 142 918 512 0 0 1440 878 </string>
+	<string>303 252 918 452 0 0 1440 878 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 294 592 584 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
@@ -4580,7 +4580,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-01-15T04:55:32Z</date>
+	<date>2017-01-30T09:12:05Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Show Toolbelt</key>

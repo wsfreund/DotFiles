@@ -25,4 +25,4 @@ Browser.StartUrl:            http://root.cern.ch/root/html/ClassIndex.html
 Canvas.HighLightColor:           0
 Rint.Canvas.HighLightColor:      0
 
-Rint.Logon: $HOME/DotFiles/rootlogon.C
+Rint.Logon: $HOME/DotFiles/root/rootlogon.C

@@ -72,21 +72,23 @@ let zsh_get_rucio_version_str = {
         \'  printf "-%s" "$version"',
         \'}']}
 
-let g:promptline_preset = {
-        \'a' : [ promptline#slices#host({'only_if_ssh':1}), promptline#slices#user() ],
-        \'b' : [ '%*' ],
-        \'c' : [ promptline#slices#cwd({'dir_limit':3}) ],
-        \'x' : [ promptline#slices#jobs(), promptline#slices#vcs_branch({'svn':1}) ],
-        \'y' : [ zsh_get_athena_project_str, zsh_get_athena_version_str, 
-                 \zsh_get_rootcore_release_str, zsh_get_rootcore_version_str, 
-                 \zsh_get_panda_version_str, zsh_get_rucio_version_str,
-                 \zsh_py_env_str ],
-        \'z' : [ '$(git rev-parse --short HEAD 2>/dev/null)', promptline#slices#git_status() ],
-        \'warn' : [ promptline#slices#last_exit_code() ],
-        \'options' : {
-          \'left_sections' : [ 'a', 'b','c' ],
-          \'right_sections' : [ 'warn', 'x', 'y','z' ],
-          \'left_only_sections' : ['y', 'x', 'z', 'a', 'b', 'c', 'warn' ]}}
-let airline#extensions#promptline#color_template='insert'
+if exists("promptline#*")
+  let g:promptline_preset = {
+          \'a' : [ promptline#slices#host({'only_if_ssh':1}), promptline#slices#user() ],
+          \'b' : [ '%*' ],
+          \'c' : [ promptline#slices#cwd({'dir_limit':3}) ],
+          \'x' : [ promptline#slices#jobs(), promptline#slices#vcs_branch({'svn':1}) ],
+          \'y' : [ zsh_get_athena_project_str, zsh_get_athena_version_str, 
+                   \zsh_get_rootcore_release_str, zsh_get_rootcore_version_str, 
+                   \zsh_get_panda_version_str, zsh_get_rucio_version_str,
+                   \zsh_py_env_str ],
+          \'z' : [ '$(git rev-parse --short HEAD 2>/dev/null)', promptline#slices#git_status() ],
+          \'warn' : [ promptline#slices#last_exit_code() ],
+          \'options' : {
+            \'left_sections' : [ 'a', 'b','c' ],
+            \'right_sections' : [ 'warn', 'x', 'y','z' ],
+            \'left_only_sections' : ['y', 'x', 'z', 'a', 'b', 'c', 'warn' ]}}
+  let airline#extensions#promptline#color_template='insert'
+endif
 "let g:airline#extensions#promptline#enabled = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

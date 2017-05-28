@@ -3,16 +3,16 @@
 
 readlink_f(){
 # Re-implement recursive readlink in case system uses BSD readlink
-  input=$1;
+  local input=$1;
   while [ -L "$input" ]; do
-    input="`readlink "$input"`"
+    local input="`readlink "$input"`"
   done
   echo "$input"
 }
 
 hostname_d(){
 # Re-implements hostname domain if using BSD
-  var=`hostname -f`
+  local var=`hostname -f`
   echo "${var#*.}"
 }
 
@@ -24,15 +24,15 @@ bkg_folder="$HOME/DotFiles/backups/$bkg_date"
 host_domain="`hostname -d 2> /dev/null || hostname_d`"
 
 get_dotfile(){
-  base_1=`basename $1`
+  local base_1=`basename $1`
   echo "$HOME/DotFiles/${base_1#.}"
 }
 
 backup(){
-  base_1=`basename $1`
-  dest="$2" && [ -z "$dest" ] && dest="`get_dotfile "$1"`"
+  local base_1=`basename $1`
+  local dest="$2" && [ -z "$dest" ] && local dest="`get_dotfile "$1"`"
   if [ -e "$1" -o -L "$1" ]; then
-    file=`readlink -f "$1" 2>/dev/null || readlink_f "$1"`
+    local file=`readlink -f "$1" 2>/dev/null || readlink_f "$1"`
     if [ \! -e "$1" -a -L "$1" ]; then
       echo "Removing bad link '$1'." && rm "$1"
     elif [ "$file" != "$dest" ]; then
@@ -45,9 +45,9 @@ backup(){
 }
 
 link_dotfile(){
-  dest=$2 && [ -z "$dest" ] && dest="`get_dotfile "$1"`"
+  local dest=$2 && [ -z "$dest" ] && local dest="`get_dotfile "$1"`"
   if [ -e "$1" ]; then
-    file=`readlink -f "$1" 2>/dev/null || readlink_f "$1"`
+    local file=`readlink -f "$1" 2>/dev/null || readlink_f "$1"`
     if [ "$file" != "$dest" ]; then
       echo "WARN: For some reason file $1 still exists."
     fi
@@ -62,31 +62,34 @@ if ! git config --get core.excludesfile > /dev/null; then
 fi
 
 files=(\
-       "$HOME/.ssh/config" \
-       "$HOME/.screenrc" \
-       "$HOME/.zshrc" \
-       "$HOME/.dircolors.256dark" \
-       "$HOME/.vimrc" \
-       "$HOME/.vim" \
-       "$HOME/.tmux.conf" \
-       "$HOME/.gitignore_global" \
-       "$HOME/.rootrc" \
+       "$HOME/.ssh/config" "$HOME/ssh/config" \
+       "$HOME/.screenrc" "$HOME/screen/screenrc" \
+       "$HOME/.zshrc" "$HOME/DotFiles/shell/zshrc" \
+       "$HOME/.dircolors.256dark" "$HOME/DotFiles/shell/dircolors.256dark" \
+       "$HOME/.vimrc" "$HOME/DotFiles/vim/vimrc" \
+       "$HOME/.vim" "" \
+       "$HOME/.tmux.conf" "$HOME/DotFiles/tmux/tmux.conf" \
+       "$HOME/.gitignore_global" "$HOME/git/gitignore_global" \
+       "$HOME/.rootrc" "$HOME/root/rootrc" \
       )
 
-for file in ${files[@]}; do
-  backup "$file" && link_dotfile "$file"
+for idx in $(seq 1 2 $((${#files}/2))); do
+  file=${files[idx-1]}
+  dest=${files[idx]}
+  if [[ -z "$file" ]]; then continue; fi
+  backup "$file" "$dest" && link_dotfile "$file" "$dest"
 done
 
 if test "$host_domain" = "lps.ufrj.br"; then
   #${files[${#files[*]}+1]}=".bashrc"
-  backup "$HOME/.bashrc" "$HOME/DotFiles/bashrc_lps" && link_dotfile "$HOME/.bashrc" "$HOME/DotFiles/bashrc_lps"
-  backup "$HOME/.bash_profile" "$HOME/DotFiles/bashrc_lps" && link_dotfile "$HOME/.bash_profile" "$HOME/DotFiles/bashrc_lps" 
+  backup "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_lps" && link_dotfile "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_lps"
+  backup "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_lps" && link_dotfile "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_lps" 
 fi
 
 if test "$host_domain" = "lps.ufrj.br"; then
   if ! type zsh > /dev/null 2> /dev/null; then
     # Zsh
-    zsh_tgz_file=$HOME/DotFiles/zsh.tgz
+    zsh_tgz_file=$HOME/DotFiles/shell/zsh.tgz
     zsh_install_path=$HOME/DotFiles;
     if ! { type zsh > /dev/null 2>&1 || test -f "$zsh_install_path/bin/zsh"; }; then
       if test \! -f $zsh_tgz_file; then

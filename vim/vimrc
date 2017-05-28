@@ -20,7 +20,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 " Plugin 'Valloric/YouCompleteMe'           " Autocompletion vim
-Plugin 'mbadran/headlights'                 " Adds menu to vim
+"Plugin 'mbadran/headlights'                 " Adds menu to vim
 Plugin 'wsfreund/vim-airline'               " Improves lower and upper vim bar visualization (+ info, as git branch, etc.)
 Plugin 'vim-airline/vim-airline-themes'     " Airline themes
 if g:has_powerline
@@ -29,7 +29,6 @@ endif
 Plugin 'Konfekt/FastFold'                   " Improve folding speed
 Plugin 'tmhedberg/SimpylFold'               " Add folding syntax to python
 Plugin 'Shougo/neocomplete.vim'             " Adds autocomplete
-Plugin 'lrvick/Conque-Shell'                " Shell inside vim
 Plugin 'scrooloose/nerdtree'                " The NERDTREE!
 Plugin 'Xuyuanp/nerdtree-git-plugin'        " Git information on nerdtree
 Plugin 'jistr/vim-nerdtree-tabs'            " Set nerdtree compatible with tabs
@@ -40,7 +39,7 @@ Plugin 'majutsushi/tagbar'                  " Nice class navigatation
 Plugin 'gilsondev/searchtasks.vim'          " Use to search TODO, FIXME, XXX on project (SearchTasksGrep **/*.m)
 Plugin 'mbbill/undotree'                    " Add visualization and interaction with undotree
 Plugin 'tpope/vim-fugitive'                 " Git integration to vim
-" Plugin 'tpope/vim-pathogen'               " Although this is not been used, it deserves to stay here.
+"" Plugin 'tpope/vim-pathogen'               " Although this is not been used, it deserves to stay here.
 Plugin 'vim-scripts/YankRing.vim'           " A really good extra yanking tool.
 Plugin 'pthrasher/conqueterm-vim'           " Run terminal in vim
 Plugin 'yegappan/grep'                      " Grep useful commands
@@ -59,12 +58,17 @@ Plugin 'octol/vim-cpp-enhanced-highlight'   " Recognizes C++11/14 features and
                                             " adds highlighting for methods/classes
 Plugin 'tpope/vim-surround'                 " Surround text with set of chars
 Plugin 'Konfekt/FoldText'                   " Set special text for the folds with percentage
-" Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Adds better interation with latex
+"" Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Adds better interation with latex
 Plugin 'tmux-plugins/vim-tmux'              " Adds syntax highligh for tmux.conf
 Plugin 'tmux-plugins/vim-tmux-focus-events' " Makes vim focus events work on tmux
-Plugin 'tpope/vim-obsession'                " Save current session status
+Plugin 'jreybert/vimagit'                   " Improves git project staging
+Plugin 'vim-ctrlspace/vim-ctrlspace'        " Manage projects
+Plugin 'vim-latex/vim-latex'                " The latex suite
+Plugin 'tpope/vim-dispatch'                 " Run programs on background
 call vundle#end()                           " required
 filetype plugin indent on                   " required
+" Keep all vundle bundles at this list variable:
+let g:vundle_bundles = map(copy(g:vundle#bundles),'v:val.name_spec')
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -130,9 +134,9 @@ function! HighlightNonAsciiOff()
   let g:is_non_ascii_on=0
 endfunction
 function! HighlightNonAsciiOn()
-  au BufReadPost * syntax match nonascii "[^\x00-\x7F]" containedin=cComment,vimLineComment,pythonComment
-  echom "Setting non-ascii highlight on"
   highlight nonascii cterm=underline ctermfg=red ctermbg=NONE term=underline
+  au BufReadPost * syntax match nonascii "[^\x00-\x7F]" containedin=cComment,vimLineComment,vimString,pythonComment,pythonString
+  echom "Setting non-ascii highlight on"
   let g:is_non_ascii_on=1
 endfunction
 function! ToggleHighlightNonascii()
@@ -276,7 +280,7 @@ set laststatus=2             " status line
 set guitablabel=%t
 set number
 set relativenumber
-set switchbuf+=usetab,newtab " Make quickfix respect tab, otherwise open it in a new tab:
+set switchbuf+=usetab " Make quickfix respect tab, otherwise open it in a new tab:
 set fileencoding=utf-8
 set encoding=utf-8
 if $HAS_ITERM2 != "1"
@@ -287,6 +291,7 @@ set scrolloff=5
 set sidescrolloff=5
 set langmenu=en_GB
 set noshowmode               " do not display insert and so on at the command line
+"set modeline
 let $LANG='en_GB'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let maplocalleader = '!'
@@ -307,6 +312,9 @@ au BufNewFile  *.cxx 0r ~/.vim/skeletons/cpp
 au BufWritePre,FileWritePre *.m ks|call LastMod()|'s
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au BufRead,BufNewFile *.tex setl filetype=tex | setl tw=80 | setl colorcolumn=81
+if exists("NeoCompleteLock")
+  autocmd FileType tex NeoCompleteLock
+endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " au BufRead,BufNewFile *.m  setl tw=80 | setl colorcolumn=81
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -338,20 +346,22 @@ nnoremap <silent> <c-w><c-y> :YRShow<CR>
 nnoremap <c-w><c-g> :TagbarToggle<cr>
 nnoremap <c-w><c-t> :NERDTreeTabsToggle<CR>
 nnoremap <silent> <c-w><c-u> :UndotreeToggle<CR>
-nnoremap ga <Plug>(EasyAlign)
-nnoremap gu :%s/\s\+$//e<enter>
-nnoremap <F1> :scriptnames<CR>
-nnoremap <F2> :echo GetHighlighPlace() <CR>
-nnoremap <F3> :call ToggleRemap()<CR>
-nnoremap <F4> :retab<CR>
-nnoremap <F5> :w!<CR>:set textwidth=70<CR>
-nnoremap <F6> :w!<CR>:!aspell --lang=pt_BR --encoding=utf-8 check %<CR>:e! %<CR>
-nnoremap <F7> :call ToggleHLSearch()<CR>
-nnoremap <F8> :call ToggleList("Quickfix List", 'c')<CR>
-nnoremap <F9> :Bgrep<CR>
-nnoremap <silent> <F10> :redraw!<CR>
-nnoremap <silent> <F11> :Errors<CR>
-nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
+if exists("g:loaded_easy_align")
+  nnoremap ga <Plug>(EasyAlign)
+  nnoremap gu :%s/\s\+$//e<enter>
+endif
+"nnoremap <F1> :scriptnames<CR>
+"nnoremap <F2> :echo GetHighlighPlace() <CR>
+"nnoremap <F3> :call ToggleRemap()<CR>
+"nnoremap <F4> :retab<CR>
+"nnoremap <F5> :w!<CR>:set textwidth=70<CR>
+"nnoremap <F6> :w!<CR>:!aspell --lang=pt_BR --encoding=utf-8 check %<CR>:e! %<CR>
+"nnoremap <F7> :call ToggleHLSearch()<CR>
+"nnoremap <F8> :call ToggleList("Quickfix List", 'c')<CR>
+"nnoremap <F9> :Bgrep<CR>
+"nnoremap <silent> <F10> :redraw!<CR>
+"nnoremap <silent> <F11> :Errors<CR>
+"nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Make undo and redo loop over all last changes:
 "nnoremap u g-
@@ -390,7 +400,6 @@ autocmd FileType c,cpp,vim,xml,html,xhtml,perl,python setl foldlevel=20
 autocmd FileType tex setlocal foldlevel=0 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Others
-silent! call HighlightNonAsciiOn()
 command! -range -nargs=0 Overline        call s:CombineSelection(<line1>, <line2>, '0305')
 command! -range -nargs=0 Underline       call s:CombineSelection(<line1>, <line2>, '0332')
 command! -range -nargs=0 DoubleUnderline call s:CombineSelection(<line1>, <line2>, '0333')
@@ -418,11 +427,21 @@ highlight SpellBad   term=undercurl cterm=undercurl ctermfg=Red
 highlight SpellCap   term=undercurl cterm=undercurl ctermfg=27
 highlight SpellRare  term=undercurl cterm=undercurl ctermfg=Magenta
 highlight SpellLocal term=undercurl cterm=undercurl ctermfg=Cyan
+hi link CtrlSpaceNormal   airline_x_bold
+hi link CtrlSpaceSelected airline_y
+hi link CtrlSpaceSearch   airline_z
+hi link CtrlSpaceStatus   airline_x
 highlight link TagbarSignature Title
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"function Test2()
-"  echom "Test2:" . @%
-"  echom "Test2:" . expand("<afile>",1)
-"endfunction
+silent! call HighlightNonAsciiOn()
+silent! call HighlightNonAsciiOn()
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""function Test2()
+""  echom "Test2:" . @%
+""  echom "Test2:" . expand("<afile>",1)
+""endfunction
 "
-"autocmd! BufWritePost * nested call Test2()
+""autocmd! BufWritePost * nested call Test2()
+"
+if filereadable( $HOME . '/DotFiles/vim/vim_local')
+  source $HOME/DotFiles/vim/vim_local
+endif
