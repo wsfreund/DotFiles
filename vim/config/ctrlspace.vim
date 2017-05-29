@@ -1,5 +1,5 @@
-let g:CtrlSpaceSymbols = {}
 if index(g:vundle_bundles, "vim-ctrlspace/vim-ctrlspace") >= 0
+  let g:CtrlSpaceSymbols = {}
   if executable("ag")
     let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
   endif
