@@ -75,6 +75,8 @@ files=(\
       )
 
 for idx in $(seq 1 2 $((${#files[@]}))); do
+  file=${files[idx-1]}
+  dest=${files[idx]}
   if [[ -z "$file" ]]; then continue; fi
   backup "$file" "$dest" && link_dotfile "$file" "$dest"
 done
