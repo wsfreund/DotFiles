@@ -62,20 +62,19 @@ if ! git config --get core.excludesfile > /dev/null; then
 fi
 
 files=(\
-       "$HOME/.ssh/config" "$HOME/ssh/config" \
-       "$HOME/.screenrc" "$HOME/screen/screenrc" \
+       "$HOME/.ssh/config" "$HOME/DotFiles/ssh/config" \
+       "$HOME/.screenrc" "$HOME/DotFiles/screen/screenrc" \
        "$HOME/.zshrc" "$HOME/DotFiles/shell/zshrc" \
        "$HOME/.dircolors.256dark" "$HOME/DotFiles/shell/dircolors.256dark" \
        "$HOME/.vimrc" "$HOME/DotFiles/vim/vimrc" \
        "$HOME/.vim" "" \
        "$HOME/.tmux.conf" "$HOME/DotFiles/tmux/tmux.conf" \
-       "$HOME/.gitignore_global" "$HOME/git/gitignore_global" \
-       "$HOME/.rootrc" "$HOME/root/rootrc" \
+       "$HOME/.gitignore_global" "$HOME/DotFiles/git/gitignore_global" \
+       "$HOME/.rootrc" "$HOME/DotFiles/root/rootrc" \
+       "$HOME/.latexmkrc" "$HOME/DotFiles/latexmk/latexmkrc" \
       )
 
-for idx in $(seq 1 2 $((${#files}/2))); do
-  file=${files[idx-1]}
-  dest=${files[idx]}
+for idx in $(seq 1 2 $((${#files[@]}))); do
   if [[ -z "$file" ]]; then continue; fi
   backup "$file" "$dest" && link_dotfile "$file" "$dest"
 done
