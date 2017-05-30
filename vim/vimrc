@@ -444,6 +444,11 @@ silent! call HighlightNonAsciiOn()
 "
 ""autocmd! BufWritePost * nested call Test2()
 "
+set mouse+=a
+if &term =~ '^screen'
+	" tmux knows the extended mouse mode
+	set ttymouse=xterm2
+endif
 if filereadable( $HOME . '/DotFiles/vim/vim_local')
   source $HOME/DotFiles/vim/vim_local
 endif
