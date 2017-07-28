@@ -11,6 +11,7 @@ packageVersion(){
 # ## shell variables
 # User configuration
 setvar STAGE_SVCCLASS "atlcal"
+setdefvar WORK "/afs/cern.ch/work/$USER[1]/$USER"
 # ##########################################################################
 
 # ##########################################################################
