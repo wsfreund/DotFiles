@@ -396,8 +396,10 @@ set foldmethod=indent
 set foldlevel=20
 set foldlevelstart=20
 autocmd FileType c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
-autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
-autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+"autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+"autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+let g:SimpylFold_fold_docstring = 0
+let g:SimpylFold_docstring_preview = 1
 autocmd FileType c,cpp,vim,xml,html,xhtml,perl,python setl foldlevel=20
 autocmd FileType tex setlocal foldlevel=0 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
