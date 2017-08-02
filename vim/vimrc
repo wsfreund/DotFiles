@@ -346,6 +346,8 @@ nnoremap <silent> <c-w><c-y> :YRShow<CR>
 nnoremap <c-w><c-g> :TagbarToggle<cr>
 nnoremap <c-w><c-t> :NERDTreeTabsToggle<CR>
 nnoremap <silent> <c-w><c-u> :UndotreeToggle<CR>
+nnoremap <C-K> :cp<cr>
+nnoremap <C-L> :cn<cr>
 if exists("g:loaded_easy_align")
   nnoremap ga <Plug>(EasyAlign)
   nnoremap gu :%s/\s\+$//e<enter>
