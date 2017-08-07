@@ -51,7 +51,6 @@ Plugin 'edkolev/promptline.vim'             " Adds command line on vim!
 Plugin 'edkolev/tmuxline.vim'               " Adds command
 Plugin 'mhinz/vim-signify'                  " Add vcs signs on gutter.
 Plugin 'airblade/vim-gitgutter'             " Add vcs info only for git
-Plugin 'matze/vim-tex-fold'                 " Improve tex experience with folding
 Plugin 'nelstrom/vim-markdown-folding'      " Adds markdown folding
 Plugin 'haya14busa/incsearch.vim'           " Improve vim searching
 Plugin 'octol/vim-cpp-enhanced-highlight'   " Recognizes C++11/14 features and
@@ -392,8 +391,6 @@ let ruby_fold=1               " Ruby
 let sh_fold_enabled=1         " sh
 let vimsyn_folding='af'       " Vim script
 let xml_syntax_folding=1      " XML
-let g:tex_fold_enabled=1      " tex (plugin)
-let g:tex_fold_additional_envs = ['enumarate','itemize']
 set foldmethod=indent
 set foldlevel=20
 set foldlevelstart=20
