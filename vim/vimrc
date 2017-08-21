@@ -348,7 +348,7 @@ nnoremap <c-w><c-t> :NERDTreeTabsToggle<CR>
 nnoremap <silent> <c-w><c-u> :UndotreeToggle<CR>
 nnoremap <C-K> :cp<cr>
 nnoremap <C-L> :cn<cr>
-if exists("g:loaded_easy_align") &&  g:loaded_easy_align
+if exists("g:loaded_easy_align")
   nnoremap ga <Plug>(EasyAlign)
   nnoremap gu :%s/\s\+$//e<enter>
 endif
@@ -366,7 +366,7 @@ if &ft!='tex'
   nnoremap <silent> <F11> :Errors<CR>
   nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
 else
-  if exists("g:loaded_dispatch") &&  g:loaded_dispatch
+  if exists("g:loaded_dispatch")
     nnoremap <leader>ll :Dispatch<cr>
   endif
 endif
