@@ -1,17 +1,17 @@
 # DotFiles
 
-The default configurations are always conservative and disables many tools
+The default configurations are always conservative and disable many tools
 which can improve produtivity. In this package, many configurations that were
-found to be useful through these years are shared and enabled by default so
-that new comers can improve their learning curve to the command line.  Everyone
-is invited to help in this task so that users can make the most of the dark
-terminal (yes, b/c dark terminals rulez!) world.
+found to be useful through these years are shared and enabled by default so new
+comers can improve their command line learning curve.  Everyone is invited to
+help in this task, so that users can make the most of the dark terminal (yes,
+b/c dark terminals rulez!) world.
 
 Mainly, three major command line behaviors will be changed: the shell
-interpreter itself will be set to the Z shell, whereas most of the systems use
-bash as default shell; the command line editor 'vim' will be installed with lua
-support and many plugins will be enabled by default; and add some better
-configuration for the screen command.
+interpreter itself, which will be set to the Z shell (whereas most of the
+systems use bash as default shell); the command line editor 'vim' will be
+installed with lua support and many plugins will be enabled by default; and add
+some better configuration for the screen command.
 
 The user previous configuration, when existent, will be copied to
 ~/DotFiles/backups folder and can be restored by simply replacing the links
