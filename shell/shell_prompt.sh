@@ -44,7 +44,12 @@ function zsh_py_env_str {
   version=$(pyenv version-name 2>/dev/null) || return 1
   printf "-%s" "$version"
 }
+
 function __promptline_git_status {
+  [[ -n "$PROMPT_LINE_IGNORE_GIT" ]] && return 1
+
+  #local TIME=$(date +%s%3N);
+
   [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]] || return 1
 
   local added_symbol="●"
@@ -92,6 +97,10 @@ function __promptline_git_status {
   [[ $added_count -gt 0 ]]         && { printf "%s" "$leading_whitespace$added_symbol$added_count"; leading_whitespace=" "; }
   [[ $has_untracked_files -gt 0 ]] && { printf "%s" "$leading_whitespace$has_untracked_files_symbol"; leading_whitespace=" "; }
   [[ $is_clean -gt 0 ]]            && { printf "%s" "$leading_whitespace$clean_symbol"; leading_whitespace=" "; }
+
+  #local END_TIME=$(date +%s%3N);
+
+  #test "$(($END_TIME - $TIME))" -gt 200 && export PROMPT_LINE_IGNORE_GIT="1";
 }
 
 function __promptline_last_exit_code {

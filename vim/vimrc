@@ -346,6 +346,8 @@ nnoremap <silent> <c-w><c-y> :YRShow<CR>
 nnoremap <c-w><c-g> :TagbarToggle<cr>
 nnoremap <c-w><c-t> :NERDTreeTabsToggle<CR>
 nnoremap <silent> <c-w><c-u> :UndotreeToggle<CR>
+nnoremap <C-K> :cp<cr>
+nnoremap <C-L> :cn<cr>
 if exists("g:loaded_easy_align")
   nnoremap ga <Plug>(EasyAlign)
   nnoremap gu :%s/\s\+$//e<enter>
@@ -363,6 +365,10 @@ if &ft!='tex'
   nnoremap <silent> <F10> :redraw!<CR>
   nnoremap <silent> <F11> :Errors<CR>
   nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
+else
+  if exists("g:loaded_dispatch")
+    nnoremap <leader>ll :Dispatch<cr>
+  endif
 endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Make undo and redo loop over all last changes:
