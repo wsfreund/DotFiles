@@ -372,6 +372,7 @@ function DefineFKeys()
     nnoremap <F9> :TLook
   endif
 endfun
+autocmd BufEnter * call DefineFKeys()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Make undo and redo loop over all last changes:
 "nnoremap u g-
