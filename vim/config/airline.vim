@@ -50,6 +50,7 @@ if index(g:vundle_bundles, "wsfreund/vim-airline") >= 0
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   let g:airline#extensions#hunks#enabled = 1
   let g:airline#extensions#hunks#non_zero_only = 0
+  let g:airline#extensions#hunks#only_when_any_changed = 1
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   let g:airline#extensions#wordcount#enabled = 1
   let g:airline#extensions#wordcount#filetypes=''
