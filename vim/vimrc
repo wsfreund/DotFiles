@@ -365,11 +365,11 @@ function DefineFKeys()
     nnoremap <silent> <F10> :redraw!<CR>
     nnoremap <silent> <F11> :Errors<CR>
     nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
-  else
-    nnoremap <F9> :TLook
     if exists("g:loaded_dispatch")
       nnoremap <leader>ll :Dispatch<cr>
     endif
+  else
+    nnoremap <F9> :TLook
   endif
 endfun
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
