@@ -351,20 +351,25 @@ if exists("g:loaded_easy_align")
   nnoremap ga <Plug>(EasyAlign)
   nnoremap gu :%s/\s\+$//e<enter>
 endif
-if &ft!='tex'
-  nnoremap <F1> :scriptnames<CR>
-  nnoremap <F2> :echo GetHighlighPlace() <CR>
-  nnoremap <F3> :call ToggleRemap()<CR>
-  nnoremap <F4> :retab<CR>
-  nnoremap <F5> :w!<CR>:set textwidth=70<CR>
-  nnoremap <F6> :w!<CR>:!aspell --lang=pt_BR --encoding=utf-8 check %<CR>:e! %<CR>
-  nnoremap <F7> :call ToggleHLSearch()<CR>
-  nnoremap <F8> :call ToggleList("Quickfix List", 'c')<CR>
-  nnoremap <F9> :Bgrep<CR>
-  nnoremap <silent> <F10> :redraw!<CR>
-  nnoremap <silent> <F11> :Errors<CR>
-  nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
-endif
+function DefineFKeys()
+  if &ft!='tex'
+    nnoremap <F1> :scriptnames<CR>
+    nnoremap <F2> :echo GetHighlighPlace() <CR>
+    nnoremap <F3> :call ToggleRemap()<CR>
+    nnoremap <F4> :retab<CR>
+    nnoremap <F5> :w!<CR>:set textwidth=70<CR>
+    nnoremap <F6> :w!<CR>:!aspell --lang=pt_BR --encoding=utf-8 check %<CR>:e! %<CR>
+    nnoremap <F7> :call ToggleHLSearch()<CR>
+    nnoremap <F8> :call ToggleList("Quickfix List", 'c')<CR>
+    nnoremap <F9> :Bgrep<CR>
+    nnoremap <silent> <F10> :redraw!<CR>
+    nnoremap <silent> <F11> :Errors<CR>
+    nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
+  else
+    nnoremap <F9> :TLook
+  endif
+endfun
+autocmd FileType * call DefineFKeys()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Make undo and redo loop over all last changes:
 "nnoremap u g-
