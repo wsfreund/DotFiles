@@ -51,7 +51,6 @@ Plugin 'edkolev/promptline.vim'             " Adds command line on vim!
 Plugin 'edkolev/tmuxline.vim'               " Adds command
 Plugin 'mhinz/vim-signify'                  " Add vcs signs on gutter.
 Plugin 'airblade/vim-gitgutter'             " Add vcs info only for git
-Plugin 'matze/vim-tex-fold'                 " Improve tex experience with folding
 Plugin 'nelstrom/vim-markdown-folding'      " Adds markdown folding
 Plugin 'haya14busa/incsearch.vim'           " Improve vim searching
 Plugin 'octol/vim-cpp-enhanced-highlight'   " Recognizes C++11/14 features and
@@ -352,24 +351,28 @@ if exists("g:loaded_easy_align")
   nnoremap ga <Plug>(EasyAlign)
   nnoremap gu :%s/\s\+$//e<enter>
 endif
-if &ft!='tex'
-  nnoremap <F1> :scriptnames<CR>
-  nnoremap <F2> :echo GetHighlighPlace() <CR>
-  nnoremap <F3> :call ToggleRemap()<CR>
-  nnoremap <F4> :retab<CR>
-  nnoremap <F5> :w!<CR>:set textwidth=70<CR>
-  nnoremap <F6> :w!<CR>:!aspell --lang=pt_BR --encoding=utf-8 check %<CR>:e! %<CR>
-  nnoremap <F7> :call ToggleHLSearch()<CR>
-  nnoremap <F8> :call ToggleList("Quickfix List", 'c')<CR>
-  nnoremap <F9> :Bgrep<CR>
-  nnoremap <silent> <F10> :redraw!<CR>
-  nnoremap <silent> <F11> :Errors<CR>
-  nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
-else
-  if exists("g:loaded_dispatch")
-    nnoremap <leader>ll :Dispatch<cr>
+function DefineFKeys()
+  if &ft!='tex'
+    nnoremap <F1> :scriptnames<CR>
+    nnoremap <F2> :echo GetHighlighPlace() <CR>
+    nnoremap <F3> :call ToggleRemap()<CR>
+    nnoremap <F4> :retab<CR>
+    nnoremap <F5> :w!<CR>:set textwidth=70<CR>
+    nnoremap <F6> :w!<CR>:!aspell --lang=pt_BR --encoding=utf-8 check %<CR>:e! %<CR>
+    nnoremap <F7> :call ToggleHLSearch()<CR>
+    nnoremap <F8> :call ToggleList("Quickfix List", 'c')<CR>
+    nnoremap <F9> :Bgrep<CR>
+    nnoremap <silent> <F10> :redraw!<CR>
+    nnoremap <silent> <F11> :Errors<CR>
+    nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
+    if exists("g:loaded_dispatch")
+      nnoremap <leader>ll :Dispatch<cr>
+    endif
+  else
+    nnoremap <F9> :TLook
   endif
-endif
+endfun
+autocmd BufEnter * call DefineFKeys()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Make undo and redo loop over all last changes:
 "nnoremap u g-
@@ -396,8 +399,6 @@ let ruby_fold=1               " Ruby
 let sh_fold_enabled=1         " sh
 let vimsyn_folding='af'       " Vim script
 let xml_syntax_folding=1      " XML
-let g:tex_fold_enabled=1      " tex (plugin)
-let g:tex_fold_additional_envs = ['enumarate','itemize']
 set foldmethod=indent
 set foldlevel=20
 set foldlevelstart=20
