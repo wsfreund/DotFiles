@@ -46,7 +46,7 @@ Plugin 'yegappan/grep'                      " Grep useful commands
 Plugin 'junegunn/vim-easy-align'            " Alignment tool
 Plugin 'tpope/vim-abolish'                  " Easy multiple substitutions and coersion
 Plugin 'chrisbra/csv.vim'                   " Improve csv manipulation and reading
-Plugin 'jmcantrell/vim-virtualenv'          " Add vim integration to pyenv
+"Plugin 'jmcantrell/vim-virtualenv'          " Add vim integration to pyenv
 Plugin 'edkolev/promptline.vim'             " Adds command line on vim!
 Plugin 'edkolev/tmuxline.vim'               " Adds command
 Plugin 'mhinz/vim-signify'                  " Add vcs signs on gutter.
