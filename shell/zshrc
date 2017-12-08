@@ -246,6 +246,16 @@ export KEYTIMEOUT=1
 compdef _cd cl
 # ##########################################################################
 
+# ##########################################################################
+# ##########################################################################
+# Add user local configuration:
+test -e "${HOME}/DotFiles/zsh_local" && source "${HOME}/DotFiles/zsh_local"
+test -e "${HOME}/DotFiles/shell/zsh_local" && source "${HOME}/DotFiles/shell/zsh_local"
+# Add cern local configuration:
+#test "$(hostname -d 2> /dev/null)" = "cern.ch" -a -e "${HOME}/DotFiles/zsh_local_cern" && source "$HOME/DotFiles/zsh_local_cern"
+test -d /cvmfs -a -e "${HOME}/DotFiles/shell/zsh_local_cern" && source "${HOME}/DotFiles/shell/zsh_local_cern"
+# ##########################################################################
+# ##########################################################################
 
 # ##########################################################################
 # ##########################################################################
@@ -257,13 +267,3 @@ fi
 # ##########################################################################
 # ##########################################################################
 
-# ##########################################################################
-# ##########################################################################
-# Add user local configuration:
-test -e "${HOME}/DotFiles/zsh_local" && source "${HOME}/DotFiles/zsh_local"
-test -e "${HOME}/DotFiles/shell/zsh_local" && source "${HOME}/DotFiles/shell/zsh_local"
-# Add cern local configuration:
-#test "$(hostname -d 2> /dev/null)" = "cern.ch" -a -e "${HOME}/DotFiles/zsh_local_cern" && source "$HOME/DotFiles/zsh_local_cern"
-test -d /cvmfs -a -e "${HOME}/DotFiles/shell/zsh_local_cern" && source "${HOME}/DotFiles/shell/zsh_local_cern"
-# ##########################################################################
-# ##########################################################################
