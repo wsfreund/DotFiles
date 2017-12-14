@@ -13,14 +13,14 @@ getShortPath(){
 # Overwrites variable with new one
 setvar(){
   oldIFS=$IFS; IFS=":"
-  var=$1; shift; eval "$var=\$*; export $var"
+  local var=$1; shift; eval "$var=\$*; export $var"
   IFS=$oldIFS; unset oldIFS
 }
 
 # Set variable to value if it is empty
 setdefvar(){
   oldIFS=$IFS; IFS=":"
-  var=$1; shift; eval "test -n $var && $var=\$* && export $var"
+  local var=$1; shift; eval "test -z \"$var\" && $var=\$* && export $var"
   IFS=$oldIFS; unset oldIFS
 }
 
@@ -42,7 +42,7 @@ contains_path() {
 addtovar(){
   autoload -Uz regexp-replace
   #setopt re_match_pcre
-  var=$1; shift; oldVar=var
+  local var=$1; shift; oldVar=var
   foreach addPath in $@
   do
     if test -e $addPath; then

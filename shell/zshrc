@@ -66,6 +66,13 @@ addtovar LD_LIBRARY_PATH "$HOME/DotFiles/lib"
 addtovar DYLD_LIBRARY_PATH "$HOME/DotFiles/lib"
 addtovar MANPATH "$HOME/DotFiles/share/man"
 addtovar PKG_CONFIG_PATH "$HOME/DotFiles/share/pkgconfig" "$HOME/DotFiles/lib/pkgconfig"
+setdefvar HAS_POWERLINE 0
+setdefvar HAS_ITERM2 0
+setdefvar LAZY_TMUX 0
+setdefvar PROMPT_LINE_IGNORE_GIT 0
+if [ "$TERM" = "xterm" ]; then
+  export TERM="xterm-256color"
+fi
 # ##########################################################################
 
 # ##########################################################################
