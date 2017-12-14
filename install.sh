@@ -61,8 +61,13 @@ if ! git config --get core.excludesfile > /dev/null; then
   git config --global core.excludesfile ~/.gitignore_global
 fi
 
-files=(\
-       "$HOME/.ssh/config" "$HOME/DotFiles/ssh/config" \
+if test "$host_domain" = "smc-default.americas.sgi.com"; then
+  ssh_config=("$HOME/.ssh/config" "$HOME/DotFiles/ssh/config_loboc")
+else
+  ssh_config=("$HOME/.ssh/config" "$HOME/DotFiles/ssh/config")
+fi
+
+files=( "${ssh_config[@]}" \
        "$HOME/.screenrc" "$HOME/DotFiles/screen/screenrc" \
        "$HOME/.zshrc" "$HOME/DotFiles/shell/zshrc" \
        "$HOME/.dircolors.256dark" "$HOME/DotFiles/shell/dircolors.256dark" \
@@ -85,6 +90,11 @@ if test "$host_domain" = "lps.ufrj.br"; then
   #${files[${#files[*]}+1]}=".bashrc"
   backup "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_lps" && link_dotfile "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_lps"
   backup "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_lps" && link_dotfile "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_lps" 
+fi
+
+if test "$host_domain" = "smc-default.americas.sgi.com"; then
+  test ! -e $HOME/DotFiles/shell/zsh_local && cp /scratch/22061a/common-cern/zsh_local $HOME/DotFiles/shell
+  test ! -e $HOME/DotFiles/shell/zsh_local_pre && cp /scratch/22061a/common-cern/zsh_local_pre $HOME/DotFiles/shell
 fi
 
 if test "$host_domain" = "lps.ufrj.br"; then
