@@ -182,7 +182,7 @@ test -e "$HOME/.dircolors.256dark" && eval `dircolors "$HOME/.dircolors.256dark"
 # ##########################################################################
 # ##########################################################################
 # ## Tmux plugins
-setdefvar TMUXIFIERPATH="$HOME/.tmuxifier"
+setdefvar TMUXIFIERPATH "$HOME/.tmuxifier"
 if test -d $TMUXIFIERPATH; then 
   addtovar PATH "$TMUXIFIERPATH/bin"
   eval "$(tmuxifier init -)"
