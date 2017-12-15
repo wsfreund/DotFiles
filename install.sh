@@ -176,11 +176,11 @@ fi
 $HOME/.tmux/plugins/tpm/bin/install_plugins
 $HOME/.tmux/plugins/tpm/bin/update_plugins all
 
-t_ress="$HOME/.tmux/plugins/tmux-resurrect/.git"
-t_ress_git="git --git-dir $t_ress"
-if ! $t_ress_git remote show | grep fork > /dev/null 2> /dev/null; then
-  $t_ress_git remote add fork https://github.com/wsfreund/tmux-resurrect.git
+t_ress="$HOME/.tmux/plugins/tmux-resurrect"
+if pushd $t_ress > /dev/null; then
+  if ! git remote show | grep fork > /dev/null 2> /dev/null; then
+    git remote add fork https://github.com/wsfreund/tmux-resurrect.git
+  fi
+  git pull --rebase --stat fork master
+  popd > /dev/null
 fi
-$t_ress_git fetch fork master
-$t_ress_git merge --ff-only fork/master
-$t_ress_git merge --ff-only origin/master
