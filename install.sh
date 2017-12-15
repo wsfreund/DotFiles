@@ -86,10 +86,10 @@ for idx in $(seq 1 2 $((${#files[@]}))); do
   backup "$file" "$dest" && link_dotfile "$file" "$dest"
 done
 
-if test "$host_domain" = "lps.ufrj.br"; then
+if test "$host_domain" = "lps.ufrj.br" -o "$host_domain" = "smc-default.americas.sgi.com"; then
   #${files[${#files[*]}+1]}=".bashrc"
-  backup "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_lps" && link_dotfile "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_lps"
-  backup "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_lps" && link_dotfile "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_lps" 
+  backup "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_redirect" && link_dotfile "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_redirect"
+  backup "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_redirect" && link_dotfile "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_redirect" 
 fi
 
 if test "$host_domain" = "smc-default.americas.sgi.com"; then
