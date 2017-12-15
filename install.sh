@@ -144,12 +144,12 @@ fi
 echo "Installing Vimhalla..."
 git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
 vim -E -c VundleInstall -c qa
-#vim -E -c VundleUpdate -c qa
+vim -E -c VundleUpdate -c qa
 
 # TODO Install NERD Font and add echo message to tell user to change terminal font!
 
 # Install Tmux
-if test $(bc <<< "$(tmux -V | sed 's/tmux //g') < 2.2") -eq "1"; then
+if test $(bc <<< "$(tmux -V | sed 's/tmux //g') < 2.2") -eq "1" -a "$(tmux -V)" != "tmux master"; then
   git clone https://github.com/tmux/tmux.git $HOME/DotFiles/tmux-source
   pushd $HOME/DotFiles/tmux-source > /dev/null
   if [ $(uname) = "Linux" ]; then
