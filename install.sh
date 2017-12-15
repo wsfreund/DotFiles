@@ -133,6 +133,10 @@ if ! test -e $HOME/.oh-my-zsh; then
   git clone https://github.com/wsfreund/oh-my-zsh.git $HOME/.oh-my-zsh
 fi
 
+if test -e $ZSH/log/update.lock; then
+  rmdir $ZSH/log/update.lock
+fi
+
 # TODO Install coreutils if on mac.
 
 # TODO Install vim if no lua.
@@ -140,6 +144,7 @@ fi
 echo "Installing Vimhalla..."
 git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
 vim -E -c VundleInstall -c qa
+#vim -E -c VundleUpdate -c qa
 
 # TODO Install NERD Font and add echo message to tell user to change terminal font!
 
@@ -170,3 +175,12 @@ fi
 
 $HOME/.tmux/plugins/tpm/bin/install_plugins
 $HOME/.tmux/plugins/tpm/bin/update_plugins all
+
+t_ress="$HOME/.tmux/plugins/tmux-resurrect/.git"
+t_ress_git="git --git-dir $t_ress"
+if ! $t_ress_git remote show | grep fork > /dev/null 2> /dev/null; then
+  $t_ress_git remote add fork https://github.com/wsfreund/tmux-resurrect.git
+fi
+$t_ress_git fetch fork master
+$t_ress_git merge --ff-only fork/master
+$t_ress_git merge --ff-only origin/master

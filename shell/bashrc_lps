@@ -1,5 +1,11 @@
 if [[ "$-" == *i* ]]; then
-  test -e $HOME/DotFiles/bin && export PATH=$HOME/DotFiles/bin:$PATH \
+  if test -f $HOME/DotFiles/bin/zsh; then 
+    export PATH=$HOME/DotFiles/bin:$PATH \
                            && export SHELL=$HOME/DotFiles/bin/zsh \
                            && exec $SHELL -l
+  elif type zsh > /dev/null 2> /dev/null; then
+    export SHELL=$(which zsh) && exec $SHELL -l
+  else
+    echo "WARNING: Attempted to change shell to zsh, but zsh is not available!"
+  fi
 fi
