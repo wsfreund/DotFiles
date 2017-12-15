@@ -36,9 +36,18 @@ setAthena(){
 }
 add-rules(){
   cont=$1; test -n $cont || echo "No container provided!" >&2 ; shift
-  # TODO Make and array of inputs to add the rucio rule
-  rucio add-rule --lifetime "$((120*24*3600))" $cont 1 BNL-OSG2_SCRATCHDISK
-  rucio add-rule --lifetime "$((120*24*3600))" $cont 1 CERN-PROD_SCRATCHDISK
+  if test -n "$cont"; then
+    if test -n "$1"; then
+      rucio add-rule --lifetime "$((120*24*3600))" $cont 1 "$1"
+    else
+      # TODO Make and array of inputs to add the rucio rule
+      rucio add-rule --lifetime "$((120*24*3600))" $cont 1 BNL-OSG2_SCRATCHDISK
+      rucio add-rule --lifetime "$((120*24*3600))" $cont 1 CERN-PROD_SCRATCHDISK
+      rucio add-rule --lifetime "$((120*24*3600))" $cont 1 FZK-LCG2_SCRATCHDISK
+      rucio add-rule --lifetime "$((120*24*3600))" $cont 1 DESY-HH_SCRATCHDISK
+      rucio add-rule --lifetime "$((120*24*3600))" $cont 1 MWT2_UC_SCRATCHDISK
+    fi
+  fi
 }
 # ##########################################################################
 

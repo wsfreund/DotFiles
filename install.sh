@@ -61,8 +61,13 @@ if ! git config --get core.excludesfile > /dev/null; then
   git config --global core.excludesfile ~/.gitignore_global
 fi
 
-files=(\
-       "$HOME/.ssh/config" "$HOME/DotFiles/ssh/config" \
+if test "$host_domain" = "smc-default.americas.sgi.com"; then
+  ssh_config=("$HOME/.ssh/config" "$HOME/DotFiles/ssh/config_loboc")
+else
+  ssh_config=("$HOME/.ssh/config" "$HOME/DotFiles/ssh/config")
+fi
+
+files=( "${ssh_config[@]}" \
        "$HOME/.screenrc" "$HOME/DotFiles/screen/screenrc" \
        "$HOME/.zshrc" "$HOME/DotFiles/shell/zshrc" \
        "$HOME/.dircolors.256dark" "$HOME/DotFiles/shell/dircolors.256dark" \
@@ -85,6 +90,11 @@ if test "$host_domain" = "lps.ufrj.br"; then
   #${files[${#files[*]}+1]}=".bashrc"
   backup "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_lps" && link_dotfile "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_lps"
   backup "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_lps" && link_dotfile "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_lps" 
+fi
+
+if test "$host_domain" = "smc-default.americas.sgi.com"; then
+  test ! -e $HOME/DotFiles/shell/zsh_local && cp /scratch/22061a/common-cern/zsh_local $HOME/DotFiles/shell
+  test ! -e $HOME/DotFiles/shell/zsh_local_pre && cp /scratch/22061a/common-cern/zsh_local_pre $HOME/DotFiles/shell
 fi
 
 if test "$host_domain" = "lps.ufrj.br"; then
@@ -123,6 +133,10 @@ if ! test -e $HOME/.oh-my-zsh; then
   git clone https://github.com/wsfreund/oh-my-zsh.git $HOME/.oh-my-zsh
 fi
 
+if test -e $ZSH/log/update.lock; then
+  rmdir $ZSH/log/update.lock
+fi
+
 # TODO Install coreutils if on mac.
 
 # TODO Install vim if no lua.
@@ -130,11 +144,12 @@ fi
 echo "Installing Vimhalla..."
 git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
 vim -E -c VundleInstall -c qa
+vim -E -c VundleUpdate -c qa
 
 # TODO Install NERD Font and add echo message to tell user to change terminal font!
 
 # Install Tmux
-if test $(bc <<< "$(tmux -V | sed 's/tmux //g') < 2.2") -eq "1"; then
+if test $(bc <<< "$(tmux -V | sed 's/tmux //g') < 2.2") -eq "1" -a "$(tmux -V)" != "tmux master"; then
   git clone https://github.com/tmux/tmux.git $HOME/DotFiles/tmux-source
   pushd $HOME/DotFiles/tmux-source > /dev/null
   if [ $(uname) = "Linux" ]; then
@@ -160,3 +175,12 @@ fi
 
 $HOME/.tmux/plugins/tpm/bin/install_plugins
 $HOME/.tmux/plugins/tpm/bin/update_plugins all
+
+t_ress="$HOME/.tmux/plugins/tmux-resurrect/.git"
+t_ress_git="git --git-dir $t_ress"
+if ! $t_ress_git remote show | grep fork > /dev/null 2> /dev/null; then
+  $t_ress_git remote add fork https://github.com/wsfreund/tmux-resurrect.git
+fi
+$t_ress_git fetch fork master
+$t_ress_git merge --ff-only fork/master
+$t_ress_git merge --ff-only origin/master
