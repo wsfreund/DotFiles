@@ -370,6 +370,9 @@ function DefineFKeys()
     endif
   else
     nnoremap <F9> :TLook
+    if exists("NeoCompleteDisable")
+      NeoCompleteDisable
+    endif
   endif
 endfun
 autocmd BufEnter * call DefineFKeys()
