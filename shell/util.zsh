@@ -12,14 +12,14 @@ getShortPath(){
 
 # Overwrites variable with new one
 setvar(){
-  oldIFS=$IFS; IFS=":"
+  local oldIFS=$IFS; IFS=":"
   local var=$1; shift; eval "$var=\$*; export $var"
   IFS=$oldIFS; unset oldIFS
 }
 
 # Set variable to value if it is empty
 setdefvar(){
-  oldIFS=$IFS; IFS=":"
+  local oldIFS=$IFS; IFS=":"
   local var=$1; shift; 
   eval "test -z \"\$$var\" && $var=\$* && export $var"
   IFS=$oldIFS; unset oldIFS
