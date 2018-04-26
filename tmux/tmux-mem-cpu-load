@@ -5,8 +5,10 @@ output=$($TMUX_PLUGIN_MANAGER_PATH/tmux-mem-cpu-load/tmux-mem-cpu-load \
   --cpu-mode 1 \
   --interval 1 \
   --averages-count 1)
+test "$output" || exit 1;
 #echo $output
 echo $output | gawk "{
+printf \"$roa \"
 split( \$1, mem, \"/\" )
 mem[2]=strtonum(mem[2])
 if ( mem[1] >= .9 * mem[2] ) printf \"#[fg=colour160]\";
@@ -20,5 +22,6 @@ printf \"%s#[fg=colour192] \", \$2
 if ( strtonum(\$3) >= ${OMP_NUM_THREADS} ) printf \"#[fg=colour160]\";
 else if ( strtonum(\$3) > $(( .70 * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour202]\";
 else if ( strtonum(\$3) < $(( .1 * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour2]\";
-printf \"%s#[fg=colour192]\", \$3
+printf \"%s#[fg=colour192] \", \$3
 }"
+exit 0;

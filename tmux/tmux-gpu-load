@@ -1,0 +1,37 @@
+#!/usr/bin/env zsh
+test "$HAS_POWERLINE" -eq "1" && roa='' || roa='«'
+output=$(nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.used,memory.total --format=csv,noheader)
+test "$output" || exit 1;
+echo $output | gawk "
+     BEGIN{FS=OFS=\",\"}
+     {
+       for (i=1;i<=NF;i++) 
+         a[i]+=\$i
+     }
+     END{
+       printf \"$roa \"
+       gpu=a[1]+a[2]
+       if ( gpu >= 90. * NF ) printf \"#[fg=colour160]\";
+       else if ( gpu >= 70. * NF ) printf \"#[fg=colour202]\";
+       else if ( gpu < 10. * NF ) printf \"#[fg=colour2]\";
+       printf gpu
+       printf \"#[fg=colour192](\"
+       if ( a[1] >= 90. * NF ) printf \"#[fg=colour160]\";
+       else if ( a[1] >= 70. * NF ) printf \"#[fg=colour202]\";
+       else if ( a[1] < 10. * NF ) printf \"#[fg=colour2]\";
+       printf a[1]
+       printf \"#[fg=colour192],\"
+       if ( a[2] >= 90. * NF ) printf \"#[fg=colour160]\";
+       else if ( a[2] >= 70. * NF ) printf \"#[fg=colour202]\";
+       else if ( a[2] < 10. * NF ) printf \"#[fg=colour2]\";
+       printf a[2]
+       printf \"#[fg=colour192])% \"
+       if ( a[3] >= .9 * a[4] ) printf \"#[fg=colour160]\";
+       else if ( a[3] >= .7 * a[4] ) printf \"#[fg=colour202]\";
+       else if ( a[3] < .1 * a[4] ) printf \"#[fg=colour2]\";
+       printf a[3]
+       printf \"/\"
+       printf a[4]
+       printf \"#[fg=colour192] \"
+     }"
+exit 0;
