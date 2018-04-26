@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-test "$HAS_POWERLINE" -eq "1" && roa='' || roa='«'
+test "$HAS_POWERLINE" -eq "1" && { roa='' && symb=''; } || { roa='«' && symb=''; }
 output=$(nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.used,memory.total --format=csv,noheader)
 test "$output" || exit 1;
 echo $output | gawk "
@@ -9,7 +9,7 @@ echo $output | gawk "
          a[i]+=\$i
      }
      END{
-       printf \"$roa \"
+       printf \"${roa} $symb \"
        gpu=a[1]+a[2]
        if ( gpu >= 90. * NF ) printf \"#[fg=colour160]\";
        else if ( gpu >= 70. * NF ) printf \"#[fg=colour202]\";

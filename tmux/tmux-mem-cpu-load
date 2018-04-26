@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-test "$HAS_POWERLINE" -eq "1" && roa='' || roa='«'
+test "$HAS_POWERLINE" -eq "1" && { roa='' && symb=''; } || { roa='«' && symb='cpu'; }
 output=$($TMUX_PLUGIN_MANAGER_PATH/tmux-mem-cpu-load/tmux-mem-cpu-load \
   --graph-lines 0 \
   --cpu-mode 1 \
@@ -8,13 +8,7 @@ output=$($TMUX_PLUGIN_MANAGER_PATH/tmux-mem-cpu-load/tmux-mem-cpu-load \
 test "$output" || exit 1;
 #echo $output
 echo $output | gawk "{
-printf \"$roa \"
-split( \$1, mem, \"/\" )
-mem[2]=strtonum(mem[2])
-if ( mem[1] >= .9 * mem[2] ) printf \"#[fg=colour160]\";
-else if ( mem[1] >= .7 * mem[2] ) printf \"#[fg=colour202]\";
-else if ( mem[1] < .1 * mem[2] ) printf \"#[fg=colour2]\";
-printf \"%s#[fg=colour192] \", \$1
+printf \"$roa $symb \"
 if ( strtonum(\$2) >= $(( 90. * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour160]\";
 else if ( strtonum(\$2) > $(( 70. * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour202]\";
 else if ( strtonum(\$2) < $(( 10. * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour2]\";
@@ -23,5 +17,12 @@ if ( strtonum(\$3) >= ${OMP_NUM_THREADS} ) printf \"#[fg=colour160]\";
 else if ( strtonum(\$3) > $(( .70 * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour202]\";
 else if ( strtonum(\$3) < $(( .1 * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour2]\";
 printf \"%s#[fg=colour192] \", \$3
+split( \$1, mem, \"/\" )
+mem[2]=strtonum(mem[2])
+if ( mem[1] >= .9 * mem[2] ) printf \"#[fg=colour160]\";
+else if ( mem[1] >= .7 * mem[2] ) printf \"#[fg=colour202]\";
+else if ( mem[1] < .1 * mem[2] ) printf \"#[fg=colour2]\";
+printf \"%s#[fg=colour192] \", \$1
 }"
 exit 0;
+
