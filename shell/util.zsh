@@ -164,7 +164,7 @@ ssh-powerline-tunel(){
 #   -> $1 (account): the log in account to use in the open node;
 #   -> $2 (open_node): the open node to log in;
 #   -> $3 (internal_account): the log in account to use in the internal node
-#   -> $4 (extra_setup): the open node commands before log in to internal machine
+#   -> $4 (extra_setup): the open node commands before logging in to internal machine
 #   -> $5 (internal_node): the internal machine to log in.
 #   -> $6 (internal_node command): the internal machine to log in.
 #

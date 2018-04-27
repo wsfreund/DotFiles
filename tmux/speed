@@ -1,5 +1,5 @@
 #!/bin/bash
-
+test "$HAS_POWERLINE" -eq "1" && roa='' || roa='«'
 RXB=0
 TXB=0
 
@@ -27,6 +27,9 @@ done
 RXDIF=$(echo $((RXBN - RXB)) )
 TXDIF=$(echo $((TXBN - TXB)) )
 
-test "$HAS_POWERLINE" -eq "1" && { dl='' && ul=''; } || { dl='d' && ul='u'; }
+test "$HAS_POWERLINE" -eq "1" && { dl='' && ul='' && symb=''; } || { dl='d' && ul='u' && symb='eth0'; }
+%
+%
 
-echo -e "#[fg=colour2]$dl$((RXDIF / 1024 / 2))#[fg=colour160] $ul$((TXDIF / 1024 / 2))#[fg=colour192]"
+echo -e "$roa $symb #[fg=colour2]$dl$((RXDIF / 1024 / 2))#[fg=colour160] $ul$((TXDIF / 1024 / 2)) "
+exit 0
