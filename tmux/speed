@@ -27,7 +27,7 @@ done
 RXDIF=$(echo $((RXBN - RXB)) )
 TXDIF=$(echo $((TXBN - TXB)) )
 
-test "$HAS_POWERLINE" -eq "1" && { dl='' && ul='' && symb=''; } || { dl='d' && ul='u' && symb='eth0'; }
+test "$HAS_POWERLINE" -eq "1" && { dl=' ' && ul=' ' && symb=''; } || { dl='d' && ul='u' && symb='eth0'; }
 %
 %
 
