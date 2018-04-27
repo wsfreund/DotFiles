@@ -124,7 +124,7 @@ ssh-powerline(){
     shift
   done
   local shell_base=$(basename $SHELL)
-  local __cmd="$start_command which ${shell_base} > /dev/null 2> /dev/null && export SHELL=\$(which ${shell_base}) && exec ${shell_base} -l || SHELL=\$HOME/DotFiles/bin/zsh && test -e \$SHELL && export PATH=\"\$HOME/DotFiles/bin/:\$PATH\"&& exec \$SHELL -l || export SHELL=/bin/bash && exec \$SHELL -l"
+  local __cmd="$start_command which ${shell_base} > /dev/null 2> /dev/null && export SHELL=\$(which ${shell_base}) && exec ${shell_base} || SHELL=\$HOME/DotFiles/bin/zsh && test -e \$SHELL && export PATH=\"\$HOME/DotFiles/bin/:\$PATH\"&& exec \$SHELL || export SHELL=/bin/bash && exec \$SHELL"
   ssh-powerline-wcmd "${@[@]}" $__cmd
 }
 
