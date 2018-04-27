@@ -41,9 +41,9 @@ function get_weather(){
   drop_mm=$(echo -n $output | sed "1,4d" | sed "s/ //g" | sed "s/[^0-9.]//g" | tr "\n" " ")
   [ "$(echo $drop_mm | tr -d ".")" -gt "0" ] && drop_mm=" ${drop_mm}mm" || drop_mm=""
   # set $w_sym according to $w_txt
-  if   [ "$w_txt" = "Sunny" ];                   then [ $p ] && w_sym=" "  || w_sym="☼";
-  elif [ "$w_txt" = "Mostly sunny" ];            then [ $p ] && w_sym=" "  || w_sym="☼";
-  elif [ "$w_txt" = "Showers" ];                 then [ $p ] && w_sym=" "  || w_sym="☂";
+  if   [ "$w_txt" = "Sunny" ];                   then [ $p ] && w_sym=""  || w_sym="☼";
+  elif [ "$w_txt" = "Mostly sunny" ];            then [ $p ] && w_sym=""  || w_sym="☼";
+  elif [ "$w_txt" = "Showers" ];                 then [ $p ] && w_sym=""  || w_sym="☂";
   elif [ "$w_txt" = "Clear" ];                   then [ $p ] && w_sym=""  || w_sym="☾";
   elif [ "$w_txt" = "Thunderstorms" ];           then [ $p ] && w_sym="⚡" || w_sym="⚡";
   elif [ "$w_txt" = "Scattered thunderstorms" ]; then [ $p ] && w_sym=""  || w_sym="☔";
