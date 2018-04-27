@@ -39,17 +39,33 @@ contains_path() {
   if contains ":$string:" ":$substring:"; then return 0; else return 1; fi
 }
 
+removefromvar(){
+  autoload -Uz regexp-replace
+  #setopt re_match_pcre
+  local var=$1; shift; oldVar=var
+  foreach removePath in $@
+  do
+    if test -e $removePath; then
+      while contains_path $var "$removePath"; do
+        regexp-replace $var "(^|:)${removePath}[^:]*" ""
+      done
+      regexp-replace $var "^:" ""
+      regexp-replace $var ":$" ""
+    fi
+  done
+  eval "export $var"
+  unset oldVar
+}
+
 # Appends values to string with : if they weren't added before
 addtovar(){
   autoload -Uz regexp-replace
   #setopt re_match_pcre
   local var=$1; shift; oldVar=var
+  removefromvar $var $@
   foreach addPath in $@
   do
     if test -e $addPath; then
-      while contains_path $var "$addPath"; do
-        regexp-replace $var "(^|:)${addPath}[^:]*" ""
-      done
       regexp-replace $var "^:" ""
       regexp-replace $var ":$" ""
       eval "$var=\"$addPath\":\$$var"
