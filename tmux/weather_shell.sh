@@ -35,20 +35,22 @@ function get_weather(){
   fi
   test "$HAS_POWERLINE" && p="x" || p="";
 
+  # Makes 
   w_txt=$(echo -n $output | sed 1q | sed "s/ *$//g" )
   other_info=$(echo -n $output | sed "1d;4,5d" | sed "s/ //g" | tr "\n" " ")
   other_info=$other_info[1,-2]
   drop_mm=$(echo -n $output | sed "1,4d" | sed "s/ //g" | sed "s/[^0-9.]//g" | tr "\n" " ")
   [ "$(echo $drop_mm | tr -d ".")" -gt "0" ] && drop_mm=" ${drop_mm}mm" || drop_mm=""
   # set $w_sym according to $w_txt
-  if   [ "$w_txt" = "Sunny" ];                   then [ $p ] && w_sym=" "  || w_sym="☼";
-  elif [ "$w_txt" = "Mostly sunny" ];            then [ $p ] && w_sym=" "  || w_sym="☼";
-  elif [ "$w_txt" = "Showers" ];                 then [ $p ] && w_sym=" "  || w_sym="☂";
+  if   [ "$w_txt" = "Sunny" ];                   then [ $p ] && w_sym=""  || w_sym="☼";
+  elif [ "$w_txt" = "Mostly sunny" ];            then [ $p ] && w_sym=""  || w_sym="☼";
+  elif [ "$w_txt" = "Showers" ];                 then [ $p ] && w_sym=""  || w_sym="☂";
   elif [ "$w_txt" = "Clear" ];                   then [ $p ] && w_sym=""  || w_sym="☾";
   elif [ "$w_txt" = "Thunderstorms" ];           then [ $p ] && w_sym="⚡" || w_sym="⚡";
   elif [ "$w_txt" = "Scattered thunderstorms" ]; then [ $p ] && w_sym=""  || w_sym="☔";
   elif [ "$w_txt" = "Isolated thundershovers" ]; then [ $p ] && w_sym="_" || w_sym="☔";
   elif [ "$w_txt" = "Cloudy" ];                  then [ $p ] && w_sym=""  || w_sym="☁";
+  elif [ "$w_txt" = "Mist" ];                    then [ $p ] && w_sym=""  || w_sym="☁";
   elif [ "$w_txt" = "Mostly cloudy" ];           then [ $p ] && w_sym=""  || w_sym="☁";
   elif [ "$w_txt" = "Partly cloudy" ];           then [ $p ] && w_sym=""  || w_sym="☼☁";
   elif [ "$w_txt" = "Breezy" ];                  then [ $p ] && w_sym=""  || w_sym="⚐";
