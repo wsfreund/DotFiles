@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-test "$HAS_POWERLINE" -eq "1" && { roa='' && symb=''; } || { roa='«' && symb=''; }
 output=$(nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.used,memory.total --format=csv,noheader)
 test "$output" || exit 1;
 echo $output | gawk "
