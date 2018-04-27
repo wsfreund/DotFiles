@@ -1,12 +1,12 @@
 #!/usr/bin/env zsh
-
+#
 zmodload zsh/datetime
 local last_update=$HOME/DotFiles/tmux/.weather_last_update
 local lock_update=$HOME/DotFiles/tmux/.weather.lock
 local weather_cache=$HOME/DotFiles/tmux/.weather.cache
 
 function _current_epoch() {
-  #echo $(( $EPOCHSECONDS / 60 / 60 / 24 ))
+  # Put time in minutes
   echo $(( $EPOCHSECONDS / 60 ))
 }
 
