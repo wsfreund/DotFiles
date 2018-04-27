@@ -24,6 +24,8 @@ function get_weather(){
   # write xml to variable
   output=$(curl --silent "wttr.in/rio_de_janeiro?0mnQT" | cut -c 16-)
   temp=$(echo -n $output | sed "1d;3,5d" | sed "s/[^0-9\-]*//g" | cut -d- -f2)
+
+  # Add fire when temperature is getting high
   if [ "$temp" -ge 42 ]; then 
     local t_sym=""
   elif [ "$temp" -ge 39 ]; then 
@@ -39,9 +41,9 @@ function get_weather(){
   drop_mm=$(echo -n $output | sed "1,4d" | sed "s/ //g" | sed "s/[^0-9.]//g" | tr "\n" " ")
   [ "$(echo $drop_mm | tr -d ".")" -gt "0" ] && drop_mm=" ${drop_mm}mm" || drop_mm=""
   # set $w_sym according to $w_txt
-  if   [ "$w_txt" = "Sunny" ];                   then [ $p ] && w_sym=""  || w_sym="☼";
-  elif [ "$w_txt" = "Mostly sunny" ];            then [ $p ] && w_sym=""  || w_sym="☼";
-  elif [ "$w_txt" = "Showers" ];                 then [ $p ] && w_sym=""  || w_sym="☂";
+  if   [ "$w_txt" = "Sunny" ];                   then [ $p ] && w_sym=" "  || w_sym="☼";
+  elif [ "$w_txt" = "Mostly sunny" ];            then [ $p ] && w_sym=" "  || w_sym="☼";
+  elif [ "$w_txt" = "Showers" ];                 then [ $p ] && w_sym=" "  || w_sym="☂";
   elif [ "$w_txt" = "Clear" ];                   then [ $p ] && w_sym=""  || w_sym="☾";
   elif [ "$w_txt" = "Thunderstorms" ];           then [ $p ] && w_sym="⚡" || w_sym="⚡";
   elif [ "$w_txt" = "Scattered thunderstorms" ]; then [ $p ] && w_sym=""  || w_sym="☔";
