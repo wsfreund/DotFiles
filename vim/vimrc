@@ -1,4 +1,4 @@
-" TODO List 
+" TODO List
 "  - Change insert color to green (as paste) and paste to
 " insert.
 
@@ -64,6 +64,7 @@ Plugin 'jreybert/vimagit'                   " Improves git project staging
 Plugin 'vim-ctrlspace/vim-ctrlspace'        " Manage projects
 Plugin 'vim-latex/vim-latex'                " The latex suite
 Plugin 'tpope/vim-dispatch'                 " Run programs on background
+Plugin 'ntpeters/vim-better-whitespace'     " Improve whitespace handle
 call vundle#end()                           " required
 filetype plugin indent on                   " required
 " Keep all vundle bundles at this list variable:
@@ -224,7 +225,7 @@ function! ToggleNumberFoldColum()
     echom "Setting number and fold column on"
     let b:is_number_on = 1
     set number
-    set relativenumber
+    "set relativenumber
     set foldcolumn=2
   endif
 endfunction
@@ -273,12 +274,12 @@ set softtabstop=2            " expand ^T to 2 spaces
 set shiftwidth=2             " ?
 set tabstop=2                " where to stop tabs
 set expandtab                " insert spaces instead of tabs
-set autoindent   
+set autoindent
 set tabpagemax=200
 set laststatus=2             " status line
 set guitablabel=%t
 set number
-set relativenumber
+"set relativenumber
 set switchbuf+=usetab " Make quickfix respect tab, otherwise open it in a new tab:
 set fileencoding=utf-8
 set encoding=utf-8
@@ -383,7 +384,7 @@ autocmd BufEnter * call DefineFKeys()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 vmap <Enter> <Plug>(EasyAlign)
 if has("mac")
-  " Add ctrl-c to copy to mac 
+  " Add ctrl-c to copy to mac
   vmap <C-c> y:call system("pbcopy", getreg("\""))<CR>
   vmap <C-v> :call setreg("\"",system("pbpaste"))<CR>p
 endif
@@ -411,7 +412,7 @@ autocmd FileType c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
 let g:SimpylFold_fold_docstring = 0
 let g:SimpylFold_docstring_preview = 1
 autocmd FileType c,cpp,vim,xml,html,xhtml,perl,python setl foldlevel=20
-autocmd FileType tex setlocal foldlevel=0 
+autocmd FileType tex setlocal foldlevel=0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Others
 command! -range -nargs=0 Overline        call s:CombineSelection(<line1>, <line2>, '0305')
@@ -432,7 +433,7 @@ so $VIMRUNTIME/menu.vim
 highlight VertSplit ctermfg=59 ctermbg=NONE guibg=NONE
 highlight CursorLine ctermbg=232
 "highlight VertSplit ctermfg=black ctermbg=black guifg=NONE guibg=NONE " This
-set fillchars=vert:\|,fold:\ 
+set fillchars=vert:\|,fold:\
 "set fillchars=vert:\ ,fold:\ ,diff:- " use to deactivate division
 "set fillchars=vert:,fold:-,diff:- " use to deactivate division
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

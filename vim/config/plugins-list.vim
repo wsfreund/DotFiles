@@ -2,6 +2,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " List of plugins which had their default configuration changed:
 so $HOME/.vim/config/airline.vim
+so $HOME/.vim/config/better-space.vim
 so $HOME/.vim/config/conque.vim
 so $HOME/.vim/config/cpp-hi.vim
 so $HOME/.vim/config/gitfugitive.vim
