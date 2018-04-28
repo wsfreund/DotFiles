@@ -95,7 +95,7 @@ if [ "$TERM" != "dumb" ]; then
   alias egrep="egrep --color=always"
 fi
 alias gstage="git diff-files -z --diff-filter=M --name-only | xargs -0 git add"
-which gpustat &>! /dev/null && alias gtop="watch --color -n1.0 gpustat --color"
+which gpustat &>! /dev/null && alias gtop="watch --color -n1.0 gpustat --color" || gtop="watch -n1.0 nvidia-smi --query-gpu=utilization.gpu,utilization.memory,temperature.gpu,memory.used,memory.total --format=csv"
 force_color_prompt=yes
 # ##########################################################################
 
@@ -164,7 +164,7 @@ test -e "$HOME/.dircolors.256dark" && eval `dircolors "$HOME/.dircolors.256dark"
 # ##########################################################################
 # ## Tmux plugins
 setdefvar TMUXIFIERPATH "$HOME/.tmuxifier"
-if test -d $TMUXIFIERPATH; then 
+if test -d $TMUXIFIERPATH; then
   addtovar PATH "$TMUXIFIERPATH/bin"
   eval "$(tmuxifier init -)"
 fi
