@@ -26,6 +26,9 @@ function get_weather(){
   if test -n "$(echo -n "$output" | grep "504 Gateway Time-out" )"; then
     return
   fi
+  if test -n "$(echo -n "$output" | grep "Sorry, we are running out of queries to the weather service at the moment." )"; then
+    return
+  fi
   temp=$(echo -n $output | sed "1d;3,5d" | sed "s/[^0-9\-]*//g" | cut -d- -f2)
 
   # Add fire when temperature is getting high
@@ -76,13 +79,15 @@ main(){
   ## Cancel upgrade if git is unavailable on the system
   #whence git >/dev/null || return 0
 
-  if test -e $lock_update; then
-    delta_lock=$(( "$EPOCHSECONDS" - $(stat -c "%Y" $lock_update) ))
+  if test -e "$lock_update"; then
+    local LOCK_EPOCH=${$(stat -c "%Y" $lock_update):-0}
+    echo $LOCK_EPOCH
+    local delta_lock=$(( $EPOCHSECONDS - $LOCK_EPOCH ))
+    echo $delta_lock
     if [ $delta_lock -gt "15" ]; then
       rmdir $lock_update
     fi
   fi
-
 
   if mkdir $lock_update 2>/dev/null; then
     if [ -f $last_update ]; then
