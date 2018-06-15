@@ -23,19 +23,22 @@ function _upgrade_zsh() {
 function get_weather(){
   # write xml to variable
   output=$(curl --silent "wttr.in/rio_de_janeiro?0mnQT" | cut -c 16-)
+  if test -n "$(echo -n "$output" | grep "504 Gateway Time-out" )"; then
+    return
+  fi
   temp=$(echo -n $output | sed "1d;3,5d" | sed "s/[^0-9\-]*//g" | cut -d- -f2)
 
   # Add fire when temperature is getting high
-  if [ "$temp" -ge 42 ]; then 
+  if [ "$temp" -ge 42 ]; then
     local t_sym=""
-  elif [ "$temp" -ge 39 ]; then 
+  elif [ "$temp" -ge 39 ]; then
     local t_sym=""
   elif [ "$temp" -ge 36 ]; then
     local t_sym=""
   fi
   test "$HAS_POWERLINE" && p="x" || p="";
 
-  # Makes 
+  # Makes
   w_txt=$(echo -n $output | sed 1q | sed "s/ *$//g" )
   other_info=$(echo -n $output | sed "1d;4,5d" | sed "s/ //g" | tr "\n" " ")
   other_info=$other_info[1,-2]
@@ -54,8 +57,9 @@ function get_weather(){
   elif [ "$w_txt" = "Mostly cloudy" ];           then [ $p ] && w_sym=""  || w_sym="☁";
   elif [ "$w_txt" = "Partly cloudy" ];           then [ $p ] && w_sym=""  || w_sym="☼☁";
   elif [ "$w_txt" = "Breezy" ];                  then [ $p ] && w_sym=""  || w_sym="⚐";
+  elif [ "$w_txt" = "Haze" ];                    then [ $p ] && w_sym=""  || w_sym="☁";
   # if unknown text, set text instead of symbol
-  else w_sym=$w_txt; 
+  else w_sym=$w_txt;
   fi
   # output <symbol><space><temp-in-°C>
   echo -n "$w_sym $t_sym $other_info$drop_mm" > $weather_cache
@@ -71,6 +75,14 @@ main(){
 
   ## Cancel upgrade if git is unavailable on the system
   #whence git >/dev/null || return 0
+
+  if test -e $lock_update; then
+    delta_lock=$(( "$EPOCHSECONDS" - $(stat -c "%Y" $lock_update) ))
+    if [ $delta_lock -gt "15" ]; then
+      rmdir $lock_update
+    fi
+  fi
+
 
   if mkdir $lock_update 2>/dev/null; then
     if [ -f $last_update ]; then
