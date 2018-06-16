@@ -56,6 +56,7 @@ function get_weather(){
   elif [ "$w_txt" = "Scattered thunderstorms" ]; then [ $p ] && w_sym=""  || w_sym="☔";
   elif [ "$w_txt" = "Isolated thundershovers" ]; then [ $p ] && w_sym="_" || w_sym="☔";
   elif [ "$w_txt" = "Cloudy" ];                  then [ $p ] && w_sym=""  || w_sym="☁";
+  elif [ "$w_txt" = "Overcast" ];                then [ $p ] && w_sym=""  || w_sym="☁";
   elif [ "$w_txt" = "Mist" ];                    then [ $p ] && w_sym=""  || w_sym="☁";
   elif [ "$w_txt" = "Mostly cloudy" ];           then [ $p ] && w_sym=""  || w_sym="☁";
   elif [ "$w_txt" = "Partly cloudy" ];           then [ $p ] && w_sym=""  || w_sym="☼☁";
