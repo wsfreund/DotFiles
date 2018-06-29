@@ -26,7 +26,7 @@ function get_weather(){
   if test -n "$(echo -n "$output" | grep "504 Gateway Time-out" )"; then
     return
   fi
-  if test -n "$(echo -n "$output" | grep "Sorry, we are running out of queries to the weather service at the moment." )"; then
+  if test -n "$(echo -n "$output" | grep "out of queries to the weather service at the moment" )"; then
     return
   fi
   temp=$(echo -n $output | sed "1d;3,5d" | sed "s/[^0-9\-]*//g" | cut -d- -f2)
