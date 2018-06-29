@@ -70,6 +70,7 @@ setdefvar HAS_POWERLINE 0
 setdefvar HAS_ITERM2 0
 setdefvar LAZY_TMUX 0
 setdefvar PROMPT_LINE_IGNORE_GIT 0
+setvar TMPDIR "$HOME/DotFiles/tmp"
 if [ "$TERM" = "xterm" ]; then
   export TERM="xterm-256color"
 fi

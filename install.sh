@@ -89,8 +89,10 @@ done
 if test "$host_domain" = "lps.ufrj.br" -o "$host_domain" = "smc-default.americas.sgi.com"; then
   #${files[${#files[*]}+1]}=".bashrc"
   backup "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_redirect" && link_dotfile "$HOME/.bashrc" "$HOME/DotFiles/shell/bashrc_redirect"
-  backup "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_redirect" && link_dotfile "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_redirect" 
+  backup "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_redirect" && link_dotfile "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_redirect"
 fi
+
+test -d "~/DotFiles/tmp" || mkdir "~/DotFiles/tmp"
 
 if test "$host_domain" = "smc-default.americas.sgi.com"; then
   test ! -e $HOME/DotFiles/shell/zsh_local && cp /scratch/22061a/common-cern/zsh_local $HOME/DotFiles/shell
@@ -120,7 +122,7 @@ if test "$host_domain" = "lps.ufrj.br"; then
       echo "No need to install zsh."
     fi
   fi
-  #if test $(basename $SHELL) != "zsh"; then 
+  #if test $(basename $SHELL) != "zsh"; then
   #  chsh -s $(which zsh) || return $chsherrno;
   #fi
 fi
