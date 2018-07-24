@@ -76,8 +76,11 @@ let g:vundle_bundles = map(copy(g:vundle#bundles),'v:val.name_spec')
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Functions taken from the internet + custom made
 fun! LastMod()
-  exe "g/% - Last Modified: /s/% - Last Modified: .*/% - Last Modified: " .
-  \ strftime("%a, %d %b %Y")
+  let s:undo_status = undotree()
+  if s:undo_status['seq_last'] == s:undo_status['seq_cur']
+    undojoin | exe "g/% - Last Modified: /s/% - Last Modified: .*/% - Last Modified: " .
+      \ strftime("%a, %d %b %Y")
+  endif
 endfun
 function! StartDate()
   exe "g/% - Creation Date: /s/% - Creation Date: .*/% - Creation Date: " .
