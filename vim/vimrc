@@ -57,7 +57,6 @@ Plugin 'octol/vim-cpp-enhanced-highlight'   " Recognizes C++11/14 features and
                                             " adds highlighting for methods/classes
 Plugin 'tpope/vim-surround'                 " Surround text with set of chars
 Plugin 'Konfekt/FoldText'                   " Set special text for the folds with percentage
-"" Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Adds better interation with latex
 Plugin 'tmux-plugins/vim-tmux'              " Adds syntax highligh for tmux.conf
 Plugin 'tmux-plugins/vim-tmux-focus-events' " Makes vim focus events work on tmux
 Plugin 'jreybert/vimagit'                   " Improves git project staging
@@ -65,6 +64,7 @@ Plugin 'vim-ctrlspace/vim-ctrlspace'        " Manage projects
 Plugin 'vim-latex/vim-latex'                " The latex suite
 Plugin 'tpope/vim-dispatch'                 " Run programs on background
 Plugin 'ntpeters/vim-better-whitespace'     " Improve whitespace handle
+"Plugin 'daeyun/vim-matlab'                  " Use vim to develop matlab
 call vundle#end()                           " required
 filetype plugin indent on                   " required
 " Keep all vundle bundles at this list variable:
@@ -356,6 +356,8 @@ au FileType help setl nospell
 " Vim jump to the last position when reopening a file
 au BufReadPost ?* if @% !~ '.git/' && line("'\"") > 0 && line("'\"") <= line("$")
   \| exe "normal g'\"" | endif
+nnoremap zn ]s
+nnoremap zp [s
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -404,6 +406,9 @@ function DefineFKeys()
 endfun
 autocmd BufEnter * call DefineFKeys()
 command! -nargs=? Scriptnames call s:Filter_lines('scriptnames', <q-args>)
+command! -nargs=? Highlight runtime syntax/hitest.vim
+command! -nargs=? Highlight2 call s:Filter_lines('highligh', <q-args>)
+command! -nargs=? Commands call s:Filter_lines('commands', <q-args>)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Make undo and redo loop over all last changes:
 "nnoremap u g-
@@ -439,7 +444,13 @@ autocmd FileType c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
 let g:SimpylFold_fold_docstring = 0
 let g:SimpylFold_docstring_preview = 1
 autocmd FileType c,cpp,vim,xml,html,xhtml,perl,python setl foldlevel=20
-autocmd FileType tex setlocal foldlevel=0
+au FileType tex syntax region gls start='\\\(\(gls\w*\)\|\(acs\)\|\(acr\w*\)\|\(acl\)\|\(glspl\)\|\(Glspl\)\|\(Gls\)\|\(acf\)\){' end='}' contains=@NoSpell containedin=ALL
+au FileType tex syntax match emphText /\v(\\(emph|fnref)\{)@<=.{-}(\})@=/ contains=@NoSpell transparent containedin=ALL contains=NONE
+autocmd FileType tex setlocal foldlevel=1
+au FileType tex syn match  texRefZone  '\\\(c\|C\)ite\(\(year\)\|\(author\)\|\(fullauthor\)\(yearpar\)\)\+\%([tp]\*\=\)\=\*\?' nextgroup=texRefOption,texCite
+"TODO:
+"example   syn region texCite            contained       matchgroup=Delimiter start='{' end='}'          contains=@texRefGroup,texRefZone,texCite
+"syn match  texRefZone           '\\cite\%([tp]\*\=\)\=' nextgroup=texRefOption,texCite
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Others
 command! -range -nargs=0 Overline        call s:CombineSelection(<line1>, <line2>, '0305')
@@ -474,7 +485,7 @@ hi link CtrlSpaceSelected airline_y
 hi link CtrlSpaceSearch   airline_z
 hi link CtrlSpaceStatus   airline_x
 highlight link TagbarSignature Title
-silent! call HighlightNonAsciiOn()
+highlight gls ctermfg=136 ctermbg=NONE
 silent! call HighlightNonAsciiOn()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 ""function Test2()
