@@ -445,7 +445,7 @@ let g:SimpylFold_fold_docstring = 0
 let g:SimpylFold_docstring_preview = 1
 autocmd FileType c,cpp,vim,xml,html,xhtml,perl,python setl foldlevel=20
 au FileType tex syntax region gls start='\\\(\(gls\w*\)\|\(acs\)\|\(acr\w*\)\|\(acl\)\|\(glspl\)\|\(Glspl\)\|\(Gls\)\|\(acf\)\){' end='}' contains=@NoSpell containedin=ALL
-au FileType tex syntax match emphText /\v(\\(emph|fnref)\{)@<=.{-}(\})@=/ contains=@NoSpell transparent containedin=ALL contains=NONE
+au FileType tex syntax match emphText /\v(\\(emph|fnref)\{)@<=\_.{-}(\})@=/ contains=@NoSpell transparent containedin=ALL contains=NONE
 autocmd FileType tex setlocal foldlevel=1
 au FileType tex syn match  texRefZone  '\\\(c\|C\)ite\(\(year\)\|\(author\)\|\(fullauthor\)\(yearpar\)\)\+\%([tp]\*\=\)\=\*\?' nextgroup=texRefOption,texCite
 "TODO:
