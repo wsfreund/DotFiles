@@ -16,5 +16,7 @@ so $HOME/.vim/config/signify.vim
 so $HOME/.vim/config/syntastic.vim
 so $HOME/.vim/config/undotree.vim
 so $HOME/.vim/config/vimsolarized.vim
+so $HOME/.vim/config/indentLines.vim
+so $HOME/.vim/config/vim-indent-guides.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

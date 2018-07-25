@@ -65,6 +65,10 @@ Plugin 'vim-latex/vim-latex'                " The latex suite
 Plugin 'tpope/vim-dispatch'                 " Run programs on background
 Plugin 'ntpeters/vim-better-whitespace'     " Improve whitespace handle
 "Plugin 'daeyun/vim-matlab'                  " Use vim to develop matlab
+Plugin 'KeitaNakamura/tex-conceal.vim'      " Improves tex conceal
+"Plugin 'khzaw/vim-conceal'                  " Adds python ocalm and ruby conceal
+Plugin 'Yggdroot/indentLine'                " Adds indentation line
+Plugin 'nathanaelkane/vim-indent-guides'    " Adds indention line
 call vundle#end()                           " required
 filetype plugin indent on                   " required
 " Keep all vundle bundles at this list variable:
@@ -283,6 +287,7 @@ if v:version >= 703
   " set undolevels=1000
   " set undoreload=10000
 endif
+set cocu=nvc
 set hlsearch
 set backspace=indent,eol,start
 set history=10000            " number of history commands
@@ -317,6 +322,8 @@ set scrolloff=5
 set sidescrolloff=5
 set langmenu=en_GB
 set noshowmode               " do not display insert and so on at the command line
+set conceallevel=2           " change math and other functions by corresponding symbols
+set listchars=eol:¶,trail:~,extends:⫸,precedes:⫷,tab:▸\ ,nbsp:␣ " change how vim shows chars when list is on
 "set modeline
 let $LANG='en_GB'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -438,19 +445,12 @@ let xml_syntax_folding=1      " XML
 set foldmethod=indent
 set foldlevel=20
 set foldlevelstart=20
+autocmd FileType tex setlocal foldlevel=20
 autocmd FileType c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
 "autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
 "autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 let g:SimpylFold_fold_docstring = 0
 let g:SimpylFold_docstring_preview = 1
-autocmd FileType c,cpp,vim,xml,html,xhtml,perl,python setl foldlevel=20
-au FileType tex syntax region gls start='\\\(\(gls\w*\)\|\(acs\)\|\(acr\w*\)\|\(acl\)\|\(glspl\)\|\(Glspl\)\|\(Gls\)\|\(acf\)\){' end='}' contains=@NoSpell containedin=ALL
-au FileType tex syntax match emphText /\v(\\(emph|fnref)\{)@<=\_.{-}(\})@=/ contains=@NoSpell transparent containedin=ALL contains=NONE
-autocmd FileType tex setlocal foldlevel=1
-au FileType tex syn match  texRefZone  '\\\(c\|C\)ite\(\(year\)\|\(author\)\|\(fullauthor\)\(yearpar\)\)\+\%([tp]\*\=\)\=\*\?' nextgroup=texRefOption,texCite
-"TODO:
-"example   syn region texCite            contained       matchgroup=Delimiter start='{' end='}'          contains=@texRefGroup,texRefZone,texCite
-"syn match  texRefZone           '\\cite\%([tp]\*\=\)\=' nextgroup=texRefOption,texCite
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Others
 command! -range -nargs=0 Overline        call s:CombineSelection(<line1>, <line2>, '0305')
@@ -476,6 +476,22 @@ set fillchars=vert:\|,fold:\
 "set fillchars=vert:,fold:-,diff:- " use to deactivate division
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Changes highlights
+" latex highligh and spelling
+let g:tex_comment_nospell=1
+let g:tex_conceal='abdgm'
+autocmd FileType c,cpp,vim,xml,html,xhtml,perl,python setl foldlevel=20
+au FileType tex syntax region gls start='\\\(\(gls\w*\)\|\(acs\)\|\(acr\w*\)\|\(acl\)\|\(glspl\)\|\(Glspl\)\|\(Gls\)\|\(acf\)\){' end='}' contains=@NoSpell containedin=ALL
+au FileType tex syntax match emphText /\v(\\(emph|fnref)\{)@<=\_.{-}(\})@=/ contains=@NoSpell transparent containedin=ALL contains=NONE
+au FileType tex syn match capitalWords +\<\u\+[0-9A-Z_-]*\(\S\{2,\}\)\@<=\s\?>+
+      \ contains=@NoSpell containedin=@texDocGroup,@texChapterGroup,@texSectionGroup,@texSubSectionGroup,@texSubSubSectionGroup,@texParaGroup,texParen
+au FileType tex syn match  texRefZone  '\\\(c\|C\)ite\(\(year\)\|\(author\)\|\(fullauthor\)\(yearpar\)\)\+\%([tp]\*\=\)\=\*\?' nextgroup=texRefOption,texCite
+au FileType tex syn match texMathSymbol '\\times' conceal cchar=x containedin=ALL transparent contains=NONE
+au FileType tex syn match percentage '\\%>' containedin=ALL conceal cchar=%
+highlight capitalWords cterm=underline ctermbg=NONE term=underline
+"TODO:
+"example   syn region texCite            contained       matchgroup=Delimiter start='{' end='}'          contains=@texRefGroup,texRefZone,texCite
+"syn match  texRefZone           '\\cite\%([tp]\*\=\)\=' nextgroup=texRefOption,texCite
+"
 highlight SpellBad   term=undercurl cterm=undercurl ctermfg=Red
 highlight SpellCap   term=undercurl cterm=undercurl ctermfg=27
 highlight SpellRare  term=undercurl cterm=undercurl ctermfg=Magenta
@@ -497,8 +513,8 @@ silent! call HighlightNonAsciiOn()
 "
 set mouse+=a
 if &term =~ '^screen'
-	" tmux knows the extended mouse mode
-	set ttymouse=xterm2
+  " tmux knows the extended mouse mode
+  set ttymouse=xterm2
 endif
 if filereadable( $HOME . '/DotFiles/vim/vim_local')
   source $HOME/DotFiles/vim/vim_local
