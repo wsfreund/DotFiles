@@ -74,4 +74,8 @@ if ! which pbcopy &>! /dev/null && which xsel &>! /dev/null; then
   alias pbcopy='xsel --clipboard --input'
   alias pbpaste='xsel --clipboard --output'
 fi
+
+update_git(){
+  rm -rf .git; git clone https://:@gitlab.cern.ch:8443/wsfreund/$(basename $PWD).git .git_temp; mv .git_temp/.git .; rm -rf .git_temp; ln -s $(readlink -f cs_workspaces) .git/cs_workspaces
+}
 # ##########################################################################
