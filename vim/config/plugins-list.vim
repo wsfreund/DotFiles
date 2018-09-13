@@ -18,5 +18,6 @@ so $HOME/.vim/config/undotree.vim
 so $HOME/.vim/config/vimsolarized.vim
 so $HOME/.vim/config/indentLines.vim
 so $HOME/.vim/config/vim-indent-guides.vim
+so $HOME/.vim/config/vim-better-whitespace.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

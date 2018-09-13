@@ -287,7 +287,7 @@ if v:version >= 703
   " set undolevels=1000
   " set undoreload=10000
 endif
-set cocu=nvc
+set cocu=vc                  " Where to conceal when cursor is used
 set hlsearch
 set backspace=indent,eol,start
 set history=10000            " number of history commands
@@ -482,11 +482,13 @@ let g:tex_conceal='abdgm'
 autocmd FileType c,cpp,vim,xml,html,xhtml,perl,python setl foldlevel=20
 au FileType tex syntax region gls start='\\\(\(gls\w*\)\|\(acs\)\|\(acr\w*\)\|\(acl\)\|\(glspl\)\|\(Glspl\)\|\(Gls\)\|\(acf\)\){' end='}' contains=@NoSpell containedin=ALL
 au FileType tex syntax match emphText /\v(\\(emph|fnref)\{)@<=\_.{-}(\})@=/ contains=@NoSpell transparent containedin=ALL contains=NONE
-au FileType tex syn match capitalWords +\<\u\+[0-9A-Z_-]*\(\S\{2,\}\)\@<=\s\?>+
-      \ contains=@NoSpell containedin=@texDocGroup,@texChapterGroup,@texSectionGroup,@texSubSectionGroup,@texSubSubSectionGroup,@texParaGroup,texParen
+au FileType tex syn match capitalWords +\<\u\+[0-9A-Z_-]*\(\S\{2,\}\)\@<=\>+
+      \ contains=@NoSpell containedin=ALL
+"@texDocGroup,@texChapterGroup,@texSectionGroup,@texSubSectionGroup,@texSubSubSectionGroup,@texParaGroup
+",texParen,@texMathMatchGroup,@texCommentGroup,texStyleMatcher
 au FileType tex syn match  texRefZone  '\\\(c\|C\)ite\(\(year\)\|\(author\)\|\(fullauthor\)\(yearpar\)\)\+\%([tp]\*\=\)\=\*\?' nextgroup=texRefOption,texCite
 au FileType tex syn match texMathSymbol '\\times' conceal cchar=x containedin=ALL transparent contains=NONE
-au FileType tex syn match percentage '\\%>' containedin=ALL conceal cchar=%
+au FileType tex syn match percentage '\\%' containedin=ALL conceal cchar=%
 highlight capitalWords cterm=underline ctermbg=NONE term=underline
 "TODO:
 "example   syn region texCite            contained       matchgroup=Delimiter start='{' end='}'          contains=@texRefGroup,texRefZone,texCite
