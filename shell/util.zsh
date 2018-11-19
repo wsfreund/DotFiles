@@ -20,7 +20,7 @@ setvar(){
 # Set variable to value if it is empty
 setdefvar(){
   local oldIFS=$IFS; IFS=":"
-  local var=$1; shift; 
+  local var=$1; shift;
   eval "test -z \"\$$var\" && $var=\$* && export $var"
   IFS=$oldIFS; unset oldIFS
 }
@@ -84,9 +84,9 @@ isvardef() { typeset -p $1 >&! /dev/null && true || false; }
 # print_var
 print_var(){
   if isvardef $1 ; then
-    eval "echo \$$1 | tr \":\" \"\n\"" 
+    eval "echo \$$1 | tr \":\" \"\n\""
   else
-    eval "echo $1 | tr \":\" \"\n\"" 
+    eval "echo $1 | tr \":\" \"\n\""
   fi
 }
 
@@ -209,5 +209,10 @@ cl()
 cwd() {
   cd "$@"
   (unset TMUX; tmux attach -t $(tmux display-message -p '#S') -c $PWD\; detach-client) 2>&1 1>/dev/null
+}
+
+# echo a bell
+bell() {
+  echo "\a\a\a"
 }
 # ##########################################################################
