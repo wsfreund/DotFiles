@@ -5,7 +5,7 @@ let NERDTreeDirArrows=0
 let NERDTreeHighlightCursorline=1
 let NERDTreeMinimalUI=1
 let NERDTreeAutoDeleteBuffer=1
-let NERDTreeIgnore=['\.pyc$[[file]]','\~$','Session.vim']
+let NERDTreeIgnore=['\.pyc$[[file]]','\~$','Session.vim', '\.aux','\.aux','\.bbl','\.blg','\.brf','\.toc','\.xdy','\.lof','\.fdb_latexmk']
 let NERDTreeMapHelp='h'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:WebDevIconsNerdTreeGitPluginForceVAlign=0
