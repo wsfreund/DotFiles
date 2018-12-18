@@ -10,5 +10,13 @@ if index(g:vundle_bundles, "vim-ctrlspace/vim-ctrlspace") >= 0
   nnoremap <silent><C-p> :CtrlSpace O<CR>
   nnoremap <silent>gB :CtrlSpaceGoUp<CR>
   nnoremap <silent>gb :CtrlSpaceGoDown<CR>
+  let g:CtrlSpaceProjectRootMarkers = [
+       \ ".git",
+       \ ".hg",
+       \ ".svn",
+       \ ".bzr",
+       \ "_darcs",
+       \ "CVS",
+       \ ".ctrlspace_workspace" ]
 endif
 

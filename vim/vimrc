@@ -69,6 +69,7 @@ Plugin 'KeitaNakamura/tex-conceal.vim'      " Improves tex conceal
 "Plugin 'khzaw/vim-conceal'                  " Adds python ocalm and ruby conceal
 Plugin 'Yggdroot/indentLine'                " Adds indentation line
 Plugin 'nathanaelkane/vim-indent-guides'    " Adds indention line
+Plugin 'severin-lemaignan/vim-minimap'      " Adds minimap to vim
 call vundle#end()                           " required
 filetype plugin indent on                   " required
 " Keep all vundle bundles at this list variable:
