@@ -35,8 +35,8 @@ if index(g:vundle_bundles, "wsfreund/vim-airline") >= 0
   let g:airline#extensions#tabline#tab_nr_type = 1
   let g:airline#extensions#tabline#fnametruncate = 0
   let g:airline#extensions#tabline#fnamecollapse = 1
-  let g:airline#extensions#tabline#formatter = 'unique_tail'
-  let g:airline#extensions#tabline#fnamemod = ':t '
+  let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+  "let g:airline#extensions#tabline#fnamemod = ':t '
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   let g:airline#extensions#whitespace#enabled = 0
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -104,7 +104,7 @@ if index(g:vundle_bundles, "wsfreund/vim-airline") >= 0
     "          \.g:obsession_symbol_paused.''','''
     "          \.g:obsession_symbol_unknown.''')}'
     "          \.g:airline_symbols['space'].'Ob'
-    "          \.g:airline_symbols['space'].g:airline_right_alt_sep.g:airline_symbols['space'], 
+    "          \.g:airline_symbols['space'].g:airline_right_alt_sep.g:airline_symbols['space'],
     "        \'filetype']),
     "      \ g:airline_right_alt_sep.g:airline_symbols['space'].'\(%{ObsessionStatus\)',
     "      \ '\1','')

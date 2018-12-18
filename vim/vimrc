@@ -91,6 +91,21 @@ function! StartDate()
   exe "g/% - Creation Date: /s/% - Creation Date: .*/% - Creation Date: " .
   \ strftime("%a, %d %b %Y")
 endfunction
+fun! LastMod()
+  let s:undo_status = undotree()
+  if s:undo_status['seq_last'] == s:undo_status['seq_cur']
+    undojoin | exe "g/% - Last Modified: /s/% - Last Modified: .*/% - Last Modified: " .
+      \ strftime("%a, %d %b %Y")
+  endif
+endfun
+fun! UpdateCopyright()
+  "let s:undo_status = undotree()
+  "if s:undo_status['seq_last'] == s:undo_status['seq_cur']
+    "undojoin |
+    exe "g/.*Copyright (C) 2002-\\d\\{4\\} CERN for the benefit of the ATLAS collaboration/s/Copyright (C) 2002-.*/" .
+          \ "Copyright (C) 2002-" . strftime("%Y") . " CERN for the benefit of the ATLAS collaboration"
+  "endif
+endfun
 function! NewMatlabFile()
   exe "1g/function /s/function .*/function ".
   \ expand("%:t:r") . "()"
@@ -344,6 +359,7 @@ syntax on
 au BufNewFile  *.m 0r ~/.vim/skeletons/matlab | call StartDate() | call NewMatlabFile()
 au BufNewFile  *.cxx 0r ~/.vim/skeletons/cpp
 au BufWritePre,FileWritePre *.m ks|call LastMod()|'s
+au BufWritePre,FileWritePre *.py,*.cxx,*.h,*.icc,*.hpp ks|call UpdateCopyright()|'s
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au BufRead,BufNewFile *.tex setl filetype=tex | setl tw=80 | setl colorcolumn=81
 if exists("NeoCompleteLock")
@@ -522,3 +538,34 @@ endif
 if filereadable( $HOME . '/DotFiles/vim/vim_local')
   source $HOME/DotFiles/vim/vim_local
 endif
+augroup NERDTreeOpenMultiple
+    autocmd!
+    autocmd BufNew NERD_tree_* vnoremap <buffer> o :call <SID>OpenMultiple()<CR>
+augroup END
+
+function! s:OpenMultiple() range
+    let curLine = a:firstline
+    while curLine <= a:lastline
+        call cursor(curLine, 1)
+        let node = g:NERDTreeFileNode.GetSelected()
+        if !empty(node) && !node.path.isDirectory
+            if curLine == a:firstline
+                "open the first one in the previous window
+                call node.open({'where':'h', 'reuse':'', 'stay':1, 'keepopen':1})
+            else
+                if curLine == a:lastline
+                  call node.open({'where':'h', 'reuse':'', 'stay':0, 'keepopen':1})
+                else
+                  call node.open({'where':'h', 'reuse':'', 'stay':1, 'keepopen':1})
+                endif
+            endif
+        endif
+        let curLine += 1
+    endwhile
+    only
+    if g:NERDTreeQuitOnOpen
+      NERDTreeClose
+    else
+      NERDTreeMirrorOpen
+    endif
+endfunction
