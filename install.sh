@@ -148,6 +148,17 @@ git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vun
 vim -E -c VundleInstall -c qa
 vim -E -c VundleUpdate -c qa
 
+files=(
+       "$HOME/DotFiles/vim/bundle/nerdtree/nerdtree_plugin/exec_menuitem.vim" "$HOME/DotFiles/vim/extra_plugins/exec_menuitem.vim"  \
+      )
+
+for idx in $(seq 1 2 $((${#files[@]}))); do
+  file=${files[idx-1]}
+  dest=${files[idx]}
+  if [[ -z "$file" ]]; then continue; fi
+  backup "$file" "$dest" && link_dotfile "$file" "$dest"
+done
+
 # TODO Install NERD Font and add echo message to tell user to change terminal font!
 
 # Install Tmux
