@@ -388,6 +388,7 @@ if exists("g:loaded_easy_align")
   nnoremap gu :%s/\s\+$//e<enter>
 endif
 function DefineFKeys()
+  nnoremap <silent> <F10> :redraw!<CR>
   if &ft!='tex'
     nnoremap <F1> :scriptnames<CR>
     nnoremap <F2> :echo GetHighlighPlace() <CR>
@@ -398,7 +399,6 @@ function DefineFKeys()
     nnoremap <F7> :call ToggleHLSearch()<CR>
     nnoremap <F8> :call ToggleList("Quickfix List", 'c')<CR>
     nnoremap <F9> :Bgrep<CR>
-    nnoremap <silent> <F10> :redraw!<CR>
     nnoremap <silent> <F11> :Errors<CR>
     nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
     if exists("g:loaded_dispatch")
