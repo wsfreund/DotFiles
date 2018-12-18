@@ -6,4 +6,4 @@ $pdf_previewer = "start open -a Skim %O %S";
 @generated_exts = (@generated_exts, 'synctex.gz');
 $clean_ext .= 'abr  abv  glsdefs  nlg  nlo  nls  sbl  slg  sym acn alg glr brf glo glg gls';
 
-$clean_ext .= ' %R.ist %R.xdy';
+$clean_ext .= ' %R.ist %R.xdy %R.glsdefs %R.run.xml';
