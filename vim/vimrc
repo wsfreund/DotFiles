@@ -21,7 +21,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 " Plugin 'Valloric/YouCompleteMe'           " Autocompletion vim
 "Plugin 'mbadran/headlights'                 " Adds menu to vim
-Plugin 'wsfreund/vim-airline'               " Improves lower and upper vim bar visualization (+ info, as git branch, etc.)
+Plugin 'vim-airline/vim-airline'               " Improves lower and upper vim bar visualization (+ info, as git branch, etc.)
 Plugin 'vim-airline/vim-airline-themes'     " Airline themes
 if g:has_powerline
   Plugin 'ryanoasis/vim-devicons'           " Adds many icons to vim
