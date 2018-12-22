@@ -1,6 +1,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if index(g:vundle_bundles, "wsfreund/vim-airline") >= 0
+if index(g:vundle_bundles, "vim-airline/vim-airline") >= 0
   "" Airline configuration
   if $HAS_POWERLINE == "1"
     let g:airline_powerline_fonts = 1
@@ -84,12 +84,44 @@ if index(g:vundle_bundles, "wsfreund/vim-airline") >= 0
     endif
     return ""
   endfunction
+  function GetWeather()
+    if !exists("g:weather_ptime")
+      let g:weather_ptime = localtime()
+      let g:weather = system('/Users/wsfreund/DotFiles/tmux/weather_shell.sh')
+    endif
+    let l:ctime = localtime()
+    let l:delta = l:ctime - g:weather_ptime
+    if l:delta > 60
+      let g:weather_ptime = localtime()
+      let g:weather = system('/Users/wsfreund/DotFiles/tmux/weather_shell.sh')
+    endif
+    return g:weather
+  endfunction
+  "function GetCpu()
+  "  if !exists("g:cpu_ptime")
+  "    let g:cpu_ptime = localtime()
+  "    let g:cpu = system('/Users/wsfreund/DotFiles/tmux/tmux-mem-cpu-load')
+  "  endif
+  "  let l:ctime = localtime()
+  "  let l:delta = l:ctime - g:cpu_ptime
+  "  if l:delta > 0
+  "    let g:cpu_ptime = localtime()
+  "    let g:cpu = system('/Users/wsfreund/DotFiles/tmux/tmux-mem-cpu-load')
+  "  endif
+  "  return g:cpu
+  "endfunction
   function! AirlineInit()
     if !empty(g:airline_section_b)
       let g:airline_section_b = g:airline_section_b.'%{airline#util#append(GetHighlighShort(),0)}'
     else
       let g:airline_section_b = '%{GetHighlighShort()}'
     endif
+    "if !empty(g:airline_section_z)
+    "  "let g:airline_section_z = '%{airline#util#prepend(GetWeather(),0)}%{airline#util#prepend(GetCpu(),0)}'.g:airline_section_z
+    "  let g:airline_section_z = '%{airline#util#prepend(GetWeather(),0)}'.g:airline_section_z
+    "else
+    "  let g:airline_section_z = '%{GetWeather()}'
+    "endif
     if g:has_powerline
       let g:obsession_symbol_active=''
       let g:obsession_symbol_paused=''

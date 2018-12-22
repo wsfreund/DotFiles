@@ -151,18 +151,27 @@ function! s:CombineSelection(line1, line2, cp)
   execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
 endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! HighlightNonAsciiOff()
+let g:is_non_ascii_on=0
+function HighlightNonAsciiOff()
   echom "Setting non-ascii highlight off"
-  highlight nonascii NONE
+  syn clear nonascii
   let g:is_non_ascii_on=0
+  augroup HighlightUnicode
+  autocmd!
+  augroup end
 endfunction
-function! HighlightNonAsciiOn()
-  highlight nonascii cterm=underline ctermfg=red ctermbg=NONE term=underline
-  au BufReadPost * syntax match nonascii "[^\x00-\x7F]" containedin=cComment,vimLineComment,vimString,pythonComment,pythonString
+function HighlightNonAsciiOn()
   echom "Setting non-ascii highlight on"
+  augroup HighlightUnicode
+  autocmd!
+  autocmd ColorScheme *
+        \ syntax match nonascii "[^\x00-\x7F]" containedin=ALL |
+        \ highlight nonascii cterm=underline ctermfg=red ctermbg=none term=underline
+  augroup end
+  silent doautocmd HighlightUnicode ColorScheme
   let g:is_non_ascii_on=1
 endfunction
-function! ToggleHighlightNonascii()
+function ToggleHighlightNonascii()
   if g:is_non_ascii_on == 1
     call HighlightNonAsciiOff()
   else
@@ -428,6 +437,11 @@ function DefineFKeys()
     endif
   endif
 endfun
+function CheckNonAscii()
+  if &ft!='tex' && &ft!='text'
+		silent! call HighlightNonAsciiOn()
+	endif
+endfun
 autocmd BufEnter * call DefineFKeys()
 command! -nargs=? Scriptnames call s:Filter_lines('scriptnames', <q-args>)
 command! -nargs=? Highlight runtime syntax/hitest.vim
@@ -521,7 +535,7 @@ hi link CtrlSpaceSearch   airline_z
 hi link CtrlSpaceStatus   airline_x
 highlight link TagbarSignature Title
 highlight gls ctermfg=136 ctermbg=NONE
-silent! call HighlightNonAsciiOn()
+autocmd BufReadPost * call CheckNonAscii()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 ""function Test2()
 ""  echom "Test2:" . @%
