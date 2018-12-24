@@ -61,7 +61,8 @@ Plugin 'tmux-plugins/vim-tmux'              " Adds syntax highligh for tmux.conf
 Plugin 'tmux-plugins/vim-tmux-focus-events' " Makes vim focus events work on tmux
 Plugin 'jreybert/vimagit'                   " Improves git project staging
 Plugin 'vim-ctrlspace/vim-ctrlspace'        " Manage projects
-Plugin 'vim-latex/vim-latex'                " The latex suite
+"Plugin 'vim-latex/vim-latex'                " The latex suite
+Plugin 'lervag/vimtex'                      " The latex suite
 Plugin 'tpope/vim-dispatch'                 " Run programs on background
 Plugin 'ntpeters/vim-better-whitespace'     " Improve whitespace handle
 "Plugin 'daeyun/vim-matlab'                  " Use vim to develop matlab
@@ -70,6 +71,8 @@ Plugin 'KeitaNakamura/tex-conceal.vim'      " Improves tex conceal
 Plugin 'Yggdroot/indentLine'                " Adds indentation line
 Plugin 'nathanaelkane/vim-indent-guides'    " Adds indention line
 Plugin 'severin-lemaignan/vim-minimap'      " Adds minimap to vim
+Plugin 'ludovicchabant/vim-gutentags' 			" Tags generator
+Plugin 'ctrlpvim/ctrlp.vim'
 call vundle#end()                           " required
 filetype plugin indent on                   " required
 " Keep all vundle bundles at this list variable:
@@ -91,13 +94,6 @@ function! StartDate()
   exe "g/% - Creation Date: /s/% - Creation Date: .*/% - Creation Date: " .
   \ strftime("%a, %d %b %Y")
 endfunction
-fun! LastMod()
-  let s:undo_status = undotree()
-  if s:undo_status['seq_last'] == s:undo_status['seq_cur']
-    undojoin | exe "g/% - Last Modified: /s/% - Last Modified: .*/% - Last Modified: " .
-      \ strftime("%a, %d %b %Y")
-  endif
-endfun
 fun! UpdateCopyright()
   "let s:undo_status = undotree()
   "if s:undo_status['seq_last'] == s:undo_status['seq_cur']
@@ -405,7 +401,6 @@ nnoremap <C-w>5 :call ToggleNumberFoldColum()<CR>
 nnoremap <C-w>6 :call SyntasticToggleMode()<CR>
 nnoremap <silent> <c-w><c-y> :YRShow<CR>
 nnoremap <c-w><c-g> :TagbarToggle<cr>
-nnoremap <c-w><c-t> :NERDTreeTabsToggle<CR>
 nnoremap <silent> <c-w><c-u> :UndotreeToggle<CR>
 nnoremap <C-K> :cp<cr>
 nnoremap <C-L> :cn<cr>
@@ -414,8 +409,11 @@ if exists("g:loaded_easy_align")
   nnoremap gu :%s/\s\+$//e<enter>
 endif
 function DefineFKeys()
+  "echoer "ft:".&ft
   nnoremap <silent> <F10> :redraw!<CR>
   if &ft!='tex'
+    "echoer "ft=!tex"
+    nnoremap <c-w><c-t> :NERDTreeTabsToggle<CR>
     nnoremap <F1> :scriptnames<CR>
     nnoremap <F2> :echo GetHighlighPlace() <CR>
     nnoremap <F3> :call ToggleRemap()<CR>
@@ -427,11 +425,13 @@ function DefineFKeys()
     nnoremap <F9> :Bgrep<CR>
     nnoremap <silent> <F11> :Errors<CR>
     nnoremap <silent> <F12> :tabnew %<CR>:Ggrep -EI "TODO\|FIXME"<CR><CR>:cwin<CR><C-w><C-w>
-    if exists("g:loaded_dispatch")
-      nnoremap <leader>ll :Dispatch<cr>
-    endif
+    "if exists("g:loaded_dispatch")
+    "  nnoremap <leader>ll :Dispatch<cr>
+    "endif
   else
-    nnoremap <F9> :TLook
+    "echoer "ft==tex"
+    "nnoremap <F9> :TLook
+    nnoremap <c-w><c-t> :VimtexTocToggle<CR>
     if exists("NeoCompleteDisable")
       NeoCompleteDisable
     endif
@@ -529,10 +529,6 @@ highlight SpellBad   term=undercurl cterm=undercurl ctermfg=Red
 highlight SpellCap   term=undercurl cterm=undercurl ctermfg=27
 highlight SpellRare  term=undercurl cterm=undercurl ctermfg=Magenta
 highlight SpellLocal term=undercurl cterm=undercurl ctermfg=Cyan
-hi link CtrlSpaceNormal   airline_x_bold
-hi link CtrlSpaceSelected airline_y
-hi link CtrlSpaceSearch   airline_z
-hi link CtrlSpaceStatus   airline_x
 highlight link TagbarSignature Title
 highlight gls ctermfg=136 ctermbg=NONE
 autocmd BufReadPost * call CheckNonAscii()
@@ -552,34 +548,4 @@ endif
 if filereadable( $HOME . '/DotFiles/vim/vim_local')
   source $HOME/DotFiles/vim/vim_local
 endif
-augroup NERDTreeOpenMultiple
-    autocmd!
-    autocmd BufNew NERD_tree_* vnoremap <buffer> o :call <SID>OpenMultiple()<CR>
-augroup END
-
-function! s:OpenMultiple() range
-    let curLine = a:firstline
-    while curLine <= a:lastline
-        call cursor(curLine, 1)
-        let node = g:NERDTreeFileNode.GetSelected()
-        if !empty(node) && !node.path.isDirectory
-            if curLine == a:firstline
-                "open the first one in the previous window
-                call node.open({'where':'h', 'reuse':'', 'stay':1, 'keepopen':1})
-            else
-                if curLine == a:lastline
-                  call node.open({'where':'h', 'reuse':'', 'stay':0, 'keepopen':1})
-                else
-                  call node.open({'where':'h', 'reuse':'', 'stay':1, 'keepopen':1})
-                endif
-            endif
-        endif
-        let curLine += 1
-    endwhile
-    only
-    if g:NERDTreeQuitOnOpen
-      NERDTreeClose
-    else
-      NERDTreeMirrorOpen
-    endif
-endfunction
+nnoremap <Leader>, :execute 'Ggrep' expand('<cword>')<CR>

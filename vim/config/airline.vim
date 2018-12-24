@@ -60,6 +60,7 @@ if index(g:vundle_bundles, "vim-airline/vim-airline") >= 0
   let g:airline#extensions#csv#column_display = 'Name'
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   let g:airline#extensions#tmuxline#enabled = 0
+
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   "call airline#parts#define_minwidth('hi', 50)
   "call airline#parts#define_condition('foo', 'getcwd() =~ "work_dir"')
@@ -143,6 +144,14 @@ if index(g:vundle_bundles, "vim-airline/vim-airline") >= 0
     "let g:airline_section_z = airline#section#create([ 'windowswap', '%3p%% ', 'linenr', ':%3v '])
   endfunction
   autocmd User AirlineAfterInit call AirlineInit()
+	function! WombatCtrlP()
+	let g:airline#themes#wombat#palette.ctrlp = airline#extensions#ctrlp#generate_color_map(
+	\ [ '#CAE682' , '#242424' , 192 , 235 , ''] ,
+	\ [ '#CAE682' , '#32322F' , 192 , 238 , ''] ,
+	\ [ '#141413' , '#CAE682' , 232 , 192 , ''] )
+	\ | :AirlineRefres
+  endfunction
+  autocmd VimEnter * silent! call WombatCtrlP()
 endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
