@@ -61,8 +61,7 @@ Plugin 'tmux-plugins/vim-tmux'              " Adds syntax highligh for tmux.conf
 Plugin 'tmux-plugins/vim-tmux-focus-events' " Makes vim focus events work on tmux
 Plugin 'jreybert/vimagit'                   " Improves git project staging
 Plugin 'vim-ctrlspace/vim-ctrlspace'        " Manage projects
-"Plugin 'vim-latex/vim-latex'                " The latex suite
-Plugin 'lervag/vimtex'                      " The latex suite
+Plugin 'vim-latex/vim-latex'                " The latex suite
 Plugin 'tpope/vim-dispatch'                 " Run programs on background
 Plugin 'ntpeters/vim-better-whitespace'     " Improve whitespace handle
 "Plugin 'daeyun/vim-matlab'                  " Use vim to develop matlab
@@ -73,6 +72,7 @@ Plugin 'nathanaelkane/vim-indent-guides'    " Adds indention line
 Plugin 'severin-lemaignan/vim-minimap'      " Adds minimap to vim
 Plugin 'ludovicchabant/vim-gutentags' 			" Tags generator
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'lervag/vimtex'                      " The latex suite
 call vundle#end()                           " required
 filetype plugin indent on                   " required
 " Keep all vundle bundles at this list variable:
@@ -430,7 +430,7 @@ function DefineFKeys()
     "endif
   else
     "echoer "ft==tex"
-    "nnoremap <F9> :TLook
+    nnoremap <F9> :TLook
     nnoremap <c-w><c-t> :VimtexTocToggle<CR>
     if exists("NeoCompleteDisable")
       NeoCompleteDisable

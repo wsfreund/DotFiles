@@ -11,14 +11,20 @@ if index(g:vundle_bundles, "lervag/vimtex") >= 0
   let g:vimtex_quickfix_autoclose_after_keystrokes = 1
   let g:vimtex_quickfix_autojump = 0
   let g:vimtex_quickfix_mode = 2
-  nnoremap <Leader>!o :VimtexCompileOutput<CR>
-  nnoremap <Leader>!s :VimtexStatus<CR>
+  au BufEnter *.tex nnoremap <Leader>oo :VimtexCompileOutput<CR>
+  au BufEnter *.tex nnoremap <Leader>ss :VimtexStatus<CR>
+  au BufEnter *.tex nnoremap <Leader>ll :VimtexCompile<CR>
   let g:vimtex_quickfix_latexlog = {
         \ 'underfull' : 0,
         \ 'overfull' : 0
         \ }
   " jobs default
-  "let g:vimtex_compiler_latexmk = {
+	" let g:vimtex_complete_bib = {'simple' : 1, 'recursive' : 0, 'menu_fmt' : ''} 
+	let g:vimtex_complete_bib = {'enabled':0}
+  let g:vimtex_compiler_latexmk = {
+        \ 'continuous' : 0
+        \ }
+  " let g:vimtex_compiler_latexmk = {
   "      \ 'name' : 'latexmk',
   "      \ 'executable' : 'latexmk',
   "      \ 'backend' :  'jobs',
