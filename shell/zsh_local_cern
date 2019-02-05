@@ -26,13 +26,15 @@ addtovar LD_LIBRARY_PATH "/usr/local/lib"
 # Method for setting athena on an easier fasion
 setvar DEFAULT_ASETUP "asetup AtlasProduction,20.1.4.7,here,setup"
 setAthena(){
+  local temp_LC_ALL="$LC_ALL";
   lsetup asetup
   if test -z "$1";
   then
-    eval "asetup $DEFAULT_ASETUP --lc_all=$LC_ALL";
+    eval "asetup $DEFAULT_ASETUP";
   else
-    eval "asetup $1 --lc_all=$LC_ALL";
+    eval "asetup $1";
   fi
+  export LC_ALL="$temp_LC_ALL";
 }
 add-rules(){
   cont=$1; test -n $cont || echo "No container provided!" >&2 ; shift
