@@ -22,14 +22,14 @@ function _upgrade_zsh() {
 
 function get_weather(){
   # write xml to variable
-  output=$(curl --silent "wttr.in/rio_de_janeiro?0mnQT" | cut -c 16-)
+  output=$(curl --silent "wttr.in/rio_de_janeiro?0mnQT" | cut -c 16- )
   if test -n "$(echo -n "$output" | grep "504 Gateway Time-out" )"; then
     return
   fi
   if test -n "$(echo -n "$output" | grep "out of queries to the weather service at the moment" )"; then
     return
   fi
-  temp=$(echo -n $output | sed "1d;3,5d" | sed "s/[^0-9\-]*//g" | cut -d- -f2)
+  temp=$(echo -n $output | sed "s/.*\.\.//g" | sed "1d;3,5d" | sed "s/[^0-9\-]*//g" | cut -d- -f2)
 
   # Add fire when temperature is getting high
   if [ "$temp" -ge 42 ]; then
@@ -43,7 +43,7 @@ function get_weather(){
 
   # Makes
   w_txt=$(echo -n $output | sed 1q | sed "s/ *$//g" )
-  other_info=$(echo -n $output | sed "1d;4,5d" | sed "s/ //g" | tr "\n" " ")
+  other_info=$(echo -n $output | sed "1d;4,5d" | sed "s/ //g" | tr "\n" " " | sed "s/\.\./|/g")
   other_info=$other_info[1,-2]
   drop_mm=$(echo -n $output | sed "1,4d" | sed "s/ //g" | sed "s/[^0-9.]//g" | tr "\n" " ")
   [ "$(echo $drop_mm | tr -d ".")" -gt "0" ] && drop_mm=" ${drop_mm}mm" || drop_mm=""
