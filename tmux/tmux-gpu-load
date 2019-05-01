@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 output=$(nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.used,memory.total --format=csv,noheader)
-test "$HAS_POWERLINE" -eq "1" && { roa='' && symb='ﳻ'; } || { roa='«' && symb='gpu'; }
+test "$HAS_POWERLINE" -eq "1" && { roa='' && symb='ﳻ' && mem_load_sym=ﴞ && mem_empty_sym=ﱤ; } \
+  || { roa='«' && symb='gpu' && mem_load_sym=● && mem_empty_sym=○; }
 test "$output" || exit 1;
 echo $output | gawk "
      BEGIN{FS=OFS=\",\"}
@@ -26,12 +27,8 @@ echo $output | gawk "
        else if ( a[2] < 10. * NF ) printf \"#[fg=colour2]\";
        printf a[2]
        printf \"#[fg=colour192])% \"
-       if ( a[3] >= .9 * a[4] ) printf \"#[fg=colour160]\";
-       else if ( a[3] >= .7 * a[4] ) printf \"#[fg=colour202]\";
-       else if ( a[3] < .1 * a[4] ) printf \"#[fg=colour2]\";
-       printf a[3]
-       printf \"/\"
-       printf a[4]
+       if ( a[3] >= .7 * a[4] ) printf \"#[fg=colour39]$mem_load_sym\";
+       else if ( a[3] < .1 * a[4] ) printf \"#[fg=colour2]$mem_empty_sym\";
        printf \"#[fg=colour192] \"
      }"
 exit 0;

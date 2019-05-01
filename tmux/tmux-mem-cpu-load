@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-test "$HAS_POWERLINE" -eq "1" && { roa='' && symb=''; } || { roa='«' && symb='cpu'; }
+test "$HAS_POWERLINE" -eq "1" && { roa='' && symb='' && mem_symb=; } || { roa='«' && symb='cpu' && mem_symb='mem'; }
 output=$($TMUX_PLUGIN_MANAGER_PATH/tmux-mem-cpu-load/tmux-mem-cpu-load \
   --graph-lines 0 \
   --cpu-mode 1 \
@@ -18,11 +18,12 @@ else if ( strtonum(\$3) > $(( .70 * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour
 else if ( strtonum(\$3) < $(( .1 * ${OMP_NUM_THREADS} )) ) printf \"#[fg=colour2]\";
 printf \"%s#[fg=colour192] \", \$3
 split( \$1, mem, \"/\" )
+mem[1]=strtonum(mem[1])
 mem[2]=strtonum(mem[2])
 if ( mem[1] >= .9 * mem[2] ) printf \"#[fg=colour160]\";
 else if ( mem[1] >= .7 * mem[2] ) printf \"#[fg=colour202]\";
 else if ( mem[1] < .1 * mem[2] ) printf \"#[fg=colour2]\";
-printf \"%s#[fg=colour192] \", \$1
+printf \"$mem_symb %d%%#[fg=colour192] \", mem[1] / mem[2] * 100.
 }"
 exit 0;
 
