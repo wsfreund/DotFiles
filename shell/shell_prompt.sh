@@ -267,10 +267,15 @@ function zsh_get_rucio_version_str {
   printf "-%s" "$version"
 }
 function __promptline_host {
-  local only_if_ssh="1"
-
+  if [ -f "/.dockerenv" ]; then
+    local DOCKER_SYMB=" "
+    local only_if_ssh="0"
+  else
+    local DOCKER_SYMB=""
+    local only_if_ssh="1"
+  fi
   if [ ! $only_if_ssh -o -n "${SSH_CLIENT}" ]; then
-    if [[ -n ${ZSH_VERSION-} ]]; then print %m; elif [[ -n ${FISH_VERSION-} ]]; then hostname -s; else printf "%s" \\h; fi
+    if [[ -n ${ZSH_VERSION-} ]]; then print ${DOCKER_SYMB}%m; elif [[ -n ${FISH_VERSION-} ]]; then hostname -s; else printf "%s" \\h; fi
   fi
 }
 function zsh_get_panda_version_str {
@@ -294,6 +299,7 @@ function __promptline_jobs {
   [[ $job_count -gt 0 ]] || return 1;
   printf "%s" "$job_count"
 }
+
 function __promptline_left_prompt {
   local slice_prefix slice_empty_prefix slice_joiner slice_suffix is_prompt_empty=1
 
@@ -302,7 +308,7 @@ function __promptline_left_prompt {
   [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
   # section "a" slices
   __promptline_wrapper "$(__promptline_host)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-  __promptline_wrapper "$(if [[ -n ${ZSH_VERSION-} ]]; then print %n; elif [[ -n ${FISH_VERSION-} ]]; then printf "%s" "$USER"; else printf "%s" \\u; fi )" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(if [[ -n ${ZSH_VERSION-} ]]; then print "%n"; elif [[ -n ${FISH_VERSION-} ]]; then printf "%s" "$USER"; else printf "%s" \\u; fi )" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
 
   # section "b" header
   slice_prefix="${b_bg}${sep}${b_fg}${b_bg}${space}" slice_suffix="$space${b_sep_fg}" slice_joiner="${b_fg}${b_bg}${alt_sep}${space}" slice_empty_prefix="${b_fg}${b_bg}${space}"
