@@ -274,7 +274,7 @@ function __promptline_host {
     local DOCKER_SYMB=""
     local only_if_ssh="1"
   fi
-  if [ ! $only_if_ssh -o -n "${SSH_CLIENT}" ]; then
+  if [ "$only_if_ssh"="0" -o -n "${SSH_CLIENT}" ]; then
     if [[ -n ${ZSH_VERSION-} ]]; then print ${DOCKER_SYMB}%m; elif [[ -n ${FISH_VERSION-} ]]; then hostname -s; else printf "%s" \\h; fi
   fi
 }
