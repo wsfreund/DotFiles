@@ -58,7 +58,7 @@ link_dotfile(){
 }
 
 if ! git config --get core.excludesfile > /dev/null; then
-  git config --global core.excludesfile ~/.gitignore_global
+  git config --global core.excludesfile $HOME/.gitignore_global
 fi
 
 if test "$host_domain" = "smc-default.americas.sgi.com"; then
@@ -92,7 +92,7 @@ if test "$host_domain" = "lps.ufrj.br" -o "$host_domain" = "smc-default.americas
   backup "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_redirect" && link_dotfile "$HOME/.bash_profile" "$HOME/DotFiles/shell/bashrc_redirect"
 fi
 
-test -d "~/DotFiles/tmp" || mkdir "~/DotFiles/tmp"
+test -d "$HOME/DotFiles/tmp" || mkdir "$HOME/DotFiles/tmp"
 
 if test "$host_domain" = "smc-default.americas.sgi.com"; then
   test ! -e $HOME/DotFiles/shell/zsh_local && cp /scratch/22061a/common-cern/zsh_local $HOME/DotFiles/shell
@@ -128,7 +128,7 @@ if test "$host_domain" = "lps.ufrj.br"; then
 fi
 
 if ! git config --get core.excludesfile > /dev/null; then
-  git config --global core.excludesfile ~/.gitignore_global
+  git config --global core.excludesfile $HOME/.gitignore_global
 fi
 
 if ! test -e $HOME/.oh-my-zsh; then
@@ -174,16 +174,16 @@ if test $(bc <<< "$(tmux -V | sed 's/tmux //g') < 2.2") -eq "1" -a "$(tmux -V)" 
     ./configure LDFLAGS="-Wl,-rpath/usr/local/lib" --prefix="$HOME/DotFiles" > /dev/null
     make install > /dev/null
   fi
-  $HOME/DotFiles/bin/tmux source ~/.tmux.conf
+  $HOME/DotFiles/bin/tmux source $HOME/.tmux.conf
   popd > /dev/null
 fi
 
-if test \! -d ~/.tmux/plugins/tpm; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+if test \! -d $HOME/.tmux/plugins/tpm; then
+  git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 fi
 
-if test \! -d ~/.tmuxifier; then
-  git clone https://github.com/wsfreund/tmuxifier.git ~/.tmuxifier
+if test \! -d $HOME/.tmuxifier; then
+  git clone https://github.com/wsfreund/tmuxifier.git $HOME/.tmuxifier
 fi
 
 $HOME/.tmux/plugins/tpm/bin/install_plugins
