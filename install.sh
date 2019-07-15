@@ -145,8 +145,8 @@ fi
 
 echo "Installing Vimhalla..."
 git clone https://github.com/gmarik/Vundle.vim.git $HOME/DotFiles/vim/bundle/Vundle.vim > /dev/null 2> /dev/null || true
-vim -E -c VundleInstall -c qa
-vim -E -c VundleUpdate -c qa
+vim --cmd "set rtp^='$HOME/DotFiles/vim'" -u "$HOME/DotFiles/vim/vimrc" -E -c VundleInstall -c qa || true
+vim --cmd "set rtp^='$HOME/DotFiles/vim'" -u "$HOME/DotFiles/vim/vimrc" -E -c VundleUpdate -c qa || true
 
 files=(
        "$HOME/DotFiles/vim/bundle/nerdtree/nerdtree_plugin/exec_menuitem.vim" "$HOME/DotFiles/vim/extra_plugins/exec_menuitem.vim"  \
