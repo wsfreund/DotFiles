@@ -264,6 +264,8 @@ if test -e "$HOME/root/bin/thisroot.sh" -a "$IGNORE_ROOT" -ne "1"; then
   pushd $HOME/root/bin/ &>! /dev/null && source thisroot.sh && popd &>! /dev/null
 fi
 # ##########################################################################
+#
+setdefvar SINGULARITY_SHELL "$SHELL"
 
 # ##########################################################################
 # ##########################################################################
