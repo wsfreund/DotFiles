@@ -259,15 +259,20 @@ function zsh_get_rucio_version_str {
 }
 function __promptline_host {
   if [ -f "/.dockerenv" ]; then
-    local DOCKER_SYMB="docker@"
+    local SYMB="docker@"
+    local hostname="%m"
+    local only_if_ssh="0"
+  elif [ -n "$SINGULARITY_NAME" ]; then
+    local SYMB="\$ "
+    local hostname="$SINGULARITY_NAME@%m"
     local only_if_ssh="0"
   else
-    local DOCKER_SYMB=""
+    local SYMB=""
+    local hostname="%m"
     local only_if_ssh="1"
   fi
-
   if [ "$only_if_ssh"="0" -o -n "${SSH_CLIENT}" ]; then
-    if [[ -n ${ZSH_VERSION-} ]]; then print ${DOCKER_SYMB}%m; elif [[ -n ${FISH_VERSION-} ]]; then hostname -s; else printf "%s" \\h; fi
+    if [[ -n ${ZSH_VERSION-} ]]; then print ${SYMB}${hostname}; elif [[ -n ${FISH_VERSION-} ]]; then hostname -s; else printf "%s" \\h; fi
   fi
 }
 function zsh_get_panda_version_str {
