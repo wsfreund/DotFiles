@@ -101,6 +101,7 @@ function __promptline_last_exit_code {
 
   printf "%s" "$last_exit_code"
 }
+
 function __promptline_ps1 {
   local slice_prefix slice_empty_prefix slice_joiner slice_suffix is_prompt_empty=1
 
@@ -257,10 +258,21 @@ function zsh_get_rucio_version_str {
   printf "rucio-%s" "$version"
 }
 function __promptline_host {
-  local only_if_ssh="1"
-
-  if [ ! $only_if_ssh -o -n "${SSH_CLIENT}" ]; then
-    if [[ -n ${ZSH_VERSION-} ]]; then print %m; elif [[ -n ${FISH_VERSION-} ]]; then hostname -s; else printf "%s" \\h; fi
+  if [ -f "/.dockerenv" ]; then
+    local SYMB="docker@"
+    local hostname="%m"
+    local only_if_ssh="0"
+  elif [ -n "$SINGULARITY_NAME" ]; then
+    local SYMB="\$ "
+    local hostname="$SINGULARITY_NAME@%m"
+    local only_if_ssh="0"
+  else
+    local SYMB=""
+    local hostname="%m"
+    local only_if_ssh="1"
+  fi
+  if [ "$only_if_ssh"="0" -o -n "${SSH_CLIENT}" ]; then
+    if [[ -n ${ZSH_VERSION-} ]]; then print ${SYMB}${hostname}; elif [[ -n ${FISH_VERSION-} ]]; then hostname -s; else printf "%s" \\h; fi
   fi
 }
 function zsh_get_panda_version_str {
@@ -284,6 +296,7 @@ function __promptline_jobs {
   [[ $job_count -gt 0 ]] || return 1;
   printf "%s" "$job_count"
 }
+
 function __promptline_left_prompt {
   local slice_prefix slice_empty_prefix slice_joiner slice_suffix is_prompt_empty=1
 
