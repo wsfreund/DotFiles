@@ -23,6 +23,9 @@ if g:status !~ '\w\+'
 else
     let g:ctags_available=1
 endif
+if has("unix")
+  let g:uname = system("echo -n \"$(uname)\"")
+endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Vundle and plugins
@@ -45,17 +48,22 @@ Plugin 'tmhedberg/SimpylFold'               " Add folding syntax to python
 if v:version >= 740
   "Plugin 'Valloric/YouCompleteMe'           " Autocompletion vim
 endif
-"Plugin 'Shougo/neocomplete.vim'             " Adds autocomplete
-if has('nvim')
-  Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-	if g:nvim_available
-    set pyxversion=3
-    Plugin 'Shougo/deoplete.nvim'
-    Plugin 'roxma/nvim-yarp'
-    Plugin 'roxma/vim-hug-neovim-rpc'
-	else
-    echom 'neovim not found'
+if has("unix")
+  if g:uname == "Darwin"
+    Plugin 'Shougo/neocomplete.vim'             " Adds autocomplete
+  else
+    if has('nvim')
+      Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    else
+      if g:nvim_available
+        set pyxversion=3
+        Plugin 'Shougo/deoplete.nvim'
+        Plugin 'roxma/nvim-yarp'
+        Plugin 'roxma/vim-hug-neovim-rpc'
+      else
+        echom 'neovim not found'
+      endif
+    endif
   endif
 endif
 "if has('python')
