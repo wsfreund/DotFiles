@@ -45,23 +45,23 @@ Plugin 'tmhedberg/SimpylFold'               " Add folding syntax to python
 if v:version >= 740
   "Plugin 'Valloric/YouCompleteMe'           " Autocompletion vim
 endif
-"if has('nvim')
-"  Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"else
-"	if g:nvim_available
-"    set pyxversion=3
-"    Plugin 'Shougo/deoplete.nvim'
-"    Plugin 'roxma/nvim-yarp'
-"    Plugin 'roxma/vim-hug-neovim-rpc'
-"	else
-"    echom 'neovim not found'
-"  endif
-"endif
+"Plugin 'Shougo/neocomplete.vim'             " Adds autocomplete
+if has('nvim')
+  Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+	if g:nvim_available
+    set pyxversion=3
+    Plugin 'Shougo/deoplete.nvim'
+    Plugin 'roxma/nvim-yarp'
+    Plugin 'roxma/vim-hug-neovim-rpc'
+	else
+    echom 'neovim not found'
+  endif
+endif
 "let g:deoplete#enable_at_startup = 1
 "if has('python')
 "  Plugin 'zxqfl/tabnine-vim'                  " Machine learning autocomplete
 "endif
-Plugin 'Shougo/neocomplete.vim'             " Adds autocomplete
 Plugin 'scrooloose/nerdtree'                " The NERDTREE!
 Plugin 'Xuyuanp/nerdtree-git-plugin'        " Git information on nerdtree
 Plugin 'jistr/vim-nerdtree-tabs'            " Set nerdtree compatible with tabs
