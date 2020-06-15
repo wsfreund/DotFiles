@@ -11,8 +11,9 @@ so $HOME/.vim/config/gitfugitive.vim
 so $HOME/.vim/config/gitgutter.vim
 so $HOME/.vim/config/gutentags.vim
 so $HOME/.vim/config/incremental.vim
-so $HOME/.vim/config/neocomplete.vim
+"so $HOME/.vim/config/neocomplete.vim
 "so $HOME/.vim/config/youcompleteme.vim
+so $HOME/.vim/config/deocomplete.vim
 so $HOME/.vim/config/nerdtree.vim
 so $HOME/.vim/config/promptline.vim
 so $HOME/.vim/config/signify.vim

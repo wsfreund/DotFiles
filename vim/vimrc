@@ -58,7 +58,6 @@ else
     echom 'neovim not found'
   endif
 endif
-"let g:deoplete#enable_at_startup = 1
 "if has('python')
 "  Plugin 'zxqfl/tabnine-vim'                  " Machine learning autocomplete
 "endif
