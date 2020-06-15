@@ -32,9 +32,6 @@ filetype off                              " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-if v:version >= 740
-  "Plugin 'Valloric/YouCompleteMe'           " Autocompletion vim
-endif
 "Plugin 'mbadran/headlights'                 " Adds menu to vim
 if v:version >= 800
 Plugin 'vim-airline/vim-airline'               " Improves lower and upper vim bar visualization (+ info, as git branch, etc.)
@@ -45,22 +42,26 @@ if g:has_powerline
 endif
 Plugin 'Konfekt/FastFold'                   " Improve folding speed
 Plugin 'tmhedberg/SimpylFold'               " Add folding syntax to python
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-	if g:nvim_available
-    Plugin 'Shougo/deoplete.nvim'
-    Plugin 'roxma/nvim-yarp'
-    Plugin 'roxma/vim-hug-neovim-rpc'
-	else
-    "echom 'neovim not found'
-  endif
+if v:version >= 740
+  "Plugin 'Valloric/YouCompleteMe'           " Autocompletion vim
 endif
-let g:deoplete#enable_at_startup = 1
+"if has('nvim')
+"  Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"else
+"	if g:nvim_available
+"    set pyxversion=3
+"    Plugin 'Shougo/deoplete.nvim'
+"    Plugin 'roxma/nvim-yarp'
+"    Plugin 'roxma/vim-hug-neovim-rpc'
+"	else
+"    echom 'neovim not found'
+"  endif
+"endif
+"let g:deoplete#enable_at_startup = 1
 "if has('python')
 "  Plugin 'zxqfl/tabnine-vim'                  " Machine learning autocomplete
 "endif
-"Plugin 'Shougo/neocomplete.vim'             " Adds autocomplete
+Plugin 'Shougo/neocomplete.vim'             " Adds autocomplete
 Plugin 'scrooloose/nerdtree'                " The NERDTREE!
 Plugin 'Xuyuanp/nerdtree-git-plugin'        " Git information on nerdtree
 Plugin 'jistr/vim-nerdtree-tabs'            " Set nerdtree compatible with tabs
