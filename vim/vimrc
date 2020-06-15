@@ -96,7 +96,7 @@ Plugin 'jreybert/vimagit'                   " Improves git project staging
 Plugin 'vim-ctrlspace/vim-ctrlspace'        " Manage projects
 Plugin 'vim-latex/vim-latex'                " The latex suite
 Plugin 'tpope/vim-dispatch'                 " Run programs on background
-Plugin 'ntpeters/vim-better-whitespace'     " Improve whitespace handle
+"Plugin 'ntpeters/vim-better-whitespace'     " Improve whitespace handle
 "Plugin 'daeyun/vim-matlab'                  " Use vim to develop matlab
 Plugin 'KeitaNakamura/tex-conceal.vim'      " Improves tex conceal
 "Plugin 'khzaw/vim-conceal'                  " Adds python ocalm and ruby conceal
