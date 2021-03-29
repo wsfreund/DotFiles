@@ -132,7 +132,7 @@ if ! git config --get core.excludesfile > /dev/null; then
 fi
 
 if ! test -e $HOME/.oh-my-zsh; then
-  git clone https://github.com/wsfreund/oh-my-zsh.git $HOME/.oh-my-zsh
+  git clone https://github.com/ohmyzsh/ohmyzsh.git $HOME/.oh-my-zsh
 fi
 
 if test -e $ZSH/log/update.lock; then
